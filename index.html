@@ -15,6 +15,7 @@
     integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
     crossorigin="anonymous"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     rel="stylesheet">
@@ -124,7 +125,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
 
     // Router
     function useRouter() {
@@ -418,7 +419,7 @@ CompressionFormatをDisableに変更し、圧縮フォーマットをGzipに変�
             { src: 'img/bpmdemo.png', caption: 'AIで作成されたパターンのデモプレイ画面' },
             { src: 'img/bpmBoard.png', caption: 'コミュニティ' }
           ],
-          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: null },
+          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: 'img/bpm-architecture.svg' },
         },
         {
           id: 1,
@@ -462,7 +463,7 @@ IAMアカウントにBedrockの権限を付与し、さらにLambdaの実行ロ�
             { src: "img/shcitem.png", caption: 'AI健康管理' },
             { src: "img/shcai.png", caption: 'AI診断' }
           ],
-          diagrams: { useCase: null, architecture: null },
+          diagrams: { useCase: null, architecture: 'img/shc-architecture.svg' },
         },
         {
           id: 2,
@@ -501,7 +502,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
             { src: "img/trpgbattle.png", caption: '戦闘画面' },
             { src: "img/trpgbattleing.png", caption: '戦闘中画面' },
           ],
-          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: null },
+          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: 'img/trpg-architecture.svg' },
         }
       ];
     }
@@ -587,9 +588,11 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
       const diagramTabs = [
         { key: 'useCase', label: 'Use Case Diagram' },
         { key: 'erd', label: 'ERD' },
-        { key: 'classDiagram', label: 'クラス図' },
-        { key: 'architecture', label: 'アーキテクチャ図' },
+        { key: 'classDiagram', label: 'Class Diagram' },
+        { key: 'architecture', label: 'Service Architecture' },
       ];
+      const availableDiagramTabs = diagramTabs.filter(tab => project.diagrams && project.diagrams[tab.key]);
+      const currentDiagramTab = availableDiagramTabs[activeDiagram] || availableDiagramTabs[0];
 
       const ImgPlaceholder = ({ caption, heightClass }) => (
         <div className={`image-placeholder rounded-xl ${heightClass || 'h-48'} flex-col gap-2`}>
@@ -769,7 +772,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
                 <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">6.　設計図</h2>
                 <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
                   <div className="flex border-b border-stone-200 overflow-x-auto">
-                    {diagramTabs.map((tab, idx) => (
+                    {availableDiagramTabs.map((tab, idx) => (
                       <button
                         key={tab.key}
                         onClick={() => setActiveDiagram(idx)}
@@ -783,20 +786,20 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
                     ))}
                   </div>
                   <div className="p-6 sm:p-8">
-                    {project.diagrams && project.diagrams[diagramTabs[activeDiagram].key] ? (
+                    {currentDiagramTab && project.diagrams && project.diagrams[currentDiagramTab.key] ? (
                       <div
                         className="cursor-pointer"
                         onClick={() => {
-                          const availableDiagrams = diagramTabs
+                          const availableDiagrams = availableDiagramTabs
                             .map(tab => ({ src: project.diagrams[tab.key], caption: tab.label }))
                             .filter(d => d.src);
-                          const currentIndex = availableDiagrams.findIndex(d => d.caption === diagramTabs[activeDiagram].label);
+                          const currentIndex = availableDiagrams.findIndex(d => d.caption === currentDiagramTab.label);
                           setSelectedImage({ images: availableDiagrams, index: currentIndex >= 0 ? currentIndex : 0 });
                         }}
                       >
                         <img
-                          src={project.diagrams[diagramTabs[activeDiagram].key]}
-                          alt={diagramTabs[activeDiagram].label}
+                          src={project.diagrams[currentDiagramTab.key]}
+                          alt={currentDiagramTab.label}
                           className="w-full rounded-xl border border-stone-200 hover:shadow-lg transition-shadow"
                         />
                       </div>
@@ -924,6 +927,292 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
               </div>
             </div>
           )}
+        </div>
+      );
+    }
+
+    // Japanese portfolio data and project views
+    getProjectData = function () {
+      const commonSections = {
+        bpm: [
+          { title: '開発背景', content: 'ボスパターンコンテンツ、WebGLデモ、コミュニティ機能を1つのSpring Bootサービスとしてまとめ、ゲーム開発成果物を共有・実行できる構造が必要でした。' },
+          { title: '主な機能', content: '記事/コメントの作成・照会、JWT/OAuth2ログイン、Refresh Token再発行/ログアウト、ファイルアップロード/ダウンロード、Unity WebGL実行ページを提供します。' },
+          { title: '直接実装した機能', content: '記事/コメントREST API、JWTトークン検証フィルター、Google OAuth2成功後のトークン発行フロー、ファイルアップロード保存処理、投稿者権限検証ロジックを実装しました。' },
+          { title: 'ERD / DB設計', content: 'User(email, password, nickname)、Article(title, content, author, mediaPath)、Comment(author, content, article_id)、RefreshToken(userId, refreshToken)、FileRecord(fileName, fileSize, uploadTime)としてドメインを分離しました。' },
+          { title: 'API設計', content: 'GET /api/articles、GET /api/articles/{id}、POST /api/articles、PUT /api/articles/{id}、DELETE /api/articles/{id}、POST /api/comments、POST /api/token、DELETE /api/refresh-token、POST /user、GET/POST /files/* の形で機能別エンドポイントを分離しました。' },
+          { title: '認証/認可設計', content: 'Spring Securityをstatelessに設定し、/api/** リクエストは認証が必要になるよう構成しました。TokenAuthenticationFilterでBearer Tokenを検証し、記事の修正/削除では投稿者とSecurityContextの認証ユーザーを比較します。' },
+          { title: '例外処理構造', content: '現在は照会失敗や権限なしの状況をIllegalArgumentExceptionで処理しています。ポートフォリオではこの限界を明示し、グローバル例外処理と標準エラーレスポンスを改善予定として扱います。' },
+          { title: 'トランザクション処理', content: '記事更新は@Transactionalの範囲内でエンティティ変更検知を利用します。Refresh TokenはDB保存/削除フローで再発行とログアウト状態を管理します。' },
+          { title: '性能改善または最適化', content: 'Unity WebGL静的リソースの実行問題を圧縮フォーマットとSpring Bootの静的提供方式の調整で解決しました。定量的な測定はないため、性能改善ではなく実行環境問題の解決として表現します。' },
+          { title: 'テスト', content: 'TokenProviderTest、TokenApiControllerTest、CapstoneApiControllerTestを通じてJWT生成/検証、トークン再発行、主要コントローラーのリクエストフローを検証しました。' },
+          { title: 'デプロイおよび実行方法', content: 'Gradle基盤のSpring Bootアプリケーションです。ローカルでは ./gradlew bootRun で実行し、デプロイ環境ではEC2の8080ポートでサービスするよう構成しました。' },
+          { title: 'APIレスポンス例', content: 'GET /api/articles レスポンス例\n[\n  { "id": 1, "title": "Boss Pattern", "content": "...", "author": "user@email.com", "mediaPath": "file.png" }\n]\nPOST /api/token レスポンス例\n{ "accessToken": "jwt-access-token" }' }
+        ],
+        shc: [
+          { title: '開発背景', content: 'シニアユーザーが健康情報検索、商品確認、通知管理を複数サービスで処理する不便を減らすため、アクセシビリティを重視した統合プラットフォームを作りました。' },
+          { title: '主な機能', content: '健康記事照会、健康商品一覧/詳細、カート/注文フロー、服薬/血糖/血圧通知、Claude API基盤の健康パーソナライズ推薦、天気/微細粉じん情報提供を含みます。' },
+          { title: '直接実装した機能', content: 'Claude APIプロンプト生成、Guardrailブロック応答処理、AI応答JSON解析/補正、ユーザー別localStorage key設計、CartContext/AlarmContext状態フロー、GitHub Actionsデプロイ自動化を実装しました。' },
+          { title: 'ERD / DB設計', content: '別途サーバーDBは使用していません。代わりにshc_users、shc_current_user、shc_cart_{username}、shc_medicines_{username}、shc_blood_sugar_{username}、shc_blood_pressure_{username}のようにlocalStorage keyをユーザー単位で分離しました。' },
+          { title: 'API設計', content: 'バックエンドREST APIサーバーはなく、VITE_API_URLで指定された外部AI APIへPOSTリクエストを送信します。リクエストbodyは{ message: buildPrompt(...) }形式で、商品/記事/ユーザー健康状態をプロンプトに含めます。' },
+          { title: '認証/認可設計', content: '現在の認証はlocalStorage基盤のユーザー状態管理です。セキュアな認証として誇張せず、今後サーバー基盤セッション/JWT認証へ分離すべき改善項目として扱います。' },
+          { title: '例外処理構造', content: 'AI API応答失敗、Guardrailブロック、JSON構造欠落、JSON.parse失敗を分岐しました。中括弧欠落や前後テキストを補正して解析し、失敗時はユーザーに一般エラーメッセージを表示します。' },
+          { title: 'トランザクション処理', content: 'サーバーDBトランザクションはありません。カート/注文フローでは在庫検証後に差し引く順序で処理しますが、同時性保証はサーバーAPIとDBへ分離すべき課題です。' },
+          { title: '性能改善または最適化', content: '記事推薦候補を最大20件に制限してAIプロンプト長を制御しました。推薦結果はhealthSavedStateに保存し、詳細ページ移動後も結果を復元できるようにしました。' },
+          { title: 'テスト', content: '自動テストは不足しています。ポートフォリオではAI応答解析、カート在庫検証、通知重複防止ロジックを優先テスト対象として明示します。' },
+          { title: 'デプロイおよび実行方法', content: 'ローカルでは shc-vite で npm install 後 npm run dev を実行します。デプロイはGitHub Actionsで npm build、.env secret注入、EC2ファイル転送、docker compose down/up --build -d の順に自動化しました。' },
+          { title: 'APIレスポンス例', content: 'AI APIレスポンス例\n{\n  "response": "{ \\"productIds\\": [1, 2], \\"posts\\": [{ \\"category\\": \\"recipe\\", \\"id\\": 1 }], \\"comment\\": \\"健康状態に合う推薦です。\\" }"\n}\nGuardrailブロック例\n{ "blocked": true, "guardrailAction": "BLOCKED", "message": "健康関連の質問を入力してください。" }' }
+        ],
+        trpg: [
+          { title: '開発背景', content: '単純CRUDより複雑な状態変化とドメイン規則を扱うため、戦闘、成長、クエスト、インベントリが連動するコンソールRPGを実装しました。' },
+          { title: '主な機能', content: '会員/ログインセッション、ヒーロー生成、ステージ別モンスター戦闘、スキル/アイテム使用、戦闘報酬、レベルアップ、クエスト進行度更新、ショップ/インベントリ管理を含みます。' },
+          { title: '直接実装した機能', content: 'BattleController/BattleService基盤の戦闘フロー、ダメージ計算、スキルMP消費、アイテムバフ、戦闘報酬トランザクション、HeroDAO JDBC更新ロジックを実装しました。' },
+          { title: 'ERD / DB設計', content: 'user、hero、monster、skill、hero_skill、inventory、item、questなどゲーム状態をテーブルに分離しました。heroはuserと接続し、inventory/quest/skillは現在ヒーローの進行状態を保存します。' },
+          { title: 'API設計', content: 'Web APIはありません。代わりにコンソール入力 -> View -> Controller -> Service -> DAO -> MySQL の流れでユーザー命令を処理します。' },
+          { title: '認証/認可設計', content: 'ログイン成功後LoginSessionが現在ユーザーとヒーロー情報を保存し、戦闘/ショップ/クエスト機能進入時にセッションの現在ヒーロー状態を検証します。' },
+          { title: '例外処理構造', content: 'GameExceptionでゲーム進行中のエラーを表現し、Controllerで例外を受けてFailViewを通じてユーザーメッセージとして出力します。LoginFailException、DuplicationExceptionで認証/重複状況を区別しました。' },
+          { title: 'トランザクション処理', content: '戦闘勝利報酬では経験値/財貨支給、レベルアップ、クエスト進行度更新、ヒーローステータス更新を1つのConnectionでまとめました。con.setAutoCommit(false)後、成功時commit、失敗時rollbackします。' },
+          { title: '性能改善または最適化', content: '定量的な性能改善はありません。代わりにPreparedStatementでSQL実行を分離し、DAO階層でConnection/PreparedStatement/ResultSetリソースを明確に閉じるよう構成しました。' },
+          { title: 'テスト', content: '自動テストは不足しています。戦闘ダメージ計算、スキルMP検証、報酬トランザクションrollback、ログイン失敗フローを優先テスト対象として追加する予定です。' },
+          { title: 'デプロイおよび実行方法', content: 'ShellHero.jarをrun.batで実行できるコンソールアプリケーションです。実行前にMySQL接続情報と初期データが準備されている必要があります。' },
+          { title: 'APIレスポンス例', content: 'コンソール出力例\n戦闘勝利 -> 経験値/財貨支給 -> レベルアップ可否確認 -> クエスト進行度更新\nトランザクション失敗例\n報酬処理中SQLException発生 -> rollback -> ユーザーにエラーメッセージ出力' }
+        ]
+      };
+
+      return [
+        {
+          id: 0,
+          title: 'BPM - Boss Pattern Mining',
+          period: '2024.03 ~ 2024.11 (4名)',
+          summary: 'AIボスパターンコンテンツ、コミュニティ、ファイルダウンロード、Unity WebGL実行を提供するSpring Bootウェブサービス',
+          keyRole: 'Spring Boot API、JWT/OAuth2認証、記事・コメント・ファイル機能の実装',
+          techStack: ['Java 17', 'Spring Boot 3.3', 'Spring Security', 'JWT', 'OAuth2', 'JPA', 'H2', 'Thymeleaf'],
+          cardFeatures: ['記事・コメントREST API', 'JWT Access/Refresh Token', 'Google OAuth2ログイン', 'ファイルアップロード/ダウンロード', 'Unity WebGL実行'],
+          backendPoints: ['Stateless JWT認証フィルターとOAuth2ログインフローの構成', '投稿者権限検証とトランザクション基盤の記事更新'],
+          backendDetails: [
+            { label: 'DB設計', value: 'User、Article、Comment、RefreshToken、FileRecordを分離し、Refresh TokenをDBに保存して再発行・ログアウトフローを構成' },
+            { label: 'API設計', value: '/api/articles、/api/comments、/api/token、/files/*で記事、コメント、認証、ファイル機能を分離し、multipart/form-dataアップロードをサポート' },
+            { label: '認証/認可', value: 'Spring Securityをstatelessに設定し、TokenAuthenticationFilterでJWTを検証。記事の修正/削除では投稿者と認証ユーザーを比較' },
+            { label: 'トランザクション', value: '記事更新ロジックに@Transactionalを適用し、エンティティの変更検知でタイトル/本文の変更を処理' },
+            { label: 'テスト', value: 'TokenProviderTest、TokenApiControllerTest、CapstoneApiControllerTestでトークン生成/検証と主要APIフローを検証' },
+            { label: '改善ポイント', value: '運用DBへの移行、グローバル例外レスポンス標準化、ファイル保存パスの外部化、ログ戦略の補強が必要' }
+          ],
+          portfolioSections: commonSections.bpm,
+          overview: 'Spring Bootを基盤に、コミュニティ記事/コメント、JWT/OAuth2認証、ファイルアップロード/ダウンロード、Unity WebGLゲーム実行ページを提供するウェブサービスです。',
+          problemAndGoal: `[問題]\nゲーム開発でボスパターン設計は時間と創造性を要求します。特にインディーゲーム開発者は限られたリソースで多様なボスパターンを実装する必要があります。\n\n[目標]\nボスパターンコンテンツを共有できるコミュニティとWebGLデモ実行環境を提供し、認証が必要な機能と公開機能を分離したバックエンドサービス構造を作ることです。`,
+          roles: ['Spring Boot Controller-Service-Repository階層基盤の記事/コメントAPI実装', 'JWT Access Token、Refresh Token、Google OAuth2ログインフロー構成', 'ファイルアップロード/ダウンロードとUnity WebGL静的リソース提供機能実装', '投稿者権限検証、トークン検証、主要コントローラーテスト作成'],
+          troubleShooting: `[問題 1] AIで生成したボスパターンコードをWebGLでビルドして実行した際、正常に動作しない問題が発生しました。\n\n[解決]\nCompressionFormatをDisableに変更し、圧縮形式をGzipへ変更して解決しました。またNode.js環境では実行できませんでしたが、Spring Boot環境で提供すると正常動作することを確認しました。\n\n[問題 2] 初期プロジェクトで詳細設計が不足し、開発途中の変更コストが増加しました。\n\n[解決]\nチーム内で問題発生時にすぐ共有し、機能追加や変更範囲を合意してから実装する形に改善しました。`,
+          learnings: '認証、権限検証、ファイル処理、画面ルーティングを1つのSpring Bootアプリケーションで接続し、バックエンド機能をドメイン別に分離する経験を得ました。今後はグローバル例外処理と運用DB分離を補強する予定です。',
+          githubUrl: 'https://github.com/DevAZI/BPM',
+          liveUrl: 'http://devaz.kro.kr:8080',
+          resultImages: [{ src: 'img/bpmMain.png', caption: 'メイン画面' }, { src: 'img/bpmdemo.png', caption: 'AI生成パターンデモプレイ画面' }, { src: 'img/bpmBoard.png', caption: 'コミュニティ' }],
+          mermaidArchitecture: `flowchart LR\n  Dev["Developer"] -->|push| GH["GitHub Repository"]\n  GH -->|workflow trigger| Actions["GitHub Actions"]\n  Actions -->|build / deploy| EC2["AWS EC2"]\n  Client["Browser / Unity WebGL"] -->|HTTP request| App["Spring Boot"]\n  EC2 -->|run app| App\n  App -->|JPA query| H2["H2 Database"]\n  App -->|JWT validation| Security["Spring Security<br/>TokenAuthenticationFilter"]\n  App -->|OAuth login| OAuth["Google OAuth2"]\n  App -->|static assets| WebGL["Unity WebGL Build"]\n  App -->|file metadata| FileRecord["FileRecord"]\n  H2 --> User["User / Article / Comment / RefreshToken"]`,
+          diagrams: { architecture: 'img/bpm-architecture.svg' }
+        },
+        {
+          id: 1,
+          title: 'SHC - Senior Health Care',
+          period: '2026.04 ~ 2026.04 (2名)',
+          summary: 'シニアユーザー向けに健康情報、商品推薦、AI健康推薦、通知機能を提供するReact基盤のヘルスケアプラットフォーム',
+          keyRole: 'AI推薦API連携、ユーザー別状態保存構造、Docker/Nginx/EC2デプロイ自動化',
+          techStack: ['React', 'Vite', 'Context API', 'localStorage', 'Claude API', 'AWS Guardrail', 'Docker', 'Nginx', 'GitHub Actions'],
+          cardFeatures: ['AI健康パーソナライズ推薦', '健康記事/商品推薦', 'ユーザー別カート', '服薬/血糖/血圧通知', 'EC2自動デプロイ'],
+          backendPoints: ['Claude APIレスポンスJSON解析とGuardrailブロック処理', 'GitHub Actions基盤のEC2 Dockerデプロイ自動化'],
+          backendDetails: [
+            { label: 'データ設計', value: 'shc_cart_{username}、shc_medicines_{username}などlocalStorage keyをユーザー別に分離し、カートと健康通知データを管理' },
+            { label: '外部API/AI', value: '商品/記事/ユーザー健康状態をClaude APIプロンプトへ渡し、JSON応答を解析して推薦結果として使用' },
+            { label: '例外処理', value: 'AI応答がJSONでない場合やGuardrailにブロックされた場合を分岐し、欠落した括弧や前後テキストを補正' },
+            { label: '状態構造', value: 'UserContext、ProductContext、CartContext、AlarmContext、FontSizeContextで全体状態の責務を分離' },
+            { label: 'デプロイ', value: 'GitHub Actionsでビルド、secret基盤.env生成、EC2転送、Docker Compose再起動、Nginx提供まで自動化' },
+            { label: '改善ポイント', value: '現在はフロント状態中心構造のため、認証、注文、在庫検証を別途バックエンドサーバーへ分離する必要あり' }
+          ],
+          portfolioSections: commonSections.shc,
+          overview: 'シニアユーザーを対象に健康情報検索、商品推薦、AI健康パーソナライズ推薦、服薬/血糖/血圧通知を提供するReact基盤のWebプラットフォームです。',
+          problemAndGoal: `[問題]\nシニアユーザーは複雑なインターフェースや小さい文字により、必要なサービス利用と情報検索に困難を感じる場合があります。\n\n[目標]\nシニアユーザーが使いやすいように文字サイズ調整が可能なUIを提供し、健康管理とショッピング機能を1つのプラットフォームで提供することです。`,
+          roles: ['Claude API基盤の健康パーソナライズ推薦プロンプト構成と応答JSON解析ロジック実装', 'AWS Guardrailブロック応答とAI応答解析失敗状況の分岐処理', 'ユーザー別カート/服薬/血糖/血圧通知データをlocalStorage keyで分離保存', 'GitHub Actions、EC2、Docker、Nginx基盤のデプロイ自動化構成'],
+          troubleShooting: `[問題 1] AWS BedrockおよびLambda権限管理\nAWS AIモデルを利用するためBedrockへアクセスしようとしましたが、Lambdaで権限エラーが発生しました。\n\n[解決]\nIAMアカウントにBedrock権限を付与し、Lambda実行ロールにもBedrock関連権限を追加して解決しました。\n\n[問題 2] GitHub Actionsを利用したCI/CDデプロイ問題\nデプロイ過程でPermission deniedエラーが発生しました。\n\n[解決]\nリモートサーバーのデプロイ対象ディレクトリと下位ファイルの所有者が接続アカウントと異なっていたため、所有権を変更して解決しました。`,
+          learnings: '外部AI APIは正常応答だけでなく失敗応答や非定型応答も安定的に扱うことが重要だと学びました。現在構造はフロント状態中心のため、今後は認証/注文/在庫/通知をサーバーAPIとDBへ分離してバックエンド完成度を高める予定です。',
+          githubUrl: 'https://github.com/P2-SHC/SHC',
+          liveUrl: 'http://devaz.kro.kr',
+          resultImages: [{ src: 'img/shcmain.png', caption: 'メイン画面' }, { src: 'img/shcboard.png', caption: '健康情報' }, { src: 'img/shcshop.png', caption: '商品情報' }, { src: 'img/shcshopdetail.png', caption: '商品詳細' }, { src: 'img/shcregister.png', caption: '会員登録' }, { src: 'img/shcalarm.png', caption: '健康通知' }, { src: 'img/shcitem.png', caption: 'AI健康管理' }, { src: 'img/shcai.png', caption: 'AI診断' }],
+          mermaidArchitecture: `flowchart LR\n  User["Senior User"] -->|use UI| React["React / Vite SPA"]\n  React -->|Context state| Context["User / Product / Cart / Alarm Context"]\n  Context -->|per-user keys| Storage["localStorage"]\n  React -->|AI recommendation request| Api["External AI API Endpoint"]\n  Api -->|Claude response| Claude["Claude API"]\n  Api -->|blocked / safe response| Guardrail["AWS Guardrail"]\n  React -->|weather / dust request| PublicApi["Weather / WAQI APIs"]\n  GH["GitHub"] -->|push main| Actions["GitHub Actions"]\n  Actions -->|build + secrets + scp| EC2["AWS EC2"]\n  EC2 -->|docker compose up| Nginx["Docker + Nginx"]\n  Nginx -->|serve dist| React`,
+          diagrams: { architecture: 'img/shc-architecture.svg' }
+        },
+        {
+          id: 2,
+          title: 'Shell Hero - Java Console RPG',
+          period: '2026.02 ~ 2026.03 (4名)',
+          summary: 'JavaとJDBCで戦闘、ショップ、クエスト、インベントリデータを管理するコンソール基盤RPG',
+          keyRole: '戦闘ドメインロジック、Controller-Service-DAO階層分離、JDBCトランザクション処理の実装',
+          techStack: ['Java', 'JDBC', 'MySQL', 'DAO', 'DTO', 'Transaction'],
+          cardFeatures: ['会員/ログインセッション', 'ヒーロー生成と成長', '戦闘/スキル/アイテム使用', 'クエスト進行度更新', 'ショップ/インベントリ管理'],
+          backendPoints: ['Controller-Service-DAO-DTO階層分離', '戦闘報酬/レベルアップ/クエスト更新の手動トランザクション処理'],
+          backendDetails: [
+            { label: 'DB設計', value: 'user、hero、inventory、skill、quest、monsterなどゲーム状態を関係型テーブルとして分離保存' },
+            { label: '階層分離', value: 'view -> controller -> service -> dao -> dto の流れでコンソール入力、ビジネス規則、DBアクセス責務を区分' },
+            { label: 'トランザクション/整合性', value: '戦闘勝利報酬、レベルアップ、クエスト進行度、ヒーローステータス更新を1つのJDBC Connectionトランザクションにまとめ、失敗時rollback' },
+            { label: 'ドメインロジック', value: 'ダイス補正、スキルMP消費、アイテムバフ、ターン処理、報酬などゲーム規則をService階層で実装' },
+            { label: '例外処理', value: 'GameException、LoginFailException、DuplicationExceptionでユーザーフロー内のエラーを区別' },
+            { label: '改善ポイント', value: 'DAO反復コード削減、トランザクションテンプレート化、Connection Pool適用、単体テスト追加が必要' }
+          ],
+          portfolioSections: commonSections.trpg,
+          overview: 'Javaコンソール環境で会員、ヒーロー、戦闘、ショップ、クエスト、インベントリデータをMySQLに保存しながら進行するRPGプロジェクトです。',
+          problemAndGoal: `[問題]\nJava基礎とオブジェクト指向設計力を実戦で検証したかったものの、単純なCRUDプロジェクトでは複雑なドメインロジックを扱いにくいと判断しました。\n\n[目標]\nゲームという複雑なドメインを通じて継承、多態性、インターフェース、OOPの核心概念を実務的に適用することです。`,
+          roles: ['BattleController/BattleService基盤の戦闘フローとスキル/アイテム/報酬処理実装', 'DAOインターフェースと実装体を分離し、JDBC PreparedStatement基盤のDBアクセスロジック作成', '戦闘勝利報酬、レベルアップ、クエスト進行度更新を手動トランザクションでまとめて整合性維持', 'GameException基盤の例外フローとログインセッション状態検証処理'],
+          troubleShooting: `[問題 1] 戦闘報酬処理中に一部データだけ更新される可能性\n\n[解決]\n戦闘勝利後の経験値/財貨支給、レベルアップ、クエスト進行度更新、ヒーローステータス更新を1つのConnectionで処理するようにし、autoCommitをfalseに設定して失敗時rollbackするよう修正しました。\n\n[問題 2] ログイン失敗後にもキャラクター生成へ進める問題\n\n[解決]\nログインセッションと現在ヒーロー状態を検証してから次画面へ移動するよう条件分岐を整理し、失敗状況は例外メッセージとしてユーザーへ渡すよう修正しました。`,
+          learnings: 'フレームワークなしでJDBCと階層構造を直接扱いながら、トランザクション境界とデータ整合性の重要性を学びました。今後は反復DAOリソース解放コードを減らし、テストしやすい構造へ改善する予定です。',
+          githubUrl: 'https://github.com/kosta-dev-sjh/p1-4g-java-console',
+          resultImages: [{ src: 'img/trpgmain.png', caption: 'ゲーム開始画面' }, { src: 'img/trpgmainmain.png', caption: 'メイン画面' }, { src: 'img/trpgshop.png', caption: 'ショップ画面' }, { src: 'img/trpgbattle.png', caption: '戦闘画面' }, { src: 'img/trpgbattleing.png', caption: '戦闘中画面' }],
+          mermaidArchitecture: `flowchart LR\n  User["Console User"] -->|menu input| View["View Layer"]\n  View --> Controller["Controller"]\n  Controller --> Service["Service<br/>game rules"]\n  Service --> DAO["DAO Interface / Impl"]\n  DAO -->|JDBC / SQL| MySQL["MySQL"]\n  Service -->|current user / hero| Session["LoginSession"]\n  Service -->|commit / rollback| Tx["JDBC Transaction"]\n  MySQL --> Tables["user / hero / inventory<br/>skill / quest / monster"]\n  Service --> DTO["DTO"]\n  DTO --> Controller\n  Controller --> View`,
+          diagrams: { architecture: 'img/trpg-architecture.svg' }
+        }
+      ];
+    }
+
+    Projects = function ({ onViewDetail }) {
+      const projects = getProjectData();
+      return (
+        <section id="projects" className="min-h-screen py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-stone-100">
+          <div className="container mx-auto max-w-7xl">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-12 sm:mb-16 gradient-text">Projects</h2>
+            <div className="max-w-4xl mx-auto space-y-6">
+              {projects.map((project, idx) => (
+                <div key={project.id} className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 hover:border-amber-400 transition-all duration-300 shadow-sm hover:shadow-md" style={{ animation: 'fadeInUp 0.6s ease-out forwards', animationDelay: `${idx * 0.1}s`, opacity: 0 }}>
+                  <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-stone-900">{project.title}</h3>
+                  <p className="text-amber-700 text-sm sm:text-base mb-4 font-semibold">{project.period}</p>
+                  <p className="text-base sm:text-lg text-stone-700 mb-6 leading-relaxed">{project.summary}</p>
+                  <div className="mb-5">
+                    <h4 className="text-sm font-bold text-stone-600 mb-2">主要技術</h4>
+                    <div className="flex flex-wrap gap-2">{project.techStack.map(tech => <span key={tech} className="px-3 py-1 text-xs sm:text-sm bg-stone-100 rounded-full text-stone-700 border border-stone-300">{tech}</span>)}</div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+                      <h4 className="text-sm font-bold text-stone-700 mb-2">主な機能</h4>
+                      <ul className="space-y-1.5">{project.cardFeatures.map(item => <li key={item} className="text-sm text-stone-700 flex gap-2"><span className="text-amber-600">•</span><span>{item}</span></li>)}</ul>
+                    </div>
+                    <div className="rounded-lg border border-amber-200 bg-amber-50/60 p-4">
+                      <h4 className="text-sm font-bold text-stone-700 mb-2">Backend Point</h4>
+                      <ul className="space-y-1.5">{project.backendPoints.map(item => <li key={item} className="text-sm text-stone-700 flex gap-2"><span className="text-amber-700">•</span><span>{item}</span></li>)}</ul>
+                    </div>
+                  </div>
+                  <div className="mb-6">
+                    <h4 className="text-sm font-bold text-stone-600 mb-2">担当役割</h4>
+                    <p className="text-sm sm:text-base text-stone-700">{project.keyRole}</p>
+                  </div>
+                  <button onClick={() => onViewDetail(project.id)} className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    詳細を見る
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    ProjectDetailPage = function ({ project, onBack }) {
+      const [selectedImage, setSelectedImage] = useState(null);
+      const [activeCaptureIdx, setActiveCaptureIdx] = useState(0);
+      const groups = [
+        { title: 'プロジェクト文脈', items: ['開発背景', '主な機能', '直接実装した機能'] },
+        { title: 'バックエンド設計', items: ['ERD / DB設計', 'API設計', '認証/認可設計', '例外処理構造', 'トランザクション処理'] },
+        { title: '品質と運用', items: ['性能改善または最適化', 'テスト', 'デプロイおよび実行方法'] },
+        { title: '例', items: ['APIレスポンス例'] }
+      ].map(group => ({ ...group, sections: project.portfolioSections.filter(section => group.items.includes(section.title)) })).filter(group => group.sections.length);
+      const backendDesignTitles = ['ERD / DB設計', 'API設計', '認証/認可設計', '例外処理構造', 'トランザクション処理'];
+      const toReadablePoints = (item) => {
+        if (!backendDesignTitles.includes(item.title)) return null;
+        let normalized = item.content.replace(/、\s*/g, '__BREAK__');
+        if (item.title === 'ERD / DB設計') normalized = item.content.replace(/、\s*(?=[A-Za-z_]+|\w+_)/g, '__BREAK__');
+        if (item.title === 'API設計') normalized = item.content.replace(/、\s*(?=(GET|POST|PUT|DELETE|PATCH|\/))/g, '__BREAK__');
+        const points = normalized.split('__BREAK__').map(text => text.trim()).filter(Boolean);
+        return points.length > 1 ? points : null;
+      };
+      const images = project.resultImages || [];
+      const current = images[activeCaptureIdx] || images[0];
+
+      const handleModalNav = (direction) => {
+        if (!selectedImage) return;
+        const nextIndex = (selectedImage.index + direction + selectedImage.images.length) % selectedImage.images.length;
+        setSelectedImage({ images: selectedImage.images, index: nextIndex });
+      };
+
+      const MermaidDiagram = ({ chart }) => {
+        const diagramRef = useRef(null);
+        const diagramId = useRef(`mermaid-ja-${project.id}-${Math.random().toString(36).slice(2)}`);
+        const dragState = useRef({ active: false, x: 0, y: 0, startX: 0, startY: 0 });
+        const [scale, setScale] = useState(1.15);
+        const [position, setPosition] = useState({ x: 0, y: 0 });
+        const [renderError, setRenderError] = useState(false);
+        const zoomIn = () => setScale(value => Math.min(2.4, Number((value + 0.15).toFixed(2))));
+        const zoomOut = () => setScale(value => Math.max(0.75, Number((value - 0.15).toFixed(2))));
+        const resetView = () => { setScale(1.15); setPosition({ x: 0, y: 0 }); };
+
+        useEffect(() => {
+          if (!chart || !diagramRef.current || !window.mermaid) return;
+          let mounted = true;
+          setRenderError(false);
+          window.mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', theme: 'base', themeVariables: { fontFamily: 'Pretendard, Arial, sans-serif', primaryColor: '#fff7ed', primaryBorderColor: '#d97706', primaryTextColor: '#292524', lineColor: '#57534e', secondaryColor: '#f8fafc', tertiaryColor: '#eff6ff' } });
+          window.mermaid.render(diagramId.current, chart).then(({ svg }) => {
+            if (!mounted || !diagramRef.current) return;
+            diagramRef.current.innerHTML = svg;
+            const svgElement = diagramRef.current.querySelector('svg');
+            if (svgElement) { svgElement.style.maxWidth = 'none'; svgElement.style.width = '100%'; svgElement.style.height = 'auto'; }
+          }).catch(() => { if (mounted) setRenderError(true); });
+          return () => { mounted = false; };
+        }, [chart]);
+
+        if (renderError) return <pre className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-xs sm:text-sm text-stone-700 whitespace-pre-wrap overflow-x-auto">{chart}</pre>;
+        return (
+          <div className="rounded-lg border border-stone-200 bg-white overflow-hidden">
+            <div className="flex items-center justify-between gap-3 border-b border-stone-200 bg-stone-50 px-3 py-2">
+              <div className="text-xs sm:text-sm font-semibold text-stone-600">拡大 {Math.round(scale * 100)}%</div>
+              <div className="flex items-center gap-2">
+                <button type="button" onClick={zoomOut} className="h-8 w-8 rounded-md border border-stone-300 bg-white text-lg font-bold text-stone-700 hover:border-amber-500 hover:text-amber-700" aria-label="構造図を縮小">-</button>
+                <button type="button" onClick={resetView} className="h-8 px-3 rounded-md border border-stone-300 bg-white text-xs font-semibold text-stone-700 hover:border-amber-500 hover:text-amber-700">初期化</button>
+                <button type="button" onClick={zoomIn} className="h-8 w-8 rounded-md border border-stone-300 bg-white text-lg font-bold text-stone-700 hover:border-amber-500 hover:text-amber-700" aria-label="構造図を拡大">+</button>
+              </div>
+            </div>
+            <div className="h-[520px] overflow-hidden bg-white cursor-grab active:cursor-grabbing" style={{ touchAction: 'none' }}
+              onPointerDown={(e) => { dragState.current = { active: true, x: e.clientX, y: e.clientY, startX: position.x, startY: position.y }; e.currentTarget.setPointerCapture(e.pointerId); }}
+              onPointerMove={(e) => { if (!dragState.current.active) return; setPosition({ x: dragState.current.startX + e.clientX - dragState.current.x, y: dragState.current.startY + e.clientY - dragState.current.y }); }}
+              onPointerUp={(e) => { dragState.current.active = false; if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId); }}
+              onPointerCancel={(e) => { dragState.current.active = false; if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId); }}>
+              <div className="min-w-[980px] p-5" style={{ transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`, transformOrigin: 'top left' }}>
+                <div ref={diagramRef} className="flex justify-center"></div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      return (
+        <div className="min-h-screen bg-stone-50">
+          <div className="bg-white border-b border-stone-200 sticky top-0 z-40">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+              <button onClick={onBack} className="flex items-center gap-2 text-amber-700 hover:text-amber-800 font-semibold transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                プロジェクトへ戻る
+              </button>
+            </div>
+          </div>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 max-w-5xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-stone-900">{project.title}</h1>
+            <p className="text-amber-700 text-lg mb-12">{project.period}</p>
+
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">1. プロジェクト概要</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><p className="text-base sm:text-lg text-stone-700 leading-relaxed">{project.overview}</p></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">2. 問題定義と目標</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><p className="text-base sm:text-lg text-stone-700 leading-relaxed whitespace-pre-line">{project.problemAndGoal}</p></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">3. 担当役割</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><ul className="space-y-3">{project.roles.map(role => <li key={role} className="text-base sm:text-lg text-stone-700 flex items-start gap-3"><span className="text-amber-600 mt-1.5">•</span><span>{role}</span></li>)}</ul></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">4. 使用技術</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><div className="flex flex-wrap gap-3">{project.techStack.map(tech => <span key={tech} className="px-4 py-2 text-sm bg-amber-100 rounded-lg text-amber-800 border border-amber-300 font-medium skill-tag">{tech}</span>)}</div></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">5. 結果画面</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200">{current && <div><div className="relative"><div className="group cursor-pointer relative overflow-hidden rounded-xl border border-stone-200" onClick={() => setSelectedImage({ images, index: activeCaptureIdx })}><img src={current.src} alt={current.caption} className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300" /></div>{images.length > 1 && <><button onClick={() => setActiveCaptureIdx(i => (i - 1 + images.length) % images.length)} className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 hover:bg-white rounded-full shadow-md flex items-center justify-center text-stone-700 hover:text-amber-700">‹</button><button onClick={() => setActiveCaptureIdx(i => (i + 1) % images.length)} className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 hover:bg-white rounded-full shadow-md flex items-center justify-center text-stone-700 hover:text-amber-700">›</button></>}</div><p className="mt-3 text-sm text-stone-500 text-center">{current.caption}</p></div>}</div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">6. システム構造</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><MermaidDiagram chart={project.mermaidArchitecture} /></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">7. 主要バックエンド実装内容</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{project.backendDetails.map(item => <div key={item.label} className="rounded-lg border border-stone-200 bg-stone-50 p-4"><h3 className="text-base font-bold text-stone-900 mb-2">{item.label}</h3><p className="text-sm sm:text-base text-stone-700 leading-relaxed">{item.value}</p></div>)}</div></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">8. 詳細設計・実装項目</h2><div className="bg-white rounded-2xl p-5 sm:p-7 border border-stone-200"><div className="space-y-8">{groups.map(group => <div key={group.title}><div className="flex items-center gap-3 mb-4"><span className="h-2.5 w-2.5 rounded-full bg-amber-600 flex-none"></span><h3 className="text-lg sm:text-xl font-bold text-stone-900">{group.title}</h3></div><div className={`grid grid-cols-1 ${group.title === '例' ? '' : 'lg:grid-cols-2'} gap-3`}>{group.sections.map(item => <div key={item.title} className={`rounded-lg border border-stone-200 bg-stone-50 p-4 ${item.title === 'APIレスポンス例' ? 'border-amber-200 bg-amber-50/50' : ''}`}><h4 className="text-sm sm:text-base font-bold text-stone-900 mb-2">{item.title}</h4>{toReadablePoints(item) ? <ul className="space-y-1.5">{toReadablePoints(item).map(point => <li key={point} className="text-sm text-stone-700 leading-relaxed flex items-start gap-2"><span className="mt-2 h-1 w-1 rounded-full bg-amber-600 flex-none"></span><span>{point}</span></li>)}</ul> : <p className="text-sm text-stone-700 leading-relaxed whitespace-pre-line">{item.content}</p>}</div>)}</div></div>)}</div></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">9. Trouble Shooting</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><p className="text-base sm:text-lg text-stone-700 leading-relaxed whitespace-pre-line">{project.troubleShooting}</p></div></section>
+            <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">10. 学びと改善予定</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><p className="text-base sm:text-lg text-stone-700 leading-relaxed whitespace-pre-line">{project.learnings}</p></div></section>
+            <div className="flex flex-wrap justify-center gap-4"><a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-stone-800 rounded-lg text-white font-semibold hover:bg-stone-900 transition-all duration-300 hover:scale-105 text-lg shadow-lg">GitHub</a>{project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 text-lg shadow-amber-600/20">デプロイを見る</a>}</div>
+          </div>
+          {selectedImage && <div className="modal-overlay" onClick={() => setSelectedImage(null)}><div className="modal-content flex flex-col items-center" onClick={e => e.stopPropagation()}><button onClick={() => setSelectedImage(null)} className="absolute -top-4 -right-4 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center text-stone-600 hover:text-stone-900 transition-all hover:scale-110 z-50">×</button><img src={selectedImage.images[selectedImage.index].src} alt={selectedImage.images[selectedImage.index].caption} className="max-w-full max-h-[80vh] rounded-xl shadow-2xl" /><p className="mt-4 px-6 py-2 bg-black/50 backdrop-blur-sm rounded-full text-white">{selectedImage.images[selectedImage.index].caption}</p>{selectedImage.images.length > 1 && <div className="mt-4 flex gap-3"><button onClick={(e) => { e.stopPropagation(); handleModalNav(-1); }} className="px-4 py-2 bg-white rounded-lg text-stone-700">Prev</button><button onClick={(e) => { e.stopPropagation(); handleModalNav(1); }} className="px-4 py-2 bg-white rounded-lg text-stone-700">Next</button></div>}</div></div>}
         </div>
       );
     }

@@ -15,6 +15,7 @@
     integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
     crossorigin="anonymous"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     rel="stylesheet">
@@ -124,7 +125,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
 
     // Router
     function useRouter() {
@@ -384,22 +385,47 @@
       return [
         {
           id: 0,
-          title: 'AI기반 2D 플랫폼 게임 보스 패턴 생성 서비스',
+          title: 'BPM - Boss Pattern Mining',
 period: '2024.03 ~ 2024.11 (4명)',
-summary: 'AI를 활용하여 2D 플랫폼 게임의 보스 패턴을 생성하고, 데모 플레이가 가능한 웹 서비스',
-keyRole: 'Spring Boot 백엔드 API 설계 및 JWT 인증 시스템 구현',
-techStack: ['Spring Boot', 'Java', 'JWT', 'GPT', 'Unity'],
-overview: 'AI를 활용하여 2D 플랫폼 게임의 보스 패턴을 자동 생성하고, 생성된 패턴을 Unity 기반 게임에서 사용할 수 있는 서비스입니다。',
+summary: 'AI 보스 패턴 콘텐츠, 커뮤니티, 파일 다운로드, Unity WebGL 실행을 제공하는 Spring Boot 웹 서비스',
+keyRole: 'Spring Boot API, JWT/OAuth2 인증, 게시글/댓글/파일 기능 구현',
+techStack: ['Java 17', 'Spring Boot 3.3', 'Spring Security', 'JWT', 'OAuth2', 'JPA', 'H2', 'Thymeleaf'],
+cardFeatures: ['게시글/댓글 REST API', 'JWT Access/Refresh Token', 'Google OAuth2 로그인', '파일 업로드/다운로드', 'Unity WebGL 실행'],
+backendPoints: ['Stateless JWT 인증 필터와 OAuth2 로그인 흐름 구성', '작성자 권한 검증과 트랜잭션 기반 게시글 수정'],
+backendDetails: [
+  { label: 'DB 설계', value: 'User, Article, Comment, RefreshToken, FileRecord를 분리하고 Refresh Token을 DB에 저장해 재발급/로그아웃 흐름을 구성' },
+  { label: 'API 설계', value: '/api/articles, /api/comments, /api/token, /files/*로 게시글, 댓글, 인증, 파일 기능을 분리하고 multipart/form-data 업로드를 지원' },
+  { label: '인증/인가', value: 'Spring Security를 stateless로 설정하고 TokenAuthenticationFilter에서 JWT를 검증하며, 게시글 수정/삭제는 작성자와 인증 사용자를 비교' },
+  { label: '트랜잭션', value: '게시글 수정 로직에 @Transactional을 적용해 엔티티 변경 감지로 제목/내용 변경을 처리' },
+  { label: '테스트', value: 'TokenProviderTest, TokenApiControllerTest, CapstoneApiControllerTest로 토큰 생성/검증과 주요 API 흐름을 검증' },
+  { label: '개선 포인트', value: '운영 DB 전환, 전역 예외 응답 표준화, 파일 저장 경로 외부화, 로그 전략 보강이 필요' }
+],
+portfolioSections: [
+  { title: '개발 배경', content: '보스 패턴 콘텐츠와 WebGL 데모, 커뮤니티 기능을 하나의 Spring Boot 서비스로 묶어 게임 개발 결과물을 공유하고 실행할 수 있는 구조가 필요했습니다.' },
+  { title: '주요 기능', content: '게시글/댓글 작성 및 조회, JWT/OAuth2 로그인, Refresh Token 재발급/로그아웃, 파일 업로드/다운로드, Unity WebGL 실행 페이지를 제공합니다.' },
+  { title: '내가 직접 구현한 기능', content: '게시글/댓글 REST API, JWT 토큰 검증 필터, Google OAuth2 성공 후 토큰 발급 흐름, 파일 업로드 저장 처리, 작성자 권한 검증 로직을 구현했습니다.' },
+  { title: 'ERD / DB 설계', content: 'User(email, password, nickname), Article(title, content, author, mediaPath), Comment(author, content, article_id), RefreshToken(userId, refreshToken), FileRecord(fileName, fileSize, uploadTime)로 도메인을 분리했습니다.' },
+  { title: 'API 설계', content: 'GET /api/articles, GET /api/articles/{id}, POST /api/articles, PUT /api/articles/{id}, DELETE /api/articles/{id}, POST /api/comments, POST /api/token, DELETE /api/refresh-token, POST /user, GET/POST /files/* 형태로 기능별 엔드포인트를 분리했습니다.' },
+  { title: '인증/인가 설계', content: 'Spring Security를 stateless로 설정하고 /api/** 요청은 인증이 필요하도록 구성했습니다. TokenAuthenticationFilter에서 Bearer Token을 검증하고, 게시글 수정/삭제는 작성자와 SecurityContext의 인증 사용자를 비교합니다.' },
+  { title: '예외 처리 구조', content: '현재는 조회 실패와 권한 없음 상황을 IllegalArgumentException으로 처리합니다. 포트폴리오에는 이 한계를 명시하고, 전역 예외 처리와 표준 에러 응답을 개선 예정 사항으로 둡니다.' },
+  { title: '트랜잭션 처리', content: '게시글 수정은 @Transactional 범위 안에서 엔티티 변경 감지를 사용합니다. Refresh Token은 DB 저장/삭제 흐름으로 재발급과 로그아웃 상태를 관리합니다.' },
+  { title: '성능 개선 또는 최적화', content: 'Unity WebGL 정적 리소스 실행 문제를 압축 포맷과 Spring Boot 정적 제공 방식 조정으로 해결했습니다. 정량 성능 측정은 없으므로 성능 개선보다는 실행 환경 문제 해결로 표현합니다.' },
+  { title: '테스트', content: 'TokenProviderTest, TokenApiControllerTest, CapstoneApiControllerTest를 통해 JWT 생성/검증, 토큰 재발급, 주요 컨트롤러 요청 흐름을 검증했습니다.' },
+  { title: '배포 및 실행 방법', content: 'Gradle 기반 Spring Boot 애플리케이션입니다. 로컬에서는 ./gradlew bootRun으로 실행하고, 배포 환경에서는 EC2의 8080 포트에서 서비스하도록 구성했습니다.' },
+  { title: 'API 응답 예시', content: 'GET /api/articles 응답 예시\n[\n  { "id": 1, "title": "Boss Pattern", "content": "...", "author": "user@email.com", "mediaPath": "file.png" }\n]\nPOST /api/token 응답 예시\n{ "accessToken": "jwt-access-token" }' }
+],
+overview: 'Spring Boot 기반으로 커뮤니티 게시글/댓글, JWT/OAuth2 인증, 파일 업로드/다운로드, Unity WebGL 게임 실행 페이지를 제공하는 웹 서비스입니다。',
 problemAndGoal: `[문제]
 게임 개발에서 보스 패턴 설계는 많은 시간과 창의성을 요구합니다. 특히 인디 게임 개발자는 제한된 자원으로 다양한 보스 패턴을 구현하기 어렵습니다。
 
 
 [목표]
-AI 기술을 활용하여 난이도에 맞는 균형 잡힌 보스 패턴을 자동 생성하고, 인디 게임 개발자의 코드 품질과 생산성을 향상시키는 것입니다。`,
+보스 패턴 콘텐츠를 공유할 수 있는 커뮤니티와 WebGL 데모 실행 환경을 제공하고, 인증이 필요한 기능과 공개 기능을 분리해 백엔드 서비스 구조를 갖추는 것입니다。`,
 roles: [
-  'Spring Boot를 활용한 백엔드 API 설계 및 구현',
-  'AI를 활용하여 사용자가 설정한 난이도에 맞는 보스 패턴 구현',
-  'JWT를 활용한 보안 및 사용자 인증 시스템 구현'
+  'Spring Boot Controller-Service-Repository 계층 기반 게시글/댓글 API 구현',
+  'JWT Access Token, Refresh Token, Google OAuth2 로그인 흐름 구성',
+  '파일 업로드/다운로드와 Unity WebGL 정적 리소스 제공 기능 구현',
+  '작성자 권한 검증, 토큰 검증, 주요 컨트롤러 테스트 작성'
 ],
 troubleShooting: `[문제 1] AI로 생성된 보스 패턴 코드를 WebGL로 빌드하여 실행했을 때 정상적으로 동작하지 않는 문제가 발생。
 
@@ -414,7 +440,7 @@ CompressionFormat을 Disable로 변경하고, 압축 포맷을 Gzip으로 변경
 
 [해결]
 팀원들과 문제 발생 시마다 회의를 통해 의견을 공유하고, 기능 추가 및 변경 사항에 대해 충분히 논의한 후 진행하도록 개선했습니다。`,
-learnings: '이 프로젝트를 통해 백엔드 개발자로서 여러 시스템을 통합하고 연동하는 경험을 쌓을 수 있었습니다。',
+learnings: '인증, 권한 검증, 파일 처리, 화면 렌더링을 하나의 Spring Boot 애플리케이션에서 연결하며 백엔드 기능을 도메인별로 분리하는 경험을 쌓았습니다. 이후에는 전역 예외 처리와 운영 DB 분리를 보강할 예정입니다。',
           githubUrl: 'https://github.com/DevAZI/BPM',
           liveUrl: 'http://devaz.kro.kr:8080',
           resultImages: [
@@ -422,16 +448,52 @@ learnings: '이 프로젝트를 통해 백엔드 개발자로서 여러 시스�
             { src: 'img/bpmdemo.png', caption: 'AI로 생성된 패턴 데모 플레이 화면' },
             { src: 'img/bpmBoard.png', caption: '커뮤니티' }
           ],
-          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: null },
+          mermaidArchitecture: `flowchart LR
+  Dev["Developer"] -->|push| GH["GitHub Repository"]
+  GH -->|workflow trigger| Actions["GitHub Actions"]
+  Actions -->|build / deploy| EC2["AWS EC2"]
+  Client["Browser / Unity WebGL"] -->|HTTP request| App["Spring Boot"]
+  EC2 -->|run app| App
+  App -->|JPA query| H2["H2 Database"]
+  App -->|JWT validation| Security["Spring Security<br/>TokenAuthenticationFilter"]
+  App -->|OAuth login| OAuth["Google OAuth2"]
+  App -->|static assets| WebGL["Unity WebGL Build"]
+  App -->|file metadata| FileRecord["FileRecord"]
+  H2 --> User["User / Article / Comment / RefreshToken"]`,
+          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: 'img/bpm-architecture.svg' },
         },
         {
           id: 1,
-          title: '시니어 대상 헬스케어 및 커머스 웹 플랫폼',
+          title: 'SHC - Senior Health Care',
 period: '2026.04 ~ 2026.04 (2명)',
-summary: '시니어 사용자의 접근성을 고려한 헬스케어 데이터 관리 및 건강 관련 상품 커머스 통합 플랫폼',
-keyRole: 'ERD 설계, RESTful API 개발, 시니어 친화적 데이터 구조 최적화',
-techStack: ['React', 'EC2', 'Bedrock', 'Lambda', 'APIGateway'],
-overview: '시니어 사용자를 대상으로 건강 데이터 관리와 건강 관련 상품 구매가 가능한 통합 웹 플랫폼입니다.',
+summary: '시니어 사용자를 위한 건강 정보, 상품 추천, AI 건강 추천, 알림 기능을 제공하는 React 기반 헬스케어 플랫폼',
+keyRole: 'AI 추천 API 연동, 사용자별 상태 저장 구조, Docker/Nginx/EC2 배포 자동화',
+techStack: ['React', 'Vite', 'Context API', 'localStorage', 'Claude API', 'AWS Guardrail', 'Docker', 'Nginx', 'GitHub Actions'],
+cardFeatures: ['AI 건강 맞춤 추천', '건강 게시글/상품 추천', '사용자별 장바구니', '복약/혈당/혈압 알림', 'EC2 자동 배포'],
+backendPoints: ['Claude API 응답 JSON 파싱과 Guardrail 차단 처리', 'GitHub Actions 기반 EC2 Docker 배포 자동화'],
+backendDetails: [
+  { label: '데이터 설계', value: 'shc_cart_{username}, shc_medicines_{username} 등 localStorage key를 사용자별로 분리해 장바구니와 건강 알림 데이터를 관리' },
+  { label: '외부 API/AI', value: '상품/게시글/사용자 건강 상태를 Claude API 프롬프트로 전달하고 JSON 응답을 파싱해 추천 결과로 사용' },
+  { label: '예외 처리', value: 'AI 응답에 JSON이 없거나 Guardrail이 차단한 경우 사용자 메시지로 분기하고, 줄바꿈/누락 쉼표/후행 쉼표를 보정' },
+  { label: '상태 구조', value: 'UserContext, ProductContext, CartContext, AlarmContext, FontSizeContext로 전역 상태 책임을 분리' },
+  { label: '배포', value: 'GitHub Actions에서 빌드, secret 기반 .env 생성, EC2 전송, Docker Compose 재기동, Nginx 서빙까지 자동화' },
+  { label: '개선 포인트', value: '현재는 서버 DB/API가 아닌 프론트 상태 중심 구조이므로 인증, 주문, 재고 검증은 별도 백엔드 서버로 분리하는 것이 필요' }
+],
+portfolioSections: [
+  { title: '개발 배경', content: '시니어 사용자가 건강 정보 탐색, 상품 확인, 알림 관리를 여러 서비스에서 나눠 처리해야 하는 불편을 줄이기 위해 접근성 중심의 통합 플랫폼을 만들었습니다.' },
+  { title: '주요 기능', content: '건강 게시글 조회, 건강 상품 목록/상세, 장바구니/주문 흐름, 복약/혈당/혈압 알림, Claude API 기반 건강 맞춤 추천, 날씨/미세먼지 정보 제공 기능을 포함합니다.' },
+  { title: '내가 직접 구현한 기능', content: 'Claude API 프롬프트 생성, Guardrail 차단 응답 처리, AI 응답 JSON 파싱/보정, 사용자별 localStorage key 설계, CartContext/AlarmContext 상태 흐름, GitHub Actions 배포 자동화를 구현했습니다.' },
+  { title: 'ERD / DB 설계', content: '별도 서버 DB는 사용하지 않았습니다. 대신 shc_users, shc_current_user, shc_cart_{username}, shc_medicines_{username}, shc_blood_sugar_{username}, shc_blood_pressure_{username}처럼 localStorage key를 사용자 단위로 분리했습니다.' },
+  { title: 'API 설계', content: '백엔드 REST API 서버는 없고, VITE_API_URL로 지정된 외부 AI API에 POST 요청을 보냅니다. 요청 body는 { message: buildPrompt(...) } 형태이며 상품/게시글/사용자 건강 상태를 프롬프트에 포함합니다.' },
+  { title: '인증/인가 설계', content: '현재 인증은 localStorage 기반 사용자 상태 관리입니다. 보안 인증으로 과장하지 않고, 향후 서버 기반 세션/JWT 인증으로 분리해야 할 개선 항목으로 둡니다.' },
+  { title: '예외 처리 구조', content: 'AI API 응답 실패, Guardrail 차단, JSON 구조 누락, JSON.parse 실패를 분기했습니다. 줄바꿈, 누락 쉼표, 후행 쉼표를 보정한 뒤 파싱하고 실패 시 사용자에게 일반 오류 메시지를 보여줍니다.' },
+  { title: '트랜잭션 처리', content: '서버 DB 트랜잭션은 없습니다. 장바구니/주문 흐름에서는 재고 검증 후 차감하는 순서로 처리하지만, 동시성 보장은 서버 API와 DB로 분리해야 합니다.' },
+  { title: '성능 개선 또는 최적화', content: '게시글 추천 후보를 최대 20개로 제한해 AI 프롬프트 길이를 제어했습니다. 추천 결과는 healthSavedState로 보존해 상세 페이지 이동 후에도 결과를 복구하도록 했습니다.' },
+  { title: '테스트', content: '자동화 테스트는 현재 부족합니다. 포트폴리오에는 AI 응답 파싱, 장바구니 재고 검증, 알림 중복 방지 로직을 우선 테스트 대상으로 명시하는 것이 적절합니다.' },
+  { title: '배포 및 실행 방법', content: '로컬 실행은 shc-vite에서 npm install 후 npm run dev로 진행합니다. 배포는 GitHub Actions에서 npm build, .env secret 주입, EC2 파일 전송, docker compose down/up --build -d 순서로 자동화했습니다.' },
+  { title: 'API 응답 예시', content: 'AI API 응답 예시\n{\n  "response": "{ \\"productIds\\": [1, 2], \\"posts\\": [{ \\"category\\": \\"recipe\\", \\"id\\": 1 }], \\"comment\\": \\"건강 상태에 맞는 추천입니다.\\" }"\n}\nGuardrail 차단 예시\n{ "blocked": true, "guardrailAction": "BLOCKED", "message": "건강 관련 질문을 입력해주세요." }' }
+],
+overview: '시니어 사용자를 대상으로 건강 정보 탐색, 상품 추천, AI 건강 맞춤 추천, 복약/혈당/혈압 알림을 제공하는 React 기반 웹 플랫폼입니다.',
 problemAndGoal: `[문제]
 시니어 사용자는 복잡한 인터페이스와 작은 글씨로 인해 디지털 서비스 이용과 정보 탐색에 어려움을 겪고 있습니다.
 
@@ -439,9 +501,10 @@ problemAndGoal: `[문제]
 [목표]
 시니어 사용자가 쉽게 이용할 수 있도록 크기 조절이 가능한 텍스트와 명확한 UI를 제공하고, 건강 관리와 쇼핑 기능을 하나의 플랫폼에서 제공하는 것입니다.`,
 roles: [
-  '게시글과 관련된 상품 추천 및 AI를 활용한 현재 건강 상태 기반 게시글 및 상품 추천 기능 구현',
-  'React 프론트엔드와 통신하기 위한 RESTful API 개발',
-  '시니어 사용자의 접근성을 고려한 데이터 구조 최적화'
+  'Claude API 기반 건강 맞춤 추천 프롬프트 구성 및 응답 JSON 파싱 로직 구현',
+  'AWS Guardrail 차단 응답과 AI 응답 파싱 실패 상황에 대한 분기 처리',
+  '사용자별 장바구니/복약/혈당/혈압 알림 데이터를 localStorage key로 분리 저장',
+  'GitHub Actions, EC2, Docker, Nginx 기반 배포 자동화 구성'
 ],
 troubleShooting: `[문제 1] AWS Bedrock 및 Lambda 권한 관리
 AWS AI 모델을 사용하기 위해 Bedrock을 도입하려 했으나, Lambda에서 오류가 발생했습니다.
@@ -457,7 +520,7 @@ IAM 계정에 Bedrock 권한을 부여하고, Lambda 실행 역할에 Bedrock �
 
 [해결]
 원격 서버의 배포 대상 디렉터리(/home/***/react-app) 및 하위 파일의 소유자가 현재 접속 계정과 달라 쓰기 권한이 없는 상태였기 때문에, 소유권을 변경하여 해결했습니다。`,
-learnings: '실제 사용자 니즈를 중심으로 API를 설계하는 것이 얼마나 중요한지 배웠습니다. 시니어 사용자를 위한 접근성 고려는 백엔드 데이터 구조 설계 단계부터 시작되어야 한다는 점을 깨달았습니다。',
+learnings: '외부 AI API는 정상 응답보다 실패 응답과 비정형 응답을 안정적으로 다루는 것이 중요하다는 점을 배웠습니다. 현재 구조는 프론트 상태 중심이므로, 이후에는 인증/주문/재고/알림을 서버 API와 DB로 분리해 백엔드 완성도를 높일 예정입니다。',
           githubUrl: 'https://github.com/P2-SHC/SHC',
           liveUrl: 'http://devaz.kro.kr',
           resultImages: [
@@ -470,37 +533,74 @@ learnings: '실제 사용자 니즈를 중심으로 API를 설계하는 것이 �
             { src: "img/shcitem.png", caption: 'AI건강관리' },
             { src: "img/shcai.png", caption: 'AI진단' }
           ],
-          diagrams: { useCase: null, architecture: null },
+          mermaidArchitecture: `flowchart LR
+  User["Senior User"] -->|use UI| React["React / Vite SPA"]
+  React -->|Context state| Context["User / Product / Cart / Alarm Context"]
+  Context -->|per-user keys| Storage["localStorage"]
+  React -->|AI recommendation request| Api["External AI API Endpoint"]
+  Api -->|Claude response| Claude["Claude API"]
+  Api -->|blocked / safe response| Guardrail["AWS Guardrail"]
+  React -->|weather / dust request| PublicApi["Weather / WAQI APIs"]
+  GH["GitHub"] -->|push main| Actions["GitHub Actions"]
+  Actions -->|build + secrets + scp| EC2["AWS EC2"]
+  EC2 -->|docker compose up| Nginx["Docker + Nginx"]
+  Nginx -->|serve dist| React`,
+          diagrams: { useCase: null, architecture: 'img/shc-architecture.svg' },
         },
         {
           id: 2,
-          title: '콘솔 기반 텍스트 RPG (Text TRPG)',
+          title: 'Shell Hero - Java Console RPG',
           period: '2026.02 ~ 2026.03 (4인)',
-          summary: 'Java 객체지향 프로그래밍의 핵심 개념을 활용한 콘솔 기반 롤플레잉 게임',
-          keyRole: 'OOP 설계, 디자인 패턴 적용, 게임 시스템 구현',
-          techStack: ['Java', 'OOP', 'MySQL', 'AWSS3'],
-          overview: 'Java의 객체지향 프로그래밍 원칙을 충실히 적용하여 개발한 텍스트 기반 RPG 게임입니다.',
+          summary: 'Java와 JDBC로 전투, 상점, 퀘스트, 인벤토리 데이터를 관리하는 콘솔 기반 RPG',
+          keyRole: '전투 도메인 로직, Controller-Service-DAO 계층 분리, JDBC 트랜잭션 처리 구현',
+          techStack: ['Java', 'JDBC', 'MySQL', 'DAO', 'DTO', 'Transaction'],
+          cardFeatures: ['회원/로그인 세션', '영웅 생성 및 성장', '전투/스킬/아이템 사용', '퀘스트 진행도 갱신', '상점/인벤토리 관리'],
+          backendPoints: ['Controller-Service-DAO-DTO 계층 분리', '전투 보상/레벨업/퀘스트 갱신 수동 트랜잭션 처리'],
+          backendDetails: [
+            { label: 'DB 설계', value: 'user, hero, inventory, skill, quest, monster 등 게임 상태를 관계형 테이블로 분리해 저장' },
+            { label: '계층 분리', value: 'view -> controller -> service -> dao -> dto 흐름으로 콘솔 입력, 비즈니스 규칙, DB 접근 책임을 구분' },
+            { label: '트랜잭션/정합성', value: '전투 승리 보상, 레벨업, 퀘스트 진행도, 최대 클리어 스테이지 갱신을 하나의 JDBC Connection 트랜잭션으로 묶고 실패 시 rollback' },
+            { label: '도메인 로직', value: '주사위 보정, 스킬 MP 소모, 아이템 버프, 패배 페널티, 첫 클리어 보상 등 게임 규칙을 Service 계층에 구현' },
+            { label: '예외 처리', value: 'GameException, LoginFailException, DuplicationException으로 사용자 흐름에서 발생 가능한 오류를 구분' },
+            { label: '개선 포인트', value: 'DAO 반복 코드 축소, 트랜잭션 템플릿화, 커넥션 풀 적용, 단위 테스트 추가가 필요' }
+          ],
+          portfolioSections: [
+            { title: '개발 배경', content: '단순 CRUD보다 복잡한 상태 변화와 도메인 규칙을 다루기 위해 전투, 성장, 퀘스트, 인벤토리가 연결된 콘솔 RPG를 구현했습니다.' },
+            { title: '주요 기능', content: '회원/로그인 세션, 영웅 생성, 스테이지별 몬스터 전투, 스킬/아이템 사용, 전투 보상, 레벨업, 퀘스트 진행도 갱신, 상점/인벤토리 관리를 포함합니다.' },
+            { title: '내가 직접 구현한 기능', content: 'BattleController/BattleService 기반 전투 흐름, 데미지 계산, 스킬 MP 소모, 아이템 버프, 전투 보상 트랜잭션, HeroDAO JDBC 갱신 로직을 구현했습니다.' },
+            { title: 'ERD / DB 설계', content: 'user, hero, monster, skill, hero_skill, inventory, item, quest 등 게임 상태를 테이블로 분리했습니다. hero는 user와 연결되고, inventory/quest/skill은 현재 영웅의 진행 상태를 저장합니다.' },
+            { title: 'API 설계', content: '웹 API는 없습니다. 대신 콘솔 입력 -> View -> Controller -> Service -> DAO -> MySQL 흐름으로 사용자 명령을 처리합니다.' },
+            { title: '인증/인가 설계', content: '로그인 성공 후 LoginSession에 현재 사용자와 영웅 정보를 저장하고, 전투/상점/퀘스트 기능 진입 시 세션의 현재 영웅 상태를 검증합니다.' },
+            { title: '예외 처리 구조', content: 'GameException으로 게임 진행 중 오류를 표현하고, Controller에서 예외를 받아 FailView를 통해 사용자 메시지로 출력합니다. LoginFailException, DuplicationException으로 인증/중복 상황을 구분했습니다.' },
+            { title: '트랜잭션 처리', content: '전투 승리 보상에서 경험치/재화 지급, 레벨업, 퀘스트 진행도, 최대 클리어 스테이지 갱신을 하나의 Connection으로 묶었습니다. con.setAutoCommit(false) 후 성공 시 commit, 실패 시 rollback합니다.' },
+            { title: '성능 개선 또는 최적화', content: '정량 성능 개선은 없습니다. 대신 PreparedStatement를 사용해 SQL 실행을 분리하고, DAO 계층에서 Connection/PreparedStatement/ResultSet 자원을 명확히 닫도록 구성했습니다.' },
+            { title: '테스트', content: '자동화 테스트는 부족합니다. 전투 데미지 계산, 스킬 MP 검증, 보상 트랜잭션 rollback, 로그인 실패 흐름을 우선 테스트 대상으로 추가할 예정입니다.' },
+            { title: '배포 및 실행 방법', content: 'ShellHero.jar와 run.bat로 실행할 수 있는 콘솔 애플리케이션입니다. 실행 전 MySQL 연결 정보와 초기 데이터가 준비되어야 합니다.' },
+            { title: 'API 응답 예시', content: '콘솔 출력 예시\n전투 승리 -> 경험치/재화 지급 -> 레벨업 여부 확인 -> 퀘스트 진행도 갱신\n트랜잭션 실패 예시\n보상 처리 중 SQLException 발생 -> rollback -> 사용자에게 오류 메시지 출력' }
+          ],
+          overview: 'Java 콘솔 환경에서 회원, 영웅, 전투, 상점, 퀘스트, 인벤토리 데이터를 MySQL에 저장하며 진행하는 RPG 프로젝트입니다.',
           problemAndGoal: `[문제]
 Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었으나, 단순한 CRUD 프로젝트로는 복잡한 도메인 로직을 다루기 어려웠습니다.
 
 [목표]
 게임이라는 복잡한 도메인을 통해 상속, 다형성, 인터페이스 등 OOP의 핵심 개념을 실무적으로 적용합니다.`,
           roles: [
-            '상속, 다형성, 인터페이스를 활용한 몬스터, 스킬, 상점, 퀘스트 시스템 설계',
-            'MySQL 데이터베이스 설계 및 쿼리 작성',
-            '전투, 인벤토리, 상점 이용 등 게임 메커니즘 구현'
+            'BattleController/BattleService 기반 전투 흐름과 스킬/아이템/보상 처리 구현',
+            'DAO 인터페이스와 구현체를 분리하고 JDBC PreparedStatement 기반 DB 접근 로직 작성',
+            '전투 승리 보상, 레벨업, 퀘스트 진행도 갱신을 수동 트랜잭션으로 묶어 정합성 유지',
+            'GameException 기반 예외 흐름과 로그인 세션 상태 검증 처리'
           ],
-          troubleShooting: `[문제 1] 캐릭터가 삭제되지 않는 문제
+          troubleShooting: `[문제 1] 전투 보상 처리 중 일부 데이터만 갱신될 수 있는 문제
 
 [해결]
-캐릭터의 테이블이 다른 테이블과 외래키로 연결되어있어 캐릭터 삭제시 에러가 발생하는 문제를 해결하기 위해 연관된 테이블을 확인하고 캐릭터를 삭제할때 외래키로 연결된 테이블도 함께 삭제되도록 수정
+전투 승리 후 경험치/재화 지급, 레벨업, 퀘스트 진행도, 최대 클리어 스테이지 갱신이 함께 일어나므로 하나의 Connection에서 autoCommit을 false로 설정하고, 실패 시 rollback하도록 수정했습니다.
 
 [문제 2] 로그인시 오류 발생 문제
 로그인을 진행할때 로그인을 실패함에도 불구하고 캐릭터가 생성이 로직으로 가는 문제 발생
 
 [해결]
-캐릭터의 테이블이 다른 테이블과 외래키로 연결되어있어 캐릭터 삭제시 에러가 발생하는 문제를 해결하기 위해 연관된 테이블을 확인하고 캐릭터를 삭제할때 외래키로 연결된 테이블도 함께 삭제되도록 수정`,
-          learnings: '이 프로젝트는 제게 객체지향 프로그래밍의 진정한 가치를 깨닫게 해준 소중한 경험이었습니다. MVC 패턴을 실제로 적용하면서 코드를 더욱 효율적으로 작성할 수 있었습니다.',
+로그인 세션과 현재 영웅 상태를 검증한 뒤 다음 화면으로 이동하도록 조건 분기를 정리하고, 실패 상황은 예외 메시지로 사용자에게 전달하도록 수정했습니다.`,
+          learnings: '프레임워크 없이 JDBC와 계층 구조를 직접 다루면서 트랜잭션 경계와 데이터 정합성의 중요성을 배웠습니다. 이후에는 반복되는 DAO 자원 해제 코드를 줄이고 테스트 가능한 구조로 개선할 예정입니다.',
           githubUrl: 'https://github.com/kosta-dev-sjh/p1-4g-java-console',
           resultImages: [
             { src: "img/trpgmain.png", caption: '게임시작화면' },
@@ -509,7 +609,19 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
             { src: "img/trpgbattle.png", caption: '전투화면' },
             { src: "img/trpgbattleing.png", caption: '전투중화면' },
           ],
-          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: null },
+          mermaidArchitecture: `flowchart LR
+  User["Console User"] -->|menu input| View["View Layer"]
+  View --> Controller["Controller"]
+  Controller --> Service["Service<br/>game rules"]
+  Service --> DAO["DAO Interface / Impl"]
+  DAO -->|JDBC / SQL| MySQL["MySQL"]
+  Service -->|current user / hero| Session["LoginSession"]
+  Service -->|commit / rollback| Tx["JDBC Transaction"]
+  MySQL --> Tables["user / hero / inventory<br/>skill / quest / monster"]
+  Service --> DTO["DTO"]
+  DTO --> Controller
+  Controller --> View`,
+          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: 'img/trpg-architecture.svg' },
         }
       ];
     }
@@ -569,6 +681,33 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
                     </p>
                   </div>
 
+                  {project.cardFeatures && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-bold text-stone-600 mb-2">핵심 기능</h4>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {project.cardFeatures.slice(0, 5).map(feature => (
+                          <li key={feature} className="text-sm text-stone-700 flex items-start gap-2">
+                            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-600 flex-none"></span>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {project.backendPoints && (
+                    <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                      <h4 className="text-sm font-bold text-amber-800 mb-2">Backend Point</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {project.backendPoints.map(point => (
+                          <span key={point} className="px-3 py-1 text-xs sm:text-sm bg-white rounded-full text-amber-900 border border-amber-200">
+                            {point}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     onClick={() => onViewDetail(project.id)}
                     className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
@@ -595,9 +734,44 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
       const diagramTabs = [
         { key: 'useCase', label: 'Use Case Diagram' },
         { key: 'erd', label: 'ERD' },
-        { key: 'classDiagram', label: 'クラス図' },
-        { key: 'architecture', label: 'アーキテクチャ図' },
+        { key: 'classDiagram', label: 'Class Diagram' },
+        { key: 'architecture', label: 'Service Architecture' },
       ];
+      const availableDiagramTabs = diagramTabs.filter(tab => project.diagrams && project.diagrams[tab.key]);
+      const currentDiagramTab = availableDiagramTabs[activeDiagram] || availableDiagramTabs[0];
+      const portfolioGroups = [
+        { title: '프로젝트 맥락', items: ['개발 배경', '주요 기능', '내가 직접 구현한 기능'] },
+        { title: '백엔드 설계', items: ['ERD / DB 설계', 'API 설계', '인증/인가 설계', '예외 처리 구조', '트랜잭션 처리'] },
+        { title: '품질과 운영', items: ['성능 개선 또는 최적화', '테스트', '배포 및 실행 방법'] },
+        { title: '예시', items: ['API 응답 예시'] },
+      ].map(group => ({
+        ...group,
+        sections: (project.portfolioSections || []).filter(section => group.items.includes(section.title)),
+      })).filter(group => group.sections.length > 0);
+      const backendDesignTitles = ['ERD / DB 설계', 'API 설계', '인증/인가 설계', '예외 처리 구조', '트랜잭션 처리'];
+      const toReadablePoints = (item) => {
+        if (!backendDesignTitles.includes(item.title)) return null;
+        const delimiter =
+          item.title === 'ERD / DB 설계' ? '__ENTITY_BREAK__' :
+          item.title === 'API 설계' ? '__API_BREAK__' :
+          '__CLAUSE_BREAK__';
+
+        let normalized = item.content;
+        if (item.title === 'ERD / DB 설계') {
+          normalized = normalized.replace(/\),\s+/g, `)${delimiter}`);
+        } else if (item.title === 'API 설계') {
+          normalized = normalized.replace(/,\s+(?=(GET|POST|PUT|DELETE|PATCH)\s|[A-Z_]+\/|\/)/g, delimiter);
+        } else {
+          normalized = normalized.replace(/,\s+/g, delimiter);
+        }
+
+        const points = normalized
+          .split(delimiter)
+          .map(text => text.trim())
+          .filter(Boolean);
+
+        return points.length > 1 ? points : null;
+      };
 
       const ImgPlaceholder = ({ caption, heightClass }) => (
         <div className={`image-placeholder rounded-xl ${heightClass || 'h-48'} flex-col gap-2`}>
@@ -607,6 +781,152 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
           <span className="text-stone-400 text-sm">{caption || '준비중'}</span>
         </div>
       );
+
+      const MermaidDiagram = ({ chart }) => {
+        const diagramRef = useRef(null);
+        const diagramId = useRef(`mermaid-${project.id}-${Math.random().toString(36).slice(2)}`);
+        const dragState = useRef({ active: false, x: 0, y: 0, startX: 0, startY: 0 });
+        const [renderError, setRenderError] = useState(false);
+        const [scale, setScale] = useState(1.15);
+        const [position, setPosition] = useState({ x: 0, y: 0 });
+
+        const zoomIn = () => setScale(value => Math.min(2.4, Number((value + 0.15).toFixed(2))));
+        const zoomOut = () => setScale(value => Math.max(0.75, Number((value - 0.15).toFixed(2))));
+        const resetView = () => {
+          setScale(1.15);
+          setPosition({ x: 0, y: 0 });
+        };
+
+        const handlePointerDown = (e) => {
+          dragState.current = {
+            active: true,
+            x: e.clientX,
+            y: e.clientY,
+            startX: position.x,
+            startY: position.y
+          };
+          e.currentTarget.setPointerCapture(e.pointerId);
+        };
+
+        const handlePointerMove = (e) => {
+          if (!dragState.current.active) return;
+          const dx = e.clientX - dragState.current.x;
+          const dy = e.clientY - dragState.current.y;
+          setPosition({
+            x: dragState.current.startX + dx,
+            y: dragState.current.startY + dy
+          });
+        };
+
+        const handlePointerUp = (e) => {
+          dragState.current.active = false;
+          if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+            e.currentTarget.releasePointerCapture(e.pointerId);
+          }
+        };
+
+        useEffect(() => {
+          if (!chart || !diagramRef.current || !window.mermaid) return;
+
+          let mounted = true;
+          setRenderError(false);
+          window.mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: 'loose',
+            theme: 'base',
+            themeVariables: {
+              fontFamily: 'Pretendard, Arial, sans-serif',
+              primaryColor: '#fff7ed',
+              primaryBorderColor: '#d97706',
+              primaryTextColor: '#292524',
+              lineColor: '#57534e',
+              secondaryColor: '#f8fafc',
+              tertiaryColor: '#eff6ff'
+            }
+          });
+
+          window.mermaid.render(diagramId.current, chart)
+            .then(({ svg }) => {
+              if (mounted && diagramRef.current) {
+                diagramRef.current.innerHTML = svg;
+                const svgElement = diagramRef.current.querySelector('svg');
+                if (svgElement) {
+                  svgElement.style.maxWidth = 'none';
+                  svgElement.style.width = '100%';
+                  svgElement.style.height = 'auto';
+                }
+              }
+            })
+            .catch(() => {
+              if (mounted) setRenderError(true);
+            });
+
+          return () => {
+            mounted = false;
+          };
+        }, [chart]);
+
+        if (renderError) {
+          return (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+              <pre className="text-xs sm:text-sm text-stone-700 whitespace-pre-wrap overflow-x-auto">{chart}</pre>
+            </div>
+          );
+        }
+
+        return (
+          <div className="rounded-lg border border-stone-200 bg-white overflow-hidden">
+            <div className="flex items-center justify-between gap-3 border-b border-stone-200 bg-stone-50 px-3 py-2">
+              <div className="text-xs sm:text-sm font-semibold text-stone-600">
+                확대 {Math.round(scale * 100)}%
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={zoomOut}
+                  className="h-8 w-8 rounded-md border border-stone-300 bg-white text-lg font-bold text-stone-700 hover:border-amber-500 hover:text-amber-700"
+                  aria-label="구조도 축소"
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  onClick={resetView}
+                  className="h-8 px-3 rounded-md border border-stone-300 bg-white text-xs font-semibold text-stone-700 hover:border-amber-500 hover:text-amber-700"
+                >
+                  초기화
+                </button>
+                <button
+                  type="button"
+                  onClick={zoomIn}
+                  className="h-8 w-8 rounded-md border border-stone-300 bg-white text-lg font-bold text-stone-700 hover:border-amber-500 hover:text-amber-700"
+                  aria-label="구조도 확대"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div
+              className="h-[520px] overflow-hidden bg-white cursor-grab active:cursor-grabbing"
+              style={{ touchAction: 'none' }}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+            >
+              <div
+                className="min-w-[980px] p-5"
+                style={{
+                  transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                  transformOrigin: 'top left'
+                }}
+              >
+                <div ref={diagramRef} className="flex justify-center"></div>
+              </div>
+            </div>
+          </div>
+        );
+      };
 
       useEffect(() => {
         const handleKeyDown = (e) => {
@@ -772,48 +1092,54 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
             </section>
 
             {/* 6. 설계 다이어그램 */}
-            {project.diagrams && Object.values(project.diagrams).some(v => v !== null) && (
+            {(project.mermaidArchitecture || (project.diagrams && Object.values(project.diagrams).some(v => v !== null))) && (
               <section className="mb-12">
-                <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">6.　設計図</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">6. 시스템 구조</h2>
                 <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
-                  <div className="flex border-b border-stone-200 overflow-x-auto">
-                    {diagramTabs.map((tab, idx) => (
-                      <button
-                        key={tab.key}
-                        onClick={() => setActiveDiagram(idx)}
-                        className={`px-4 sm:px-5 py-3 text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors ${activeDiagram === idx
-                          ? 'text-amber-700 border-b-2 border-amber-600 bg-amber-50'
-                          : 'text-stone-500 hover:text-amber-600 hover:bg-stone-50'
-                          }`}
-                      >
-                        {tab.label}
-                      </button>
-                    ))}
-                  </div>
                   <div className="p-6 sm:p-8">
-                    {project.diagrams && project.diagrams[diagramTabs[activeDiagram].key] ? (
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => {
-                          const availableDiagrams = diagramTabs
-                            .map(tab => ({ src: project.diagrams[tab.key], caption: tab.label }))
-                            .filter(d => d.src);
-                          const currentIndex = availableDiagrams.findIndex(d => d.caption === diagramTabs[activeDiagram].label);
-                          setSelectedImage({ images: availableDiagrams, index: currentIndex >= 0 ? currentIndex : 0 });
-                        }}
-                      >
-                        <img
-                          src={project.diagrams[diagramTabs[activeDiagram].key]}
-                          alt={diagramTabs[activeDiagram].label}
-                          className="w-full rounded-xl border border-stone-200 hover:shadow-lg transition-shadow"
-                        />
-                      </div>
+                    {project.mermaidArchitecture ? (
+                      <MermaidDiagram chart={project.mermaidArchitecture} />
                     ) : (
-                      <div className="image-placeholder rounded-xl h-64 flex-col gap-2">
-                        <svg className="w-12 h-12 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-                        </svg>
-                        <span className="text-stone-400 text-sm">{diagramTabs[activeDiagram].label} 준비 중</span>
+                      <div>
+                        <div className="flex border-b border-stone-200 overflow-x-auto -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6">
+                          {availableDiagramTabs.map((tab, idx) => (
+                            <button
+                              key={tab.key}
+                              onClick={() => setActiveDiagram(idx)}
+                              className={`px-4 sm:px-5 py-3 text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors ${activeDiagram === idx
+                                ? 'text-amber-700 border-b-2 border-amber-600 bg-amber-50'
+                                : 'text-stone-500 hover:text-amber-600 hover:bg-stone-50'
+                                }`}
+                            >
+                              {tab.label}
+                            </button>
+                          ))}
+                        </div>
+                        {currentDiagramTab && project.diagrams && project.diagrams[currentDiagramTab.key] ? (
+                          <div
+                            className="cursor-pointer"
+                            onClick={() => {
+                              const availableDiagrams = availableDiagramTabs
+                                .map(tab => ({ src: project.diagrams[tab.key], caption: tab.label }))
+                                .filter(d => d.src);
+                              const currentIndex = availableDiagrams.findIndex(d => d.caption === currentDiagramTab.label);
+                              setSelectedImage({ images: availableDiagrams, index: currentIndex >= 0 ? currentIndex : 0 });
+                            }}
+                          >
+                            <img
+                              src={project.diagrams[currentDiagramTab.key]}
+                              alt={currentDiagramTab.label}
+                              className="w-full rounded-xl border border-stone-200 hover:shadow-lg transition-shadow"
+                            />
+                          </div>
+                        ) : (
+                          <div className="image-placeholder rounded-xl h-64 flex-col gap-2">
+                            <svg className="w-12 h-12 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                            </svg>
+                            <span className="text-stone-400 text-sm">{diagramTabs[activeDiagram].label} 준비 중</span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -821,9 +1147,72 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
               </section>
             )}
 
+            {project.backendDetails && (
+              <section className="mb-12">
+                <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">7. 핵심 백엔드 구현 내용</h2>
+                <div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {project.backendDetails.map(item => (
+                      <div key={item.label} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+                        <h3 className="text-base font-bold text-stone-900 mb-2">{item.label}</h3>
+                        <p className="text-sm sm:text-base text-stone-700 leading-relaxed">{item.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {project.portfolioSections && (
+              <section className="mb-12">
+                <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">8. 상세 설계 및 구현 항목</h2>
+                <div className="bg-white rounded-2xl p-5 sm:p-7 border border-stone-200">
+                  <div className="space-y-8">
+                    {portfolioGroups.map(group => (
+                      <div key={group.title}>
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className="h-2.5 w-2.5 rounded-full bg-amber-600 flex-none"></span>
+                          <h3 className="text-lg sm:text-xl font-bold text-stone-900">{group.title}</h3>
+                        </div>
+                        <div className={`grid grid-cols-1 ${group.title === '예시' ? '' : 'lg:grid-cols-2'} gap-3`}>
+                          {group.sections.map(item => (
+                            <div
+                              key={item.title}
+                              className={`rounded-lg border border-stone-200 bg-stone-50 p-4 ${item.title === 'API 응답 예시' ? 'border-amber-200 bg-amber-50/50' : ''}`}
+                            >
+                              <div className="flex items-start gap-3">
+                                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-stone-400 flex-none"></span>
+                                <div className="min-w-0">
+                                  <h4 className="text-sm sm:text-base font-bold text-stone-900 mb-1">{item.title}</h4>
+                                  {toReadablePoints(item) ? (
+                                    <ul className="space-y-1.5">
+                                      {toReadablePoints(item).map((point, pointIdx) => (
+                                        <li key={pointIdx} className="text-sm text-stone-700 leading-relaxed flex items-start gap-2">
+                                          <span className="mt-2 h-1 w-1 rounded-full bg-amber-600 flex-none"></span>
+                                          <span>{point}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  ) : (
+                                    <p className={`text-sm text-stone-700 leading-relaxed whitespace-pre-line ${item.title === 'API 응답 예시' ? 'font-mono bg-white/80 border border-amber-100 rounded-md p-3 overflow-x-auto' : ''}`}>
+                                      {item.content}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
             {/* 7. Trouble Shooting */}
             <section className="mb-12">
-              <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">6. Trouble Shooting</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">9. Trouble Shooting</h2>
               <div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200">
                 <p className="text-base sm:text-lg text-stone-700 leading-relaxed whitespace-pre-line">
                   {project.troubleShooting}
@@ -833,7 +1222,7 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
 
             {/* 8. 学んだこと */}
             <section className="mb-12">
-              <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">7. 배운점</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">10. 배운 점과 개선 예정 사항</h2>
               <div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200">
                 <p className="text-base sm:text-lg text-stone-700 leading-relaxed whitespace-pre-line">
                   {project.learnings}
