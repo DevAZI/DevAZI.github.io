@@ -407,40 +407,40 @@ portfolioSections: [
   { title: 'ERD / DB 설계', content: 'User(email, password, nickname), Article(title, content, author, mediaPath), Comment(author, content, article_id), RefreshToken(userId, refreshToken), FileRecord(fileName, fileSize, uploadTime)로 도메인을 분리했습니다.' },
   { title: 'API 설계', content: 'GET /api/articles, GET /api/articles/{id}, POST /api/articles, PUT /api/articles/{id}, DELETE /api/articles/{id}, POST /api/comments, POST /api/token, DELETE /api/refresh-token, POST /user, GET/POST /files/* 형태로 기능별 엔드포인트를 분리했습니다.' },
   { title: '인증/인가 설계', content: 'Spring Security를 stateless로 설정하고 /api/** 요청은 인증이 필요하도록 구성했습니다. TokenAuthenticationFilter에서 Bearer Token을 검증하고, 게시글 수정/삭제는 작성자와 SecurityContext의 인증 사용자를 비교합니다.' },
-  { title: '예외 처리 구조', content: '현재는 조회 실패와 권한 없음 상황을 IllegalArgumentException으로 처리합니다. 포트폴리오에는 이 한계를 명시하고, 전역 예외 처리와 표준 에러 응답을 개선 예정 사항으로 둡니다.' },
+  { title: '예외 처리 구조', content: '현재는 조회 실패와 권한 없음 상황을 IllegalArgumentException으로 처리했습니다. 전역 예외처리 방식의 비효율성에 대해 인지하고 있고 개선할 예정입니다' },
   { title: '트랜잭션 처리', content: '게시글 수정은 @Transactional 범위 안에서 엔티티 변경 감지를 사용합니다. Refresh Token은 DB 저장/삭제 흐름으로 재발급과 로그아웃 상태를 관리합니다.' },
-  { title: '성능 개선 또는 최적화', content: 'Unity WebGL 정적 리소스 실행 문제를 압축 포맷과 Spring Boot 정적 제공 방식 조정으로 해결했습니다. 정량 성능 측정은 없으므로 성능 개선보다는 실행 환경 문제 해결로 표현합니다.' },
+  { title: '성능 개선 또는 최적화', content: 'Unity WebGL 정적 리소스 실행 문제를 압축 포맷과 Spring Boot 정적 제공 방식 조정으로 해결했습니다.' },
   { title: '테스트', content: 'TokenProviderTest, TokenApiControllerTest, CapstoneApiControllerTest를 통해 JWT 생성/검증, 토큰 재발급, 주요 컨트롤러 요청 흐름을 검증했습니다.' },
   { title: '배포 및 실행 방법', content: 'Gradle 기반 Spring Boot 애플리케이션입니다. 로컬에서는 ./gradlew bootRun으로 실행하고, 배포 환경에서는 EC2의 8080 포트에서 서비스하도록 구성했습니다.' },
   { title: 'API 응답 예시', content: 'GET /api/articles 응답 예시\n[\n  { "id": 1, "title": "Boss Pattern", "content": "...", "author": "user@email.com", "mediaPath": "file.png" }\n]\nPOST /api/token 응답 예시\n{ "accessToken": "jwt-access-token" }' }
 ],
-overview: 'Spring Boot 기반으로 커뮤니티 게시글/댓글, JWT/OAuth2 인증, 파일 업로드/다운로드, Unity WebGL 게임 실행 페이지를 제공하는 웹 서비스입니다。',
+overview: 'Spring Boot 기반으로 커뮤니티 게시글/댓글, JWT/OAuth2 인증, 파일 업로드/다운로드, Unity WebGL 게임 실행 페이지를 제공하는 웹 서비스입니다.',
 problemAndGoal: `[문제]
-게임 개발에서 보스 패턴 설계는 많은 시간과 창의성을 요구합니다. 특히 인디 게임 개발자는 제한된 자원으로 다양한 보스 패턴을 구현하기 어렵습니다。
+게임 개발에서 보스 패턴 설계는 많은 시간과 창의성을 요구합니다. 특히 인디 게임 개발자는 제한된 자원으로 다양한 보스 패턴을 구현하기 어렵습니다.
 
 
 [목표]
-보스 패턴 콘텐츠를 공유할 수 있는 커뮤니티와 WebGL 데모 실행 환경을 제공하고, 인증이 필요한 기능과 공개 기능을 분리해 백엔드 서비스 구조를 갖추는 것입니다。`,
+보스 패턴 콘텐츠를 공유할 수 있는 커뮤니티와 WebGL 데모 실행 환경을 제공하고, 인증이 필요한 기능과 공개 기능을 분리해 백엔드 서비스 구조를 갖추는 것입니다.`,
 roles: [
   'Spring Boot Controller-Service-Repository 계층 기반 게시글/댓글 API 구현',
   'JWT Access Token, Refresh Token, Google OAuth2 로그인 흐름 구성',
   '파일 업로드/다운로드와 Unity WebGL 정적 리소스 제공 기능 구현',
   '작성자 권한 검증, 토큰 검증, 주요 컨트롤러 테스트 작성'
 ],
-troubleShooting: `[문제 1] AI로 생성된 보스 패턴 코드를 WebGL로 빌드하여 실행했을 때 정상적으로 동작하지 않는 문제가 발생。
+troubleShooting: `[문제 1] AI로 생성된 보스 패턴 코드를 WebGL로 빌드하여 실행했을 때 정상적으로 동작하지 않는 문제가 발생.
 
 
 [해결]
-CompressionFormat을 Disable로 변경하고, 압축 포맷을 Gzip으로 변경하여 해결했습니다. 또한 Node.js 환경에서는 실행되지 않았으나, Spring Boot 환경에서 실행함으로써 정상 동작을 확인했습니다。
+CompressionFormat을 Disable로 변경하고, 압축 포맷을 Gzip으로 변경하여 해결했습니다. 또한 Node.js 환경에서는 실행되지 않았으나, Spring Boot 환경에서 실행함으로써 정상 동작을 확인했습니다.
 
 
 [문제 2] 첫 팀 프로젝트에서의 설계 부족 문제
-전체적인 아이디어만으로 진행하고 상세 기획이 부족하여 개발에 예상보다 많은 시간이 소요됨。
+전체적인 아이디어만으로 진행하고 상세 기획이 부족하여 개발에 예상보다 많은 시간이 소요됨.
 
 
 [해결]
-팀원들과 문제 발생 시마다 회의를 통해 의견을 공유하고, 기능 추가 및 변경 사항에 대해 충분히 논의한 후 진행하도록 개선했습니다。`,
-learnings: '인증, 권한 검증, 파일 처리, 화면 렌더링을 하나의 Spring Boot 애플리케이션에서 연결하며 백엔드 기능을 도메인별로 분리하는 경험을 쌓았습니다. 이후에는 전역 예외 처리와 운영 DB 분리를 보강할 예정입니다。',
+팀원들과 문제 발생 시마다 회의를 통해 의견을 공유하고, 기능 추가 및 변경 사항에 대해 충분히 논의한 후 진행하도록 개선했습니다.`,
+learnings: '인증, 권한 검증, 파일 처리, 화면 렌더링을 하나의 Spring Boot 애플리케이션에서 연결하며 백엔드 기능을 도메인별로 분리하는 경험을 쌓았습니다. 이후에는 전역 예외 처리와 운영 DB 분리를 보강할 예정입니다.',
           githubUrl: 'https://github.com/DevAZI/BPM',
           liveUrl: 'http://devaz.kro.kr:8080',
           resultImages: [
@@ -485,11 +485,9 @@ portfolioSections: [
   { title: '내가 직접 구현한 기능', content: 'Claude API 프롬프트 생성, Guardrail 차단 응답 처리, AI 응답 JSON 파싱/보정, 사용자별 localStorage key 설계, CartContext/AlarmContext 상태 흐름, GitHub Actions 배포 자동화를 구현했습니다.' },
   { title: 'ERD / DB 설계', content: '별도 서버 DB는 사용하지 않았습니다. 대신 shc_users, shc_current_user, shc_cart_{username}, shc_medicines_{username}, shc_blood_sugar_{username}, shc_blood_pressure_{username}처럼 localStorage key를 사용자 단위로 분리했습니다.' },
   { title: 'API 설계', content: '백엔드 REST API 서버는 없고, VITE_API_URL로 지정된 외부 AI API에 POST 요청을 보냅니다. 요청 body는 { message: buildPrompt(...) } 형태이며 상품/게시글/사용자 건강 상태를 프롬프트에 포함합니다.' },
-  { title: '인증/인가 설계', content: '현재 인증은 localStorage 기반 사용자 상태 관리입니다. 보안 인증으로 과장하지 않고, 향후 서버 기반 세션/JWT 인증으로 분리해야 할 개선 항목으로 둡니다.' },
+  { title: '인증/인가 설계', content: '현재 인증은 localStorage 기반 사용자 상태 관리입니다. 보안 인증으로 과장하지 않고, 향후 서버 기반 세션/JWT로 개선 할 예정입니다.' },
   { title: '예외 처리 구조', content: 'AI API 응답 실패, Guardrail 차단, JSON 구조 누락, JSON.parse 실패를 분기했습니다. 줄바꿈, 누락 쉼표, 후행 쉼표를 보정한 뒤 파싱하고 실패 시 사용자에게 일반 오류 메시지를 보여줍니다.' },
-  { title: '트랜잭션 처리', content: '서버 DB 트랜잭션은 없습니다. 장바구니/주문 흐름에서는 재고 검증 후 차감하는 순서로 처리하지만, 동시성 보장은 서버 API와 DB로 분리해야 합니다.' },
   { title: '성능 개선 또는 최적화', content: '게시글 추천 후보를 최대 20개로 제한해 AI 프롬프트 길이를 제어했습니다. 추천 결과는 healthSavedState로 보존해 상세 페이지 이동 후에도 결과를 복구하도록 했습니다.' },
-  { title: '테스트', content: '자동화 테스트는 현재 부족합니다. 포트폴리오에는 AI 응답 파싱, 장바구니 재고 검증, 알림 중복 방지 로직을 우선 테스트 대상으로 명시하는 것이 적절합니다.' },
   { title: '배포 및 실행 방법', content: '로컬 실행은 shc-vite에서 npm install 후 npm run dev로 진행합니다. 배포는 GitHub Actions에서 npm build, .env secret 주입, EC2 파일 전송, docker compose down/up --build -d 순서로 자동화했습니다.' },
   { title: 'API 응답 예시', content: 'AI API 응답 예시\n{\n  "response": "{ \\"productIds\\": [1, 2], \\"posts\\": [{ \\"category\\": \\"recipe\\", \\"id\\": 1 }], \\"comment\\": \\"건강 상태에 맞는 추천입니다.\\" }"\n}\nGuardrail 차단 예시\n{ "blocked": true, "guardrailAction": "BLOCKED", "message": "건강 관련 질문을 입력해주세요." }' }
 ],
@@ -519,8 +517,8 @@ IAM 계정에 Bedrock 권한을 부여하고, Lambda 실행 역할에 Bedrock �
 
 
 [해결]
-원격 서버의 배포 대상 디렉터리(/home/***/react-app) 및 하위 파일의 소유자가 현재 접속 계정과 달라 쓰기 권한이 없는 상태였기 때문에, 소유권을 변경하여 해결했습니다。`,
-learnings: '외부 AI API는 정상 응답보다 실패 응답과 비정형 응답을 안정적으로 다루는 것이 중요하다는 점을 배웠습니다. 현재 구조는 프론트 상태 중심이므로, 이후에는 인증/주문/재고/알림을 서버 API와 DB로 분리해 백엔드 완성도를 높일 예정입니다。',
+원격 서버의 배포 대상 디렉터리(/home/***/react-app) 및 하위 파일의 소유자가 현재 접속 계정과 달라 쓰기 권한이 없는 상태였기 때문에, 소유권을 변경하여 해결했습니다.`,
+learnings: '외부 AI API는 정상 응답보다 실패 응답과 비정형 응답을 안정적으로 다루는 것이 중요하다는 점을 배웠습니다. 현재 구조는 프론트 상태 중심이므로, 이후에는 인증/주문/재고/알림을 서버 API와 DB로 분리해 백엔드 완성도를 높일 예정입니다.',
           githubUrl: 'https://github.com/P2-SHC/SHC',
           liveUrl: 'http://devaz.kro.kr',
           resultImages: [
@@ -573,8 +571,8 @@ learnings: '외부 AI API는 정상 응답보다 실패 응답과 비정형 응�
             { title: '인증/인가 설계', content: '로그인 성공 후 LoginSession에 현재 사용자와 영웅 정보를 저장하고, 전투/상점/퀘스트 기능 진입 시 세션의 현재 영웅 상태를 검증합니다.' },
             { title: '예외 처리 구조', content: 'GameException으로 게임 진행 중 오류를 표현하고, Controller에서 예외를 받아 FailView를 통해 사용자 메시지로 출력합니다. LoginFailException, DuplicationException으로 인증/중복 상황을 구분했습니다.' },
             { title: '트랜잭션 처리', content: '전투 승리 보상에서 경험치/재화 지급, 레벨업, 퀘스트 진행도, 최대 클리어 스테이지 갱신을 하나의 Connection으로 묶었습니다. con.setAutoCommit(false) 후 성공 시 commit, 실패 시 rollback합니다.' },
-            { title: '성능 개선 또는 최적화', content: '정량 성능 개선은 없습니다. 대신 PreparedStatement를 사용해 SQL 실행을 분리하고, DAO 계층에서 Connection/PreparedStatement/ResultSet 자원을 명확히 닫도록 구성했습니다.' },
-            { title: '테스트', content: '자동화 테스트는 부족합니다. 전투 데미지 계산, 스킬 MP 검증, 보상 트랜잭션 rollback, 로그인 실패 흐름을 우선 테스트 대상으로 추가할 예정입니다.' },
+            { title: '성능 개선 또는 최적화', content: 'PreparedStatement를 사용해 SQL 실행을 분리하고, DAO 계층에서 Connection/PreparedStatement/ResultSet 자원을 닫도록 구성했습니다.' },
+            { title: '테스트', content: '전투 데미지 계산, 스킬 MP 검증, 보상 트랜잭션 rollback, 로그인 실패 흐름을 우선 테스트 대상으로 추가할 예정입니다.' },
             { title: '배포 및 실행 방법', content: 'ShellHero.jar와 run.bat로 실행할 수 있는 콘솔 애플리케이션입니다. 실행 전 MySQL 연결 정보와 초기 데이터가 준비되어야 합니다.' },
             { title: 'API 응답 예시', content: '콘솔 출력 예시\n전투 승리 -> 경험치/재화 지급 -> 레벨업 여부 확인 -> 퀘스트 진행도 갱신\n트랜잭션 실패 예시\n보상 처리 중 SQLException 발생 -> rollback -> 사용자에게 오류 메시지 출력' }
           ],
@@ -740,7 +738,7 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
       const availableDiagramTabs = diagramTabs.filter(tab => project.diagrams && project.diagrams[tab.key]);
       const currentDiagramTab = availableDiagramTabs[activeDiagram] || availableDiagramTabs[0];
       const portfolioGroups = [
-        { title: '프로젝트 맥락', items: ['개발 배경', '주요 기능', '내가 직접 구현한 기능'] },
+        { title: '프로젝트 맥락', items: ['개발 배경', '주요 기능', '구현 기능'] },
         { title: '백엔드 설계', items: ['ERD / DB 설계', 'API 설계', '인증/인가 설계', '예외 처리 구조', '트랜잭션 처리'] },
         { title: '품질과 운영', items: ['성능 개선 또는 최적화', '테스트', '배포 및 실행 방법'] },
         { title: '예시', items: ['API 응답 예시'] },

@@ -941,7 +941,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
           { title: 'ERD / DB設計', content: 'User(email, password, nickname)、Article(title, content, author, mediaPath)、Comment(author, content, article_id)、RefreshToken(userId, refreshToken)、FileRecord(fileName, fileSize, uploadTime)としてドメインを分離しました。' },
           { title: 'API設計', content: 'GET /api/articles、GET /api/articles/{id}、POST /api/articles、PUT /api/articles/{id}、DELETE /api/articles/{id}、POST /api/comments、POST /api/token、DELETE /api/refresh-token、POST /user、GET/POST /files/* の形で機能別エンドポイントを分離しました。' },
           { title: '認証/認可設計', content: 'Spring Securityをstatelessに設定し、/api/** リクエストは認証が必要になるよう構成しました。TokenAuthenticationFilterでBearer Tokenを検証し、記事の修正/削除では投稿者とSecurityContextの認証ユーザーを比較します。' },
-          { title: '例外処理構造', content: '現在は照会失敗や権限なしの状況をIllegalArgumentExceptionで処理しています。ポートフォリオではこの限界を明示し、グローバル例外処理と標準エラーレスポンスを改善予定として扱います。' },
+          { title: '例外処理構造', content: '現在は照会失敗や権限なしの状況をIllegalArgumentExceptionで処理しています。グローバル例外処理の非効率さを再認識し、今後改善していく予定です。' },
           { title: 'トランザクション処理', content: '記事更新は@Transactionalの範囲内でエンティティ変更検知を利用します。Refresh TokenはDB保存/削除フローで再発行とログアウト状態を管理します。' },
           { title: '性能改善または最適化', content: 'Unity WebGL静的リソースの実行問題を圧縮フォーマットとSpring Bootの静的提供方式の調整で解決しました。定量的な測定はないため、性能改善ではなく実行環境問題の解決として表現します。' },
           { title: 'テスト', content: 'TokenProviderTest、TokenApiControllerTest、CapstoneApiControllerTestを通じてJWT生成/検証、トークン再発行、主要コントローラーのリクエストフローを検証しました。' },
@@ -954,11 +954,9 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
           { title: '直接実装した機能', content: 'Claude APIプロンプト生成、Guardrailブロック応答処理、AI応答JSON解析/補正、ユーザー別localStorage key設計、CartContext/AlarmContext状態フロー、GitHub Actionsデプロイ自動化を実装しました。' },
           { title: 'ERD / DB設計', content: '別途サーバーDBは使用していません。代わりにshc_users、shc_current_user、shc_cart_{username}、shc_medicines_{username}、shc_blood_sugar_{username}、shc_blood_pressure_{username}のようにlocalStorage keyをユーザー単位で分離しました。' },
           { title: 'API設計', content: 'バックエンドREST APIサーバーはなく、VITE_API_URLで指定された外部AI APIへPOSTリクエストを送信します。リクエストbodyは{ message: buildPrompt(...) }形式で、商品/記事/ユーザー健康状態をプロンプトに含めます。' },
-          { title: '認証/認可設計', content: '現在の認証はlocalStorage基盤のユーザー状態管理です。セキュアな認証として誇張せず、今後サーバー基盤セッション/JWT認証へ分離すべき改善項目として扱います。' },
+          { title: '認証/認可設計', content: '現在の認証はlocalStorage基盤のユーザー状態管理です。セキュアな認証として誇張せず、今後サーバー基盤セッション/JWT認証へ分離すべき改善項目する予定です。' },
           { title: '例外処理構造', content: 'AI API応答失敗、Guardrailブロック、JSON構造欠落、JSON.parse失敗を分岐しました。中括弧欠落や前後テキストを補正して解析し、失敗時はユーザーに一般エラーメッセージを表示します。' },
-          { title: 'トランザクション処理', content: 'サーバーDBトランザクションはありません。カート/注文フローでは在庫検証後に差し引く順序で処理しますが、同時性保証はサーバーAPIとDBへ分離すべき課題です。' },
           { title: '性能改善または最適化', content: '記事推薦候補を最大20件に制限してAIプロンプト長を制御しました。推薦結果はhealthSavedStateに保存し、詳細ページ移動後も結果を復元できるようにしました。' },
-          { title: 'テスト', content: '自動テストは不足しています。ポートフォリオではAI応答解析、カート在庫検証、通知重複防止ロジックを優先テスト対象として明示します。' },
           { title: 'デプロイおよび実行方法', content: 'ローカルでは shc-vite で npm install 後 npm run dev を実行します。デプロイはGitHub Actionsで npm build、.env secret注入、EC2ファイル転送、docker compose down/up --build -d の順に自動化しました。' },
           { title: 'APIレスポンス例', content: 'AI APIレスポンス例\n{\n  "response": "{ \\"productIds\\": [1, 2], \\"posts\\": [{ \\"category\\": \\"recipe\\", \\"id\\": 1 }], \\"comment\\": \\"健康状態に合う推薦です。\\" }"\n}\nGuardrailブロック例\n{ "blocked": true, "guardrailAction": "BLOCKED", "message": "健康関連の質問を入力してください。" }' }
         ],
@@ -971,8 +969,8 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
           { title: '認証/認可設計', content: 'ログイン成功後LoginSessionが現在ユーザーとヒーロー情報を保存し、戦闘/ショップ/クエスト機能進入時にセッションの現在ヒーロー状態を検証します。' },
           { title: '例外処理構造', content: 'GameExceptionでゲーム進行中のエラーを表現し、Controllerで例外を受けてFailViewを通じてユーザーメッセージとして出力します。LoginFailException、DuplicationExceptionで認証/重複状況を区別しました。' },
           { title: 'トランザクション処理', content: '戦闘勝利報酬では経験値/財貨支給、レベルアップ、クエスト進行度更新、ヒーローステータス更新を1つのConnectionでまとめました。con.setAutoCommit(false)後、成功時commit、失敗時rollbackします。' },
-          { title: '性能改善または最適化', content: '定量的な性能改善はありません。代わりにPreparedStatementでSQL実行を分離し、DAO階層でConnection/PreparedStatement/ResultSetリソースを明確に閉じるよう構成しました。' },
-          { title: 'テスト', content: '自動テストは不足しています。戦闘ダメージ計算、スキルMP検証、報酬トランザクションrollback、ログイン失敗フローを優先テスト対象として追加する予定です。' },
+          { title: '性能改善または最適化', content: 'PreparedStatementでSQL実行を分離し、DAO階層でConnection/PreparedStatement/ResultSetリソースを明確に閉じるよう構成しました。' },
+          { title: 'テスト', content: '戦闘ダメージ計算、スキルMP検証、報酬トランザクションrollback、ログイン失敗フローを優先テスト対象として追加する予定です。' },
           { title: 'デプロイおよび実行方法', content: 'ShellHero.jarをrun.batで実行できるコンソールアプリケーションです。実行前にMySQL接続情報と初期データが準備されている必要があります。' },
           { title: 'APIレスポンス例', content: 'コンソール出力例\n戦闘勝利 -> 経験値/財貨支給 -> レベルアップ可否確認 -> クエスト進行度更新\nトランザクション失敗例\n報酬処理中SQLException発生 -> rollback -> ユーザーにエラーメッセージ出力' }
         ]
