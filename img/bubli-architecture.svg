@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#fffaf0"/>
+  <text x="64" y="72" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#1f2937">Bubli - Service Architecture</text>
+  <text x="64" y="104" font-family="Arial, sans-serif" font-size="16" fill="#475569">Spring Boot, Spring AI, PostgreSQL/pgvector, Redis, WebSocket, LiveKit, AWS</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #d97706; stroke-width: 2; rx: 14; }
+      .sub { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1.5; rx: 10; }
+      .infra { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 12; }
+      .ai { fill: #ecfdf5; stroke: #16a34a; stroke-width: 2; rx: 12; }
+      .text { font-family: Arial, sans-serif; fill: #1f2937; }
+      .small { font-family: Arial, sans-serif; fill: #475569; font-size: 13px; }
+      .line { stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); fill: none; }
+    </style>
+  </defs>
+
+  <rect class="sub" x="64" y="170" width="170" height="92"/>
+  <text class="text" x="118" y="207" font-size="22" font-weight="700">Client</text>
+  <text class="small" x="96" y="235">Next.js / Tauri</text>
+
+  <rect class="infra" x="310" y="130" width="580" height="430"/>
+  <text class="text" x="528" y="168" font-size="26" font-weight="700">AWS EC2</text>
+
+  <rect class="sub" x="350" y="205" width="160" height="82"/>
+  <text class="text" x="401" y="237" font-size="20" font-weight="700">Nginx</text>
+  <text class="small" x="373" y="263">HTTPS / reverse proxy</text>
+
+  <rect class="box" x="585" y="190" width="245" height="130"/>
+  <text class="text" x="632" y="235" font-size="28" font-weight="700">Spring Boot</text>
+  <text class="small" x="622" y="266">REST API / WebSocket</text>
+  <text class="small" x="615" y="290">Auth, Project, Resource, Agent</text>
+
+  <rect class="ai" x="350" y="360" width="210" height="92"/>
+  <text class="text" x="385" y="397" font-size="22" font-weight="700">Spring AI / RAG</text>
+  <text class="small" x="379" y="425">chunk, embedding, suggestion</text>
+
+  <rect class="sub" x="615" y="378" width="210" height="92"/>
+  <text class="text" x="654" y="415" font-size="22" font-weight="700">Agent Worker</text>
+  <text class="small" x="650" y="443">outbox / queue / retry</text>
+
+  <rect class="infra" x="955" y="145" width="170" height="92"/>
+  <text class="text" x="982" y="182" font-size="22" font-weight="700">PostgreSQL</text>
+  <text class="small" x="996" y="210">RDS + pgvector</text>
+
+  <rect class="infra" x="955" y="280" width="170" height="82"/>
+  <text class="text" x="1007" y="314" font-size="22" font-weight="700">Redis</text>
+  <text class="small" x="991" y="340">cache / queue / state</text>
+
+  <rect class="infra" x="955" y="405" width="170" height="82"/>
+  <text class="text" x="1020" y="438" font-size="22" font-weight="700">S3</text>
+  <text class="small" x="988" y="464">file storage adapter</text>
+
+  <rect class="ai" x="955" y="530" width="170" height="82"/>
+  <text class="text" x="985" y="563" font-size="22" font-weight="700">Bedrock</text>
+  <text class="small" x="977" y="589">Claude / Titan embed</text>
+
+  <rect class="sub" x="64" y="410" width="170" height="92"/>
+  <text class="text" x="108" y="447" font-size="22" font-weight="700">LiveKit</text>
+  <text class="small" x="97" y="475">voice room token</text>
+
+  <line class="line" x1="234" y1="216" x2="350" y2="246"/>
+  <line class="line" x1="510" y1="246" x2="585" y2="246"/>
+  <line class="line" x1="830" y1="245" x2="955" y2="191"/>
+  <line class="line" x1="830" y1="282" x2="955" y2="321"/>
+  <line class="line" x1="830" y1="304" x2="955" y2="446"/>
+  <line class="line" x1="720" y1="320" x2="720" y2="378"/>
+  <line class="line" x1="560" y1="406" x2="615" y2="424"/>
+  <line class="line" x1="825" y1="424" x2="955" y2="571"/>
+  <line class="line" x1="234" y1="456" x2="585" y2="275"/>
+
+  <text class="small" x="354" y="600">Document upload -> text extraction -> chunking -> embedding -> semantic search -> agent suggestions</text>
+</svg>

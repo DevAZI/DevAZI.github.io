@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Text TRPG Application Architecture</title>
+  <desc id="desc">Architecture diagram for the Java console RPG application.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#444"/>
+    </marker>
+    <style>
+      .bg{fill:#fff}.box{fill:#fff;stroke:#d8b46a;stroke-width:3;rx:18}.node{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2;rx:12}
+      .domain{fill:#f0fdf4;stroke:#22c55e;stroke-width:2;rx:12}.db{fill:#eff6ff;stroke:#3b82f6;stroke-width:2;rx:12}
+      .storage{fill:#fff7ed;stroke:#f59e0b;stroke-width:2;rx:12}.text{font-family:Arial, sans-serif;fill:#1f2937}
+      .title{font-size:34px;font-weight:700}.h{font-size:21px;font-weight:700}.p{font-size:15px}.small{font-size:13px;fill:#475569}
+      .line{stroke:#444;stroke-width:3;fill:none;marker-end:url(#arrow)}.dash{stroke-dasharray:8 7}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="675"/>
+  <text x="62" y="65" class="text title">Text TRPG - Application Architecture</text>
+  <text x="62" y="94" class="text small">Java console application with View-Controller-Service-DAO layers, JDBC transactions, and MySQL persistence</text>
+
+  <rect x="65" y="185" width="180" height="105" class="node"/>
+  <text x="108" y="224" class="text h">Console UI</text>
+  <text x="96" y="253" class="text p">menu / command input</text>
+
+  <rect x="340" y="155" width="245" height="155" class="box"/>
+  <text x="398" y="197" class="text h">Controller</text>
+  <text x="375" y="228" class="text p">login, battle, shop flow</text>
+  <text x="374" y="255" class="text small">input validation and routing</text>
+
+  <rect x="690" y="135" width="260" height="190" class="domain"/>
+  <text x="755" y="178" class="text h">Domain Model</text>
+  <text x="733" y="212" class="text p">Character / Monster / Item</text>
+  <text x="733" y="241" class="text p">Battle / Quest / Shop</text>
+  <text x="733" y="270" class="text small">inheritance, interface, polymorphism</text>
+
+  <rect x="340" y="405" width="245" height="125" class="box"/>
+  <text x="410" y="447" class="text h">Service</text>
+  <text x="374" y="477" class="text p">game rules and transaction flow</text>
+  <text x="374" y="504" class="text small">reward, level-up, rollback</text>
+
+  <rect x="690" y="405" width="210" height="125" class="db"/>
+  <text x="760" y="447" class="text h">DAO</text>
+  <text x="728" y="477" class="text p">JDBC / SQL query</text>
+  <text x="728" y="504" class="text small">CRUD with relational tables</text>
+
+  <rect x="970" y="405" width="165" height="125" class="db"/>
+  <text x="1015" y="447" class="text h">MySQL</text>
+  <text x="1006" y="477" class="text p">user / hero / quest</text>
+  <text x="1006" y="504" class="text small">inventory, skills, monsters</text>
+
+  <rect x="970" y="185" width="165" height="105" class="storage"/>
+  <text x="995" y="224" class="text h">LoginSession</text>
+  <text x="998" y="253" class="text p">current user/hero</text>
+
+  <line x1="245" y1="238" x2="340" y2="232" class="line"/>
+  <line x1="585" y1="232" x2="690" y2="230" class="line"/>
+  <line x1="462" y1="310" x2="462" y2="405" class="line"/>
+  <line x1="585" y1="468" x2="690" y2="468" class="line"/>
+  <line x1="900" y1="468" x2="970" y2="468" class="line"/>
+  <line x1="950" y1="235" x2="970" y2="238" class="line dash"/>
+  <text x="965" y="622" class="text title">Application Architecture</text>
+</svg>

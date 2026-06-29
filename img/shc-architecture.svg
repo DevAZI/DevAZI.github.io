@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">SHC Service Architecture</title>
+  <desc id="desc">Architecture diagram for the SHC React application, AI API integration, and deployment flow.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#444"/>
+    </marker>
+    <style>
+      .bg{fill:#fff}.box{fill:#fff;stroke:#d8b46a;stroke-width:3;rx:18}.node{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2;rx:12}
+      .aws{fill:#fff7ed;stroke:#f59e0b;stroke-width:2;rx:12}.ai{fill:#f0fdf4;stroke:#22c55e;stroke-width:2;rx:12}
+      .db{fill:#eff6ff;stroke:#3b82f6;stroke-width:2;rx:12}.client{fill:#fdf2f8;stroke:#ec4899;stroke-width:2;rx:12}
+      .text{font-family:Arial, sans-serif;fill:#1f2937}.title{font-size:34px;font-weight:700}.h{font-size:21px;font-weight:700}
+      .p{font-size:15px}.small{font-size:13px;fill:#475569}.line{stroke:#444;stroke-width:3;fill:none;marker-end:url(#arrow)}.dash{stroke-dasharray:8 7}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="675"/>
+  <text x="62" y="65" class="text title">Senior Healthcare Commerce - Service Architecture</text>
+  <text x="62" y="94" class="text small">React, Context API, localStorage, Claude API, GitHub Actions, Docker, Nginx, EC2</text>
+
+  <rect x="65" y="175" width="170" height="105" class="client"/>
+  <text x="116" y="213" class="text h">Client</text>
+  <text x="92" y="243" class="text p">Senior user UI</text>
+
+  <rect x="315" y="155" width="220" height="145" class="node"/>
+  <text x="388" y="195" class="text h">React</text>
+  <text x="356" y="226" class="text p">health / board / shop</text>
+  <text x="354" y="252" class="text small">responsive screens</text>
+
+  <rect x="630" y="145" width="230" height="160" class="aws"/>
+  <text x="692" y="186" class="text h">AWS EC2</text>
+  <text x="673" y="218" class="text p">Docker + Nginx</text>
+  <text x="672" y="246" class="text small">serves Vite dist assets</text>
+
+  <rect x="150" y="405" width="200" height="104" class="aws"/>
+  <text x="188" y="444" class="text h">GitHub Actions</text>
+  <text x="190" y="473" class="text p">CI/CD deploy</text>
+
+  <rect x="475" y="388" width="220" height="122" class="box"/>
+  <text x="525" y="429" class="text h">Context</text>
+  <text x="513" y="459" class="text p">user / cart / alarm</text>
+  <text x="510" y="486" class="text small">state and data flow</text>
+
+  <rect x="805" y="382" width="165" height="110" class="aws"/>
+  <text x="843" y="421" class="text h">External</text>
+  <text x="830" y="451" class="text p">API endpoint</text>
+
+  <rect x="990" y="382" width="155" height="110" class="ai"/>
+  <text x="1026" y="421" class="text h">Claude</text>
+  <text x="1008" y="451" class="text p">AI recommendation</text>
+
+  <rect x="485" y="545" width="190" height="82" class="db"/>
+  <text x="510" y="580" class="text h">localStorage</text>
+  <text x="507" y="606" class="text p">per-user app state</text>
+
+  <line x1="235" y1="227" x2="315" y2="227" class="line"/>
+  <line x1="535" y1="226" x2="630" y2="226" class="line"/>
+  <line x1="250" y1="405" x2="630" y2="292" class="line"/>
+  <line x1="745" y1="305" x2="650" y2="388" class="line"/>
+  <line x1="695" y1="448" x2="805" y2="438" class="line"/>
+  <line x1="970" y1="438" x2="990" y2="438" class="line"/>
+  <line x1="584" y1="510" x2="582" y2="545" class="line dash"/>
+  <text x="1020" y="622" class="text title">Service Architecture</text>
+</svg>

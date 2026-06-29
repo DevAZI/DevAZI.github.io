@@ -384,6 +384,90 @@
     function getProjectData() {
       return [
         {
+          id: 3,
+          title: 'Bubli - 문서 기반 AI 업무 보조 백엔드',
+          period: '2026.06 ~ 진행 중 (팀 프로젝트)',
+          summary: '계약서와 요구사항 문서를 분석해 요약, WBS/TODO 후보, 문서 질의, 실시간 협업 기능을 제공하는 Spring AI 기반 백엔드 서버',
+          keyRole: 'Spring AI/RAG 파이프라인, pgvector 검색, Agent Job/Outbox/Worker, 권한 기반 프로젝트룸 API 설계',
+          techStack: ['Java 21', 'Spring Boot 3.4', 'Spring AI', 'AWS Bedrock', 'PostgreSQL', 'pgvector', 'Redis', 'JWT', 'WebSocket/STOMP', 'Docker', 'GitHub Actions'],
+          cardFeatures: ['문서 업로드 및 AI 분석 Job 생성', 'PDF/DOCX/TXT 텍스트 추출과 chunk 분리', 'pgvector 기반 semantic search', 'Agent suggestion 승인/보류/거절/수정', '프로젝트룸 권한 기반 협업 API'],
+          backendPoints: ['resource_embeddings에 1024차원 embedding과 page metadata를 저장하고 PERSONAL/ROOM_SHARED 범위로 검색 권한을 분리', 'agent_jobs, dispatch outbox, Redis queue, worker, event log로 AI 작업 실행 흐름을 비동기화'],
+          backendDetails: [
+            { label: 'DB 설계', value: 'User, ProjectRoom, RoomMember, Resource, ResourceFile, ResourceVersion, ResourceEmbedding, AgentJob, AgentSuggestion, Task, WbsItem 등 협업/문서/RAG 도메인을 분리하고 Flyway로 스키마를 관리' },
+            { label: 'API 설계', value: '/api/ai/analyze-resource, /api/ai/search-resource, /api/agent-jobs/{jobId}, /api/agent/suggestions, /api/project-rooms/{roomId}/agent/suggestions 등 AI 작업 생성/조회/검토 API를 분리' },
+            { label: '인증/인가', value: 'Spring Security와 JWT 기반 인증을 사용하고, 프로젝트룸 멤버십과 Resource visibility(PERSONAL/ROOM_SHARED)를 기준으로 조회/검색 권한을 검증' },
+            { label: 'RAG 구현', value: 'PDFBox/POI/Tika로 문서 텍스트를 추출하고 TextChunker로 pageNumber, offset, characterCount를 가진 chunk를 생성한 뒤 Bedrock Embedding과 pgvector로 검색 인덱스를 구성' },
+            { label: '비동기 처리', value: 'Agent Job을 PENDING/RUNNING/SUCCEEDED/FAILED 상태로 관리하고, Dispatch Outbox와 Redis Queue/Worker로 분석 작업 실행과 이벤트 조회 흐름을 구성' },
+            { label: '테스트', value: 'ArchitectureTest, DomainDependencyArchitectureTest, ResourceEmbeddingIndexPublicServiceTest, ResourceSemanticSearchPublicServiceTest, AgentJobDispatchWorkerTest 등 도메인/아키텍처/AI 작업 흐름 테스트를 작성' }
+          ],
+          portfolioSections: [
+            { title: '개발 배경', content: '계약서, 견적서, 요구사항 문서가 프로젝트룸 안에 흩어져 있을 때 PM과 개발자가 작업 범위, 산출물, 질문, WBS를 빠르게 정리하기 어렵다는 문제를 해결하기 위해 문서 기반 AI 업무 보조 백엔드를 설계했습니다.' },
+            { title: '주요 기능', content: '문서 업로드, 리소스 버전 관리, AI 분석 Job 생성, 문서 요약 저장, pgvector 기반 문서 검색, Agent suggestion 검토, 프로젝트룸 멤버 권한 검증, WebSocket/STOMP 채팅, LiveKit 음성방 토큰 발급을 제공합니다.' },
+            { title: '내가 직접 구현한 기능', content: 'RAG Step 5~6 흐름을 중심으로 resource_embeddings 저장, PDF page number 추적, semantic search 권한 필터, Agent Job dispatch/outbox/worker, suggestion 조회/검토 API, 도메인 반영 서비스와 테스트를 구현했습니다.' },
+            { title: 'ERD / DB 설계', content: 'resources, resource_files, resource_versions, resource_summaries, ai_documents, resource_embeddings, agent_jobs, agent_job_events, agent_suggestions, agent_dispatch_outbox, tasks, wbs_items를 분리했습니다. resource_embeddings에는 owner_id, room_id, visibility, chunk_index, chunk_text, embedding, chunk_metadata를 저장합니다.' },
+            { title: 'API 설계', content: 'POST /api/ai/analyze-resource, POST /api/ai/generate-tasks, POST /api/ai/generate-wbs, POST /api/ai/search-resource, GET /api/agent-jobs/{jobId}, GET /api/agent-jobs/{jobId}/events, GET /api/agent/suggestions, PATCH /api/agent/suggestions/{suggestionId}, GET /api/resources/{resourceId}/related 형태로 AI 작업과 검토 API를 분리했습니다.' },
+            { title: '인증/인가 설계', content: 'JWT 인증 후 현재 사용자 정보를 기반으로 프로젝트룸 멤버십을 검증합니다. 검색은 PERSONAL 리소스의 owner_id와 ROOM_SHARED 리소스의 room_id/room membership을 기준으로 필터링하여 권한 없는 문서 chunk가 결과에 섞이지 않도록 설계했습니다.' },
+            { title: '예외 처리 구조', content: 'Embedding dimension 불일치, NaN/Infinity vector, 권한 없는 resource 접근, 존재하지 않는 job/suggestion, 잘못된 review action을 명확히 실패 처리합니다. Agent Job 실행 실패는 job 상태와 event log로 남겨 추적할 수 있게 했습니다.' },
+            { title: '트랜잭션 처리', content: '문서 업로드 후 Resource/ResourceFile/ResourceVersion 저장과 분석 Job 생성은 트랜잭션 경계를 분리했습니다. Dispatch 실패 기록과 outbox 상태 변경은 REQUIRES_NEW를 사용해 원 작업 실패와 독립적으로 남길 수 있도록 구성했습니다.' },
+            { title: '성능 개선 또는 최적화', content: '문서를 chunk 단위로 분리해 필요한 범위만 embedding하고, 동일 resource의 기존 embedding을 삭제 후 재색인합니다. 검색 시 pgvector similarity와 visibility 필터를 함께 사용해 관련 문서만 반환하도록 했습니다.' },
+            { title: '테스트', content: 'Agent dispatch, Redis queue adapter/consumer, Resource embedding indexing, Semantic search, TextChunker, EmbeddingVectorFormatter, ArchitectureTest, Entity/Flyway alignment 테스트를 통해 RAG와 도메인 경계를 검증했습니다.' },
+            { title: '배포 및 실행 방법', content: '로컬은 ./gradlew bootRun으로 실행하고, 운영 구성은 Docker Compose 기반 Spring Boot, Redis, Nginx, Prometheus/Grafana, PostgreSQL RDS, S3/Bedrock 연동을 고려했습니다. GitHub Actions를 통한 빌드/배포 자동화 구성이 포함되어 있습니다.' },
+            { title: 'API 응답 예시', content: 'POST /api/ai/analyze-resource 응답 예시\n{ "jobId": "uuid", "status": "PENDING", "type": "ANALYZE_RESOURCE" }\nGET /api/agent-jobs/{jobId}/events 응답 예시\n[{ "status": "RUNNING", "message": "resource analysis started" }, { "status": "SUCCEEDED", "message": "embedding indexed" }]' }
+          ],
+          overview: 'Bubli는 계약서와 요구사항 문서를 프로젝트룸에 모으고, AI가 문서 요약, 질문, WBS/TODO 후보, 관련 문서 검색을 도와주는 Spring Boot 백엔드 서버입니다. 단순 API 서버를 넘어 RAG 검색, agent job 실행, 권한 기반 협업 도메인을 함께 다룹니다.',
+          problemAndGoal: `[문제]
+프로젝트 초기에는 계약서, 견적서, 요구사항 문서가 여러 파일과 대화 속에 흩어져 있어 작업 범위와 산출물을 빠르게 정리하기 어렵습니다. 또한 AI 분석 결과를 바로 원본 업무 데이터에 반영하면 잘못된 제안이 실제 일정/작업을 오염시킬 위험이 있습니다.
+
+[목표]
+문서를 안전하게 분석하고, AI 결과를 suggestion으로 먼저 저장한 뒤 사용자가 승인/수정/보류/거절할 수 있는 백엔드 구조를 만드는 것이 목표였습니다. 동시에 문서 검색은 권한 범위 안에서만 동작하도록 설계했습니다.`,
+          roles: [
+            'Spring AI/RAG 기반 문서 분석 Job 생성, embedding indexing, semantic search 흐름 구현',
+            'Agent Job dispatch outbox, Redis queue, worker, event 조회 API 설계 및 테스트',
+            'Agent suggestion 조회/검토/도메인 반영 서비스와 트랜잭션 rollback 정책 구현',
+            '프로젝트룸 멤버십과 Resource visibility 기반 권한 검증 로직 정리',
+            'Flyway migration, ArchitectureTest, 도메인 서비스 테스트로 스키마와 계층 의존성 검증'
+          ],
+          troubleShooting: `[문제 1] AI 분석 Job endpoint가 merge 이후 중복되어 ambiguous mapping 오류가 발생했습니다.
+
+[해결]
+AI 작업 생성 책임을 AiJobCommandController로 정리하고 중복 endpoint를 제거했습니다. 이후 AgentJobController는 job 조회와 event 조회 역할에 집중하도록 API 책임을 분리했습니다.
+
+[문제 2] pgvector 저장/검색 과정에서 embedding vector 형식과 차원 검증이 흩어질 수 있었습니다.
+
+[해결]
+EmbeddingVectorFormatter를 공통 컴포넌트로 두고 1024차원 검증, null, NaN, Infinity 검증, vector literal 변환을 한곳에서 처리하도록 정리했습니다.
+
+[문제 3] AI suggestion 승인 시 원본 Task/WBS/Schedule 반영 중 일부만 저장될 위험이 있었습니다.
+
+[해결]
+AgentSuggestionDomainApplyService에서 도메인 반영 작업을 트랜잭션으로 묶고 실패 시 rollback되도록 구성했습니다.`,
+          learnings: 'AI 기능은 모델 호출보다 데이터 경계, 권한 검증, 비동기 실행 상태, 재시도/실패 기록이 더 중요하다는 점을 체감했습니다. 특히 RAG 검색은 embedding 품질뿐 아니라 chunk metadata, visibility 필터, 도메인 승인 흐름이 함께 설계되어야 실제 서비스에 넣을 수 있다는 것을 배웠습니다.',
+          githubUrl: 'https://github.com/kosta-dev-sjh/bubli-backend',
+          resultImages: [
+            { src: 'img/bubli-architecture.svg', caption: 'Bubli 서비스 아키텍처' }
+          ],
+          mermaidArchitecture: `flowchart LR
+  Client["Next.js / Tauri Client"] -->|HTTPS REST / WebSocket| Nginx["Nginx Reverse Proxy"]
+  Nginx --> App["Spring Boot API Server"]
+  App --> Auth["Spring Security / JWT"]
+  App --> Project["ProjectRoom / Member / Invitation"]
+  App --> Resource["Resource / File / Version"]
+  Resource --> Extract["PDFBox / POI / Tika Text Extraction"]
+  Extract --> Chunk["TextChunker<br/>page + offset metadata"]
+  Chunk --> Embed["Bedrock Titan Embedding"]
+  Embed --> PgVector["PostgreSQL RDS + pgvector"]
+  App --> Agent["Agent Job Service"]
+  Agent --> Outbox["Dispatch Outbox"]
+  Outbox --> Redis["Redis Queue"]
+  Redis --> Worker["Agent Worker"]
+  Worker --> Bedrock["AWS Bedrock Claude"]
+  Worker --> Suggestion["Agent Suggestions<br/>APPROVE / EDIT / HOLD / REJECT"]
+  App --> Chat["WebSocket / STOMP Chat"]
+  App --> Voice["LiveKit Voice Token"]
+  App --> Storage["Local / S3 Storage Adapter"]`,
+          diagrams: { architecture: 'img/bubli-architecture.svg' },
+        },
+        {
           id: 0,
           title: 'BPM - Boss Pattern Mining',
 period: '2024.03 ~ 2024.11 (4명)',

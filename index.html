@@ -978,6 +978,55 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
 
       return [
         {
+          id: 3,
+          title: 'Bubli - Document-based AI Work Assistant Backend',
+          period: '2026.06 ~ 進行中 (チームプロジェクト)',
+          summary: '契約書・要件文書を分析し、要約、WBS/TODO候補、文書検索、リアルタイム協業機能を提供するSpring AI基盤のバックエンドサーバー',
+          keyRole: 'Spring AI/RAGパイプライン、pgvector検索、Agent Job/Outbox/Worker、権限基盤プロジェクトルームAPI設計',
+          techStack: ['Java 21', 'Spring Boot 3.4', 'Spring AI', 'AWS Bedrock', 'PostgreSQL', 'pgvector', 'Redis', 'JWT', 'WebSocket/STOMP', 'Docker', 'GitHub Actions'],
+          cardFeatures: ['文書アップロードとAI分析Job生成', 'PDF/DOCX/TXTテキスト抽出とchunk分割', 'pgvector基盤semantic search', 'Agent suggestion承認/保留/拒否/編集', 'プロジェクトルーム権限基盤API'],
+          backendPoints: ['resource_embeddingsに1024次元embeddingとpage metadataを保存し、PERSONAL/ROOM_SHARED範囲で検索権限を分離', 'agent_jobs、dispatch outbox、Redis queue、worker、event logでAI作業実行フローを非同期化'],
+          backendDetails: [
+            { label: 'DB設計', value: 'User、ProjectRoom、RoomMember、Resource、ResourceFile、ResourceVersion、ResourceEmbedding、AgentJob、AgentSuggestion、Task、WbsItemなど協業/文書/RAGドメインを分離し、Flywayでスキーマを管理' },
+            { label: 'API設計', value: '/api/ai/analyze-resource、/api/ai/search-resource、/api/agent-jobs/{jobId}、/api/agent/suggestions、/api/project-rooms/{roomId}/agent/suggestionsなどAI作業生成/照会/レビューAPIを分離' },
+            { label: '認証/認可', value: 'Spring SecurityとJWT基盤認証を使い、プロジェクトルームmembershipとResource visibility(PERSONAL/ROOM_SHARED)を基準に照会/検索権限を検証' },
+            { label: 'RAG実装', value: 'PDFBox/POI/Tikaで文書テキストを抽出し、TextChunkerでpageNumber、offset、characterCountを持つchunkを生成した後、Bedrock Embeddingとpgvectorで検索インデックスを構成' },
+            { label: '非同期処理', value: 'Agent JobをPENDING/RUNNING/SUCCEEDED/FAILED状態で管理し、Dispatch OutboxとRedis Queue/Workerで分析作業実行とイベント照会フローを構成' },
+            { label: 'テスト', value: 'ArchitectureTest、DomainDependencyArchitectureTest、ResourceEmbeddingIndexPublicServiceTest、ResourceSemanticSearchPublicServiceTest、AgentJobDispatchWorkerTestなどでドメイン/アーキテクチャ/RAGフローを検証' }
+          ],
+          portfolioSections: [
+            { title: '開発背景', content: '契約書、見積書、要件文書がプロジェクトルーム内に散らばると、PMと開発者が作業範囲、成果物、質問、WBSをすばやく整理しにくい問題があります。その解決のため、文書基盤AI業務補助バックエンドを設計しました。' },
+            { title: '主な機能', content: '文書アップロード、リソースバージョン管理、AI分析Job生成、文書要約保存、pgvector基盤文書検索、Agent suggestionレビュー、プロジェクトルームメンバー権限検証、WebSocket/STOMPチャット、LiveKit音声ルームトークン発行を提供します。' },
+            { title: '直接実装した機能', content: 'RAG Step 5~6を中心に、resource_embeddings保存、PDF page number追跡、semantic search権限フィルター、Agent Job dispatch/outbox/worker、suggestion照会/レビューAPI、ドメイン反映サービスとテストを実装しました。' },
+            { title: 'ERD / DB設計', content: 'resources、resource_files、resource_versions、resource_summaries、ai_documents、resource_embeddings、agent_jobs、agent_job_events、agent_suggestions、agent_dispatch_outbox、tasks、wbs_itemsを分離しました。resource_embeddingsにはowner_id、room_id、visibility、chunk_index、chunk_text、embedding、chunk_metadataを保存します。' },
+            { title: 'API設計', content: 'POST /api/ai/analyze-resource、POST /api/ai/generate-tasks、POST /api/ai/generate-wbs、POST /api/ai/search-resource、GET /api/agent-jobs/{jobId}、GET /api/agent-jobs/{jobId}/events、GET /api/agent/suggestions、PATCH /api/agent/suggestions/{suggestionId}、GET /api/resources/{resourceId}/relatedの形でAI作業とレビューAPIを分離しました。' },
+            { title: '認証/認可設計', content: 'JWT認証後、現在ユーザー情報を基準にプロジェクトルームmembershipを検証します。検索はPERSONALリソースのowner_idとROOM_SHAREDリソースのroom_id/room membershipを基準にフィルタリングし、権限のない文書chunkが結果に混ざらないよう設計しました。' },
+            { title: '例外処理構造', content: 'Embedding dimension不一致、NaN/Infinity vector、権限のないresourceアクセス、存在しないjob/suggestion、不正なreview actionを明確に失敗処理します。Agent Job実行失敗はjob状態とevent logに残して追跡できるようにしました。' },
+            { title: 'トランザクション処理', content: '文書アップロード後のResource/ResourceFile/ResourceVersion保存と分析Job生成はトランザクション境界を分離しました。Dispatch失敗記録とoutbox状態変更はREQUIRES_NEWを利用し、元作業の失敗と独立して記録できるように構成しました。' },
+            { title: '性能改善または最適化', content: '文書をchunk単位に分離して必要な範囲だけembeddingし、同一resourceの既存embeddingを削除して再インデックスします。検索時はpgvector similarityとvisibilityフィルターを一緒に使い、関連文書だけ返すようにしました。' },
+            { title: 'テスト', content: 'Agent dispatch、Redis queue adapter/consumer、Resource embedding indexing、Semantic search、TextChunker、EmbeddingVectorFormatter、ArchitectureTest、Entity/Flyway alignmentテストでRAGとドメイン境界を検証しました。' },
+            { title: 'デプロイおよび実行方法', content: 'ローカルでは ./gradlew bootRun で実行します。運用構成はDocker Compose基盤のSpring Boot、Redis、Nginx、Prometheus/Grafana、PostgreSQL RDS、S3/Bedrock連携を想定し、GitHub Actionsによるビルド/デプロイ自動化構成を含みます。' },
+            { title: 'APIレスポンス例', content: 'POST /api/ai/analyze-resource レスポンス例\n{ "jobId": "uuid", "status": "PENDING", "type": "ANALYZE_RESOURCE" }\nGET /api/agent-jobs/{jobId}/events レスポンス例\n[{ "status": "RUNNING", "message": "resource analysis started" }, { "status": "SUCCEEDED", "message": "embedding indexed" }]' }
+          ],
+          overview: 'Bubliは契約書と要件文書をプロジェクトルームに集約し、AIが文書要約、質問、WBS/TODO候補、関連文書検索を支援するSpring Bootバックエンドサーバーです。単純なAPIサーバーではなく、RAG検索、agent job実行、権限基盤協業ドメインを一緒に扱います。',
+          problemAndGoal: `[問題]\nプロジェクト初期には契約書、見積書、要件文書が複数ファイルと会話に散らばり、作業範囲と成果物をすばやく整理しにくい状態になります。また、AI分析結果をすぐ原本業務データに反映すると、誤った提案が実際の予定/作業を汚染する危険があります。\n\n[目標]\n文書を安全に分析し、AI結果をsuggestionとして先に保存した後、ユーザーが承認/編集/保留/拒否できるバックエンド構造を作ることが目標でした。同時に、文書検索は権限範囲内でのみ動作するよう設計しました。`,
+          roles: [
+            'Spring AI/RAG基盤の文書分析Job生成、embedding indexing、semantic searchフロー実装',
+            'Agent Job dispatch outbox、Redis queue、worker、event照会API設計およびテスト',
+            'Agent suggestion照会/レビュー/ドメイン反映サービスとトランザクションrollbackポリシー実装',
+            'プロジェクトルームmembershipとResource visibility基盤の権限検証ロジック整理',
+            'Flyway migration、ArchitectureTest、ドメインサービステストでスキーマと階層依存性を検証'
+          ],
+          troubleShooting: `[問題 1] AI分析Job endpointがmerge後に重複し、ambiguous mappingエラーが発生しました。\n\n[解決]\nAI作業生成責任をAiJobCommandControllerへ整理し、重複endpointを削除しました。その後AgentJobControllerはjob照会とevent照会に集中するようAPI責務を分離しました。\n\n[問題 2] pgvector保存/検索過程でembedding vector形式と次元検証が散らばる可能性がありました。\n\n[解決]\nEmbeddingVectorFormatterを共通コンポーネントにし、1024次元検証、null、NaN、Infinity検証、vector literal変換を1か所で処理するよう整理しました。\n\n[問題 3] AI suggestion承認時、原本Task/WBS/Schedule反映中に一部だけ保存される危険がありました。\n\n[解決]\nAgentSuggestionDomainApplyServiceでドメイン反映作業をトランザクションでまとめ、失敗時rollbackされるよう構成しました。`,
+          learnings: 'AI機能ではモデル呼び出しそのものより、データ境界、権限検証、非同期実行状態、再試行/失敗記録が重要だと学びました。特にRAG検索はembedding品質だけでなく、chunk metadata、visibilityフィルター、ドメイン承認フローまで一緒に設計されてこそ実サービスに入れられると感じました。',
+          githubUrl: 'https://github.com/kosta-dev-sjh/bubli-backend',
+          resultImages: [
+            { src: 'img/bubli-architecture.svg', caption: 'Bubli Service Architecture' }
+          ],
+          mermaidArchitecture: `flowchart LR\n  Client["Next.js / Tauri Client"] -->|HTTPS REST / WebSocket| Nginx["Nginx Reverse Proxy"]\n  Nginx --> App["Spring Boot API Server"]\n  App --> Auth["Spring Security / JWT"]\n  App --> Project["ProjectRoom / Member / Invitation"]\n  App --> Resource["Resource / File / Version"]\n  Resource --> Extract["PDFBox / POI / Tika Text Extraction"]\n  Extract --> Chunk["TextChunker<br/>page + offset metadata"]\n  Chunk --> Embed["Bedrock Titan Embedding"]\n  Embed --> PgVector["PostgreSQL RDS + pgvector"]\n  App --> Agent["Agent Job Service"]\n  Agent --> Outbox["Dispatch Outbox"]\n  Outbox --> Redis["Redis Queue"]\n  Redis --> Worker["Agent Worker"]\n  Worker --> Bedrock["AWS Bedrock Claude"]\n  Worker --> Suggestion["Agent Suggestions<br/>APPROVE / EDIT / HOLD / REJECT"]\n  App --> Chat["WebSocket / STOMP Chat"]\n  App --> Voice["LiveKit Voice Token"]\n  App --> Storage["Local / S3 Storage Adapter"]`,
+          diagrams: { architecture: 'img/bubli-architecture.svg' },
+        },
+        {
           id: 0,
           title: 'BPM - Boss Pattern Mining',
           period: '2024.03 ~ 2024.11 (4名)',
