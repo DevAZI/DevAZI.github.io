@@ -53,6 +53,18 @@
       box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
     }
 
+    .skill-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      object-fit: contain;
+    }
+
+    .skill-desc {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -305,33 +317,39 @@
         {
           category: 'Backend',
           items: [
-            { name: 'Java', desc: 'Spring Boot (RESTful APIの設計、およびJWTベースの認証・認可の実装が可能)' }
+            { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg', desc: 'Spring Boot基盤のREST APIとJWT認証・認可の実装' },
+            { name: 'Spring Boot', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg', desc: 'Controller-Service-Repository階層設計とトランザクション処理' }
           ]
         },
         {
           category: 'Frontend',
           items: [
-            { name: 'React', desc: 'コンポーネントベースのUI開発およびAPI連携' },
-            { name: 'JavaScript', desc: '言語の基本構文の理解および非同期処理' }
+            { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', desc: 'コンポーネントベースのUI開発およびAPI連携' },
+            { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', desc: 'ES6+構文と非同期処理' }
           ]
         },
         {
           category: 'Database',
           items: [
-            { name: 'MySQL', desc: 'ERDの設計およびSQLクエリの作成' }
+            { name: 'MySQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg', desc: 'ERD設計およびSQLクエリ作成' },
+            { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', desc: 'pgvector基盤embedding保存と検索' }
           ]
         },
         {
           category: 'Infra / DevOps',
           items: [
-            { name: 'AWS', desc: 'EC2インスタンスの管理およびデプロイ' },
-            { name: 'Docker', desc: 'アプリケーションのコンテナ化およびデプロイ経験' }
+            { name: 'AWS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', desc: 'EC2、BedrockなどAWS基盤サービス連携' },
+            { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg', desc: 'アプリケーションのコンテナ化およびデプロイ経験' },
+            { name: 'GitHub Actions', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg', desc: 'CI/CD自動化構成' }
           ]
         },
         {
           category: 'AI',
           items: [
-            { name: 'Claude API', desc: 'プロンプトエンジニアリングおよびAPI統合' }
+            { name: 'Claude API', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@13/icons/anthropic.svg', desc: 'プロンプトエンジニアリングおよびAPI統合' },
+            { name: 'Spring AI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg', desc: 'バックエンドの文書分析Job、RAGパイプライン、AI suggestionフロー実装' },
+            { name: 'AWS Bedrock', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', desc: 'Bedrockモデル連携とembedding基盤の文書分析構造設計' },
+            { name: 'RAG / pgvector', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', desc: '1024次元embedding保存、semantic search、権限範囲基盤の検索処理' }
           ]
         }
       ];
@@ -354,19 +372,20 @@
                     opacity: 0
                   }}
                 >
-                  <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-amber-700">
+                  <h3 className="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-amber-700 bg-sky-100 rounded-md px-3 py-1">
                     {category.category}
                   </h3>
 
-                  <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                     {category.items.map(skill => (
-                      <div key={skill.name} className="group">
-                        <div className="flex items-start gap-3">
-                          <span className="inline-block px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg text-sm font-semibold text-amber-800 border border-amber-300 skill-tag">
-                            {skill.name}
-                          </span>
+                      <div key={skill.name} className="group text-center">
+                        <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-xl bg-white border border-stone-200 skill-tag">
+                          <img src={skill.icon} alt={`${skill.name} icon`} className="skill-icon" loading="lazy" />
                         </div>
-                        <p className="mt-2 text-sm sm:text-base text-stone-600 leading-relaxed">
+                        <h4 className="text-sm sm:text-base font-bold text-stone-800">
+                          {skill.name}
+                        </h4>
+                        <p className="skill-desc mx-auto mt-2 max-w-56 text-xs sm:text-sm text-stone-600 leading-relaxed">
                           {skill.desc}
                         </p>
                       </div>
