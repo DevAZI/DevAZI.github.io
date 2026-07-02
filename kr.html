@@ -198,7 +198,7 @@
         if (!href.startsWith('#')) {
           return;
         }
-        
+
         e.preventDefault();
         setMobileMenuOpen(false);
         const element = document.querySelector(href);
@@ -298,11 +298,11 @@
             </div>
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-8 fade-in-up" style={{ animationDelay: '0.6s', opacity: 0 }}>
               <a
-                href="/index.html"                
+                href="/index.html"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-600 to-orange-600 rounded-full text-white font-semibold hover:shadow-lg hover:shadow-amber-600/50 transition-all duration-300 hover:scale-105"
               >
-      
+
                 言語変更:JP
               </a>
             </div>
@@ -406,18 +406,19 @@
           id: 3,
           title: 'Bubli - 문서 기반 AI 업무 보조 백엔드',
           period: '2026.06 ~ 진행 중 (팀 프로젝트)',
-          summary: '계약서와 요구사항 문서를 분석해 요약, WBS/TODO 후보, 문서 질의, 실시간 협업 기능을 제공하는 Spring AI 기반 백엔드 서버',
-          keyRole: 'Spring AI/RAG 파이프라인, pgvector 검색, Agent Job/Outbox/Worker, 권한 기반 프로젝트룸 API 설계',
-          techStack: ['Java 21', 'Spring Boot 3.4', 'Spring AI', 'AWS Bedrock', 'PostgreSQL', 'pgvector', 'Redis', 'JWT', 'WebSocket/STOMP', 'Docker', 'GitHub Actions'],
-          cardFeatures: ['문서 업로드 및 AI 분석 Job 생성', 'PDF/DOCX/TXT 텍스트 추출과 chunk 분리', 'pgvector 기반 semantic search', 'Agent suggestion 승인/보류/거절/수정', '프로젝트룸 권한 기반 협업 API'],
-          backendPoints: ['resource_embeddings에 1024차원 embedding과 page metadata를 저장하고 PERSONAL/ROOM_SHARED 범위로 검색 권한을 분리', 'agent_jobs, dispatch outbox, Redis queue, worker, event log로 AI 작업 실행 흐름을 비동기화'],
+          summary: '문서 기반 AI 분석, 실시간 협업, 데스크톱 위젯을 연결한 Spring AI + Next.js/Tauri 업무 보조 서비스',
+          keyRole: 'Spring AI/RAG 파이프라인, Agent Job/Outbox/Worker, Next.js/Tauri 연동, 품질 검증 자동화 설계',
+          techStack: ['Java 21', 'Spring Boot 3.4', 'Spring AI', 'AWS Bedrock', 'PostgreSQL', 'pgvector', 'Redis', 'JWT', 'WebSocket/STOMP', 'Next.js 16', 'React 19', 'Tauri 2', 'SQLite FTS5', 'Storybook', 'Docker', 'GitHub Actions'],
+          cardFeatures: ['문서 업로드 및 AI 분석 Job 생성', 'pgvector 기반 semantic search', 'Agent suggestion 승인/보류/거절/수정', 'Next.js 회원 웹과 Tauri 데스크톱 앱 연동', 'Storybook/Visual QA 기반 UI 회귀 검증'],
+          backendPoints: ['resource_embeddings에 1024차원 embedding과 page metadata를 저장하고 PERSONAL/ROOM_SHARED 범위로 검색 권한을 분리', 'agent_jobs, dispatch outbox, Redis queue, worker, event log로 AI 작업 실행 흐름을 비동기화', 'Next.js/Tauri/SQLite 로컬 캐시와 동일 API 계약을 맞추고, Storybook/Smoke/Design Token 검사로 프론트엔드 품질을 자동 검증'],
           backendDetails: [
             { label: 'DB 설계', value: 'User, ProjectRoom, RoomMember, Resource, ResourceFile, ResourceVersion, ResourceEmbedding, AgentJob, AgentSuggestion, Task, WbsItem 등 협업/문서/RAG 도메인을 분리하고 Flyway로 스키마를 관리' },
             { label: 'API 설계', value: '/api/ai/analyze-resource, /api/ai/search-resource, /api/agent-jobs/{jobId}, /api/agent/suggestions, /api/project-rooms/{roomId}/agent/suggestions 등 AI 작업 생성/조회/검토 API를 분리' },
             { label: '인증/인가', value: 'Spring Security와 JWT 기반 인증을 사용하고, 프로젝트룸 멤버십과 Resource visibility(PERSONAL/ROOM_SHARED)를 기준으로 조회/검색 권한을 검증' },
             { label: 'RAG 구현', value: 'PDFBox/POI/Tika로 문서 텍스트를 추출하고 TextChunker로 pageNumber, offset, characterCount를 가진 chunk를 생성한 뒤 Bedrock Embedding과 pgvector로 검색 인덱스를 구성' },
             { label: '비동기 처리', value: 'Agent Job을 PENDING/RUNNING/SUCCEEDED/FAILED 상태로 관리하고, Dispatch Outbox와 Redis Queue/Worker로 분석 작업 실행과 이벤트 조회 흐름을 구성' },
-            { label: '테스트', value: 'ArchitectureTest, DomainDependencyArchitectureTest, ResourceEmbeddingIndexPublicServiceTest, ResourceSemanticSearchPublicServiceTest, AgentJobDispatchWorkerTest 등 도메인/아키텍처/AI 작업 흐름 테스트를 작성' }
+            { label: '프론트/데스크톱', value: 'Next.js 회원 앱과 Tauri 데스크톱 앱을 동일 API 계약으로 연결하고, SQLite 로컬 캐시, 데스크톱 위젯, 채팅/음성 협업 화면을 구성' },
+            { label: '품질 검증', value: 'ArchitectureTest, Entity/Flyway alignment, Testcontainers, Storybook, Visual QA, route smoke, design token 검사로 백엔드와 프론트엔드 회귀를 함께 검증' }
           ],
           portfolioSections: [
             { title: '개발 배경', content: '계약서, 견적서, 요구사항 문서가 프로젝트룸 안에 흩어져 있을 때 PM과 개발자가 작업 범위, 산출물, 질문, WBS를 빠르게 정리하기 어렵다는 문제를 해결하기 위해 문서 기반 AI 업무 보조 백엔드를 설계했습니다.' },
@@ -429,11 +430,14 @@
             { title: '예외 처리 구조', content: 'Embedding dimension 불일치, NaN/Infinity vector, 권한 없는 resource 접근, 존재하지 않는 job/suggestion, 잘못된 review action을 명확히 실패 처리합니다. Agent Job 실행 실패는 job 상태와 event log로 남겨 추적할 수 있게 했습니다.' },
             { title: '트랜잭션 처리', content: '문서 업로드 후 Resource/ResourceFile/ResourceVersion 저장과 분석 Job 생성은 트랜잭션 경계를 분리했습니다. Dispatch 실패 기록과 outbox 상태 변경은 REQUIRES_NEW를 사용해 원 작업 실패와 독립적으로 남길 수 있도록 구성했습니다.' },
             { title: '성능 개선 또는 최적화', content: '문서를 chunk 단위로 분리해 필요한 범위만 embedding하고, 동일 resource의 기존 embedding을 삭제 후 재색인합니다. 검색 시 pgvector similarity와 visibility 필터를 함께 사용해 관련 문서만 반환하도록 했습니다.' },
-            { title: '테스트', content: 'Agent dispatch, Redis queue adapter/consumer, Resource embedding indexing, Semantic search, TextChunker, EmbeddingVectorFormatter, ArchitectureTest, Entity/Flyway alignment 테스트를 통해 RAG와 도메인 경계를 검증했습니다.' },
-            { title: '배포 및 실행 방법', content: '로컬은 ./gradlew bootRun으로 실행하고, 운영 구성은 Docker Compose 기반 Spring Boot, Redis, Nginx, Prometheus/Grafana, PostgreSQL RDS, S3/Bedrock 연동을 고려했습니다. GitHub Actions를 통한 빌드/배포 자동화 구성이 포함되어 있습니다.' },
+            { title: '프론트엔드 / 데스크톱 앱 설계', content: 'Next.js 16 기반 공개 페이지와 회원용 웹 앱을 분리하고, Tauri 2 WebView에서 동일한 회원 앱을 사용하도록 구성했습니다. 데스크톱에서는 SQLite FTS5 로컬 캐시, 버블 위젯, 폴더 감시, 채팅 읽음 상태, LiveKit 음성 협업 화면을 연결했습니다.' },
+            { title: '품질 관리 및 검증 자동화', content: 'Storybook으로 Agent, 채팅, 위젯, 설정 화면의 상태별 UI를 문서화하고 Visual QA로 주요 화면 스크린샷 회귀를 검증했습니다. route smoke, design token 검사, product rule 검사, Tauri boundary 검사로 라우트/API 계약과 데스크톱 전용 기능 경계를 자동 확인했습니다.' },
+            { title: '성과 및 개선', content: 'AI 분석 요청을 Queue/Worker 기반 비동기 구조로 분리해 API 응답 흐름과 LLM 실행 흐름을 분리했습니다. pgvector 기반 문서 검색, Testcontainers/ArchUnit/Entity-Flyway 검증, Storybook/Visual QA/Smoke 검사로 백엔드 설계 안정성과 프론트엔드 회귀 검증 체계를 강화했습니다.' },
+            { title: '테스트', content: 'Agent dispatch, Redis queue adapter/consumer, Resource embedding indexing, Semantic search, TextChunker, EmbeddingVectorFormatter, ArchitectureTest, Entity/Flyway alignment, Storybook, route smoke, visual QA 테스트를 통해 RAG, 도메인 경계, UI 회귀를 검증했습니다.' },
+            { title: '배포 및 실행 방법', content: '로컬은 ./gradlew bootRun으로 실행하고, 운영 구성은 Docker Compose 기반 Spring Boot, Redis, Nginx, Prometheus/Grafana, PostgreSQL RDS, AWS Bedrock 연동을 고려했습니다. GitHub Actions를 통한 빌드/배포 자동화 구성이 포함되어 있습니다.' },
             { title: 'API 응답 예시', content: 'POST /api/ai/analyze-resource 응답 예시\n{ "jobId": "uuid", "status": "PENDING", "type": "ANALYZE_RESOURCE" }\nGET /api/agent-jobs/{jobId}/events 응답 예시\n[{ "status": "RUNNING", "message": "resource analysis started" }, { "status": "SUCCEEDED", "message": "embedding indexed" }]' }
           ],
-          overview: 'Bubli는 계약서와 요구사항 문서를 프로젝트룸에 모으고, AI가 문서 요약, 질문, WBS/TODO 후보, 관련 문서 검색을 도와주는 Spring Boot 백엔드 서버입니다. 단순 API 서버를 넘어 RAG 검색, agent job 실행, 권한 기반 협업 도메인을 함께 다룹니다.',
+          overview: 'Bubli는 계약서와 요구사항 문서를 프로젝트룸에 모으고, AI가 문서 요약, 질문, WBS/TODO 후보, 관련 문서 검색을 도와주는 업무 보조 서비스입니다. Spring Boot 백엔드의 RAG 검색과 agent job 실행뿐 아니라, Next.js 회원 웹과 Tauri 데스크톱 위젯까지 같은 API 계약으로 연결했습니다.',
           problemAndGoal: `[문제]
 프로젝트 초기에는 계약서, 견적서, 요구사항 문서가 여러 파일과 대화 속에 흩어져 있어 작업 범위와 산출물을 빠르게 정리하기 어렵습니다. 또한 AI 분석 결과를 바로 원본 업무 데이터에 반영하면 잘못된 제안이 실제 일정/작업을 오염시킬 위험이 있습니다.
 
@@ -444,7 +448,7 @@
             'Agent Job dispatch outbox, Redis queue, worker, event 조회 API 설계 및 테스트',
             'Agent suggestion 조회/검토/도메인 반영 서비스와 트랜잭션 rollback 정책 구현',
             '프로젝트룸 멤버십과 Resource visibility 기반 권한 검증 로직 정리',
-            'Flyway migration, ArchitectureTest, 도메인 서비스 테스트로 스키마와 계층 의존성 검증'
+            'Next.js/Tauri 클라이언트와 연동되는 채팅, 위젯, Agent 상태 화면의 API 계약 정리'
           ],
           troubleShooting: `[문제 1] AI 분석 Job endpoint가 merge 이후 중복되어 ambiguous mapping 오류가 발생했습니다.
 
@@ -460,13 +464,27 @@ EmbeddingVectorFormatter를 공통 컴포넌트로 두고 1024차원 검증, nul
 
 [해결]
 AgentSuggestionDomainApplyService에서 도메인 반영 작업을 트랜잭션으로 묶고 실패 시 rollback되도록 구성했습니다.`,
-          learnings: 'AI 기능은 모델 호출보다 데이터 경계, 권한 검증, 비동기 실행 상태, 재시도/실패 기록이 더 중요하다는 점을 체감했습니다. 특히 RAG 검색은 embedding 품질뿐 아니라 chunk metadata, visibility 필터, 도메인 승인 흐름이 함께 설계되어야 실제 서비스에 넣을 수 있다는 것을 배웠습니다.',
+          learnings: 'AI 기능은 모델 호출보다 데이터 경계, 권한 검증, 비동기 실행 상태, 재시도/실패 기록이 더 중요하다는 점을 체감했습니다. 또한 백엔드 API가 실제 제품 경험으로 이어지려면 Next.js/Tauri 클라이언트의 상태 관리, 로컬 캐시, 시각 회귀 검증까지 함께 설계되어야 한다는 점을 배웠습니다.',
           githubUrl: 'https://github.com/kosta-dev-sjh/bubli-backend',
+          liveUrl: 'https://bubli.n-e.kr/',
           resultImages: [
-            { src: 'img/bubli-architecture.svg', caption: 'Bubli 서비스 아키텍처' }
+            { src: 'img/main.png', caption: 'Bubli 메인 화면' },
+            { src: 'img/자료업로드.png', caption: '자료 업로드 화면' },
+            { src: 'img/분석완료시.png', caption: 'AI 문서 분석 완료 화면' },
+            { src: 'img/생성된 wbs.png', caption: 'AI가 생성한 WBS 결과' },
+            { src: 'img/wbs_kanban_suggest.png', caption: 'WBS 칸반 제안 화면' },
+            { src: 'img/wbs_confirm.png', caption: 'WBS 제안 승인 화면' },
+            { src: 'img/todo_confirm.png', caption: 'TODO 제안 승인 화면' },
+            { src: 'img/chat.png', caption: '프로젝트룸 채팅 화면' },
+            { src: 'img/chat_agent.png', caption: '채팅 기반 Agent 연동 화면' },
+            { src: 'img/googlecalender.png', caption: 'Google Calendar 연동 화면' }
           ],
           mermaidArchitecture: `flowchart LR
-  Client["Next.js / Tauri Client"] -->|HTTPS REST / WebSocket| Nginx["Nginx Reverse Proxy"]
+  Public["Next.js Public Site"] --> Member["Next.js Member App"]
+  Desktop["Tauri Desktop App"] --> Member
+  Widget["Desktop Bubble Widget"] --> Desktop
+  Desktop --> LocalDB["SQLite FTS5<br/>Local Cache / Memory"]
+  Member -->|HTTPS REST / WebSocket| Nginx["Nginx Reverse Proxy"]
   Nginx --> App["Spring Boot API Server"]
   App --> Auth["Spring Security / JWT"]
   App --> Project["ProjectRoom / Member / Invitation"]
@@ -483,8 +501,10 @@ AgentSuggestionDomainApplyService에서 도메인 반영 작업을 트랜잭션�
   Worker --> Suggestion["Agent Suggestions<br/>APPROVE / EDIT / HOLD / REJECT"]
   App --> Chat["WebSocket / STOMP Chat"]
   App --> Voice["LiveKit Voice Token"]
-  App --> Storage["Local / S3 Storage Adapter"]`,
-          diagrams: { architecture: 'img/bubli-architecture.svg' },
+  App --> Metrics["Actuator / Prometheus / Grafana"]
+  QA["Storybook / Visual QA / Smoke"] -. verifies .-> Member
+  QA -. verifies .-> Widget`,
+          diagrams: {},
         },
         {
           id: 0,
@@ -809,15 +829,30 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
                     </div>
                   )}
 
-                  <button
-                    onClick={() => onViewDetail(project.id)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
-                  >
-                    자세히 보기
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      onClick={() => onViewDetail(project.id)}
+                      className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
+                    >
+                      자세히 보기
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-stone-800 rounded-lg text-white font-semibold hover:bg-stone-900 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                      >
+                        사이트 이동
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3h7m0 0v7m0-7L10 14" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -1425,7 +1460,7 @@ Java 기본기와 객체지향 설계 능력을 실전에서 검증하고 싶었
         </div>
       );
     }
-   
+
 
     // Education Section
     function Education() {

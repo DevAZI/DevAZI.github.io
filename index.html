@@ -198,7 +198,7 @@
         if (!href.startsWith('#')) {
           return;
         }
-        
+
         e.preventDefault();
         setMobileMenuOpen(false);
         const element = document.querySelector(href);
@@ -278,8 +278,8 @@
 
             <div className="mb-8 sm:mb-12 fade-in-up" style={{ animationDelay: '0.4s', opacity: 0 }}>
               <p className="text-lg sm:text-xl md:text-2xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
-                ユーザー中心の機能と<br className="sm:hidden" /> チームメンバーとの協力を<br />
-                重視するバックエンドエンジニアです
+                ユーザー視点の機能設計と<br className="sm:hidden" /> チームでの協働を<br />
+                大切にするバックエンドエンジニアです
               </p>
             </div>
 
@@ -298,11 +298,11 @@
             </div>
               <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-8 fade-in-up" style={{ animationDelay: '0.6s', opacity: 0 }}>
               <a
-                href="/kr.html"                
+                href="/kr.html"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-600 to-orange-600 rounded-full text-white font-semibold hover:shadow-lg hover:shadow-amber-600/50 transition-all duration-300 hover:scale-105"
               >
-            
+
                 언어 변경:KR
               </a>
             </div>
@@ -317,7 +317,7 @@
         {
           category: 'Backend',
           items: [
-            { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg', desc: 'Spring Boot基盤のREST APIとJWT認証・認可の実装' },
+            { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg', desc: 'Spring Bootを用いたREST APIとJWT認証・認可の実装' },
             { name: 'Spring Boot', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg', desc: 'Controller-Service-Repository階層設計とトランザクション処理' }
           ]
         },
@@ -332,13 +332,13 @@
           category: 'Database',
           items: [
             { name: 'MySQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg', desc: 'ERD設計およびSQLクエリ作成' },
-            { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', desc: 'pgvector基盤embedding保存と検索' }
+            { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', desc: 'pgvectorを用いたEmbedding保存と検索' }
           ]
         },
         {
           category: 'Infra / DevOps',
           items: [
-            { name: 'AWS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', desc: 'EC2、BedrockなどAWS基盤サービス連携' },
+            { name: 'AWS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', desc: 'EC2、BedrockなどAWSサービスとの連携' },
             { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg', desc: 'アプリケーションのコンテナ化およびデプロイ経験' },
             { name: 'GitHub Actions', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg', desc: 'CI/CD自動化構成' }
           ]
@@ -347,9 +347,9 @@
           category: 'AI',
           items: [
             { name: 'Claude API', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@13/icons/anthropic.svg', desc: 'プロンプトエンジニアリングおよびAPI統合' },
-            { name: 'Spring AI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg', desc: 'バックエンドの文書分析Job、RAGパイプライン、AI suggestionフロー実装' },
-            { name: 'AWS Bedrock', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', desc: 'Bedrockモデル連携とembedding基盤の文書分析構造設計' },
-            { name: 'RAG / pgvector', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', desc: '1024次元embedding保存、semantic search、権限範囲基盤の検索処理' }
+            { name: 'Spring AI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg', desc: 'バックエンドでの文書分析ジョブ、RAGパイプライン、AI提案フローの実装' },
+            { name: 'AWS Bedrock', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', desc: 'Bedrockモデル連携とEmbeddingを用いた文書分析構造の設計' },
+            { name: 'RAG / pgvector', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', desc: '1024次元Embedding保存、Semantic Search、権限範囲に基づく検索処理' }
           ]
         }
       ];
@@ -397,133 +397,6 @@
           </div>
         </section>
       );
-    }
-
-    // Project data
-    function getProjectData() {
-      return [
-        {
-          id: 0,
-          title: 'AI基盤の2Dゲームボスパターン生成ウェブサービス',
-          period: '2024.03 ~ 2024.11 (4名)',
-          summary: 'AIを活用して2Dプラットフォームゲームのボスパターンを生成し、デモプレイが可能なウェブサービス',
-          keyRole: 'Spring BootバックエンドAPI設計、JWT認証システムの実装',
-          techStack: ['Spring Boot', 'Java', 'JWT', 'GPT', 'Unity'],
-          overview: 'AIを活用して2Dプラットフォームゲームのボスパターンを自動生成し、生成されたパターンをUnity基盤のゲームに使えるサービスです。',
-          problemAndGoal: `[問題]
-ゲーム開発において、ボスパターンのデザインは多くの時間と創造性を必要とします。特にインディーゲームの開発者は、限られたリソースで多様なボスパターンを実装することが困難です。
-
-[目標]
-AI技術を活用して、難易度に応じたバランスの取れたボスパターンを自動生成し、インディーゲーム開発者のコード品質と生産性を向上させることです。`,
-          roles: [
-            'Spring Bootを活用したバックエンドAPIの設計および実装',
-            'AIを活用し、ユーザーが設定した難易度に合わせたボスパターンの実装',
-            'JWTを活用したセキュリティおよびユーザー認証システムの実装'
-          ],
-          troubleShooting: `[問題 1] AIで生成されたボスパターンを適用したコードをWebGLでビルドして実行した際、正常に動作しない問題が発生。
-
-[解決]
-CompressionFormatをDisableに変更し、圧縮フォーマットをGzipに変更することで解決しました。また、Node.js環境では実行できませんでしたが、Spring Boot環境で動作させることで正常に実行できました。
-
-[問題 2] 初のチームプロジェクトにおける設計不足の問題
-全体的なアイデアのみで進行し、詳細な企画を行わなかったため、プロジェクトの開発に想定以上の時間がかかってしまった問題。
-
-[解決]
-チームメンバーと協議し、トラブルが発生した箇所については都度ミーティングを行って意見を交換しました。機能の追加や変更についても、ミーティングを通じて妥当な選択であるかを十分に議論した上で進行しました。`,
-          learnings: 'このプロジェクトを通じて、バックエンド開発者として複数のシステムを統合・連携する貴重な経験を積むことができました。',
-          githubUrl: 'https://github.com/DevAZI/BPM',
-          liveUrl: 'http://devaz.kro.kr:8080',
-          resultImages: [
-            { src: 'img/bpmMain.png', caption: 'メイン画面' },
-            { src: 'img/bpmdemo.png', caption: 'AIで作成されたパターンのデモプレイ画面' },
-            { src: 'img/bpmBoard.png', caption: 'コミュニティ' }
-          ],
-          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: 'img/bpm-architecture.svg' },
-        },
-        {
-          id: 1,
-          title: 'シニア向けヘルスケア及びコマースウェブプラットフォーム',
-          period: '2026.04 ~ 2026.04 (2名)',
-          summary: 'シニアユーザーのアクセシビリティを考慮したヘルスケアデータ管理、および健康関連商品のコマース統合プラットフォーム',
-          keyRole: 'ERD設計、RESTful API開発、シニア親和的なデータ構造の最適化',
-          techStack: ['React', 'EC2', 'Bedrock', 'Lambda', 'APIGateway'],
-          overview: 'シニアユーザーを対象に、健康データの管理と健康関連商品の購入が可能な統合ウェブプラットフォームです。',
-          problemAndGoal: `[問題]
-シニアユーザーは、複雑なインターフェースや小さな文字により、デジタルサービスの利用や情報収集に困難を抱えています。
-
-[目標]
-シニアユーザーが簡単に利用できるよう、サイズ変更可能な文字と明確なUIを提供し、健康管理とショッピング機能を1つのプラットフォームで提供することです。`,
-          roles: [
-            '記事に関連する商品の推薦、およびAIを活用した現在の健康状態に基づく記事と商品の推薦機能の実装',
-            'Reactフロントエンドと通信するためのRESTful API開発',
-            'シニアユーザーのアクセシビリティを考慮したデータ構造の最適化'
-          ],
-          troubleShooting: `[問題 1] AWS BedrockおよびLambdaの権限管理
-AWSのAIモデルを使用するためにBedrockを導入しようとしましたが、Lambdaでエラーが発生しました。
-
-[解決]
-IAMアカウントにBedrockの権限を付与し、さらにLambdaの実行ロールにBedrockに関する権限を追加することでエラーを解決しました。
-
-[問題 2] GitHub Actionsを用いたCI/CDデプロイの問題
-デプロイの過程で「Permission denied」エラーが発生しました。
-
-[解決]
-リモートサーバーのデプロイ対象ディレクトリ（/home/***/react-app）および配下のファイルの所有者が現在の接続アカウントと異なり、書き込み権限がない状態だったため、所有権を変更して解決しました。`,
-          learnings: '実際のユーザーのニーズを中心にAPIを設計することがいかに重要であるかを学びました。シニアユーザーのためのアクセシビリティの考慮は、バックエンドのデータ構造設計から始めるべきであると気づきました。',
-          githubUrl: 'https://github.com/P2-SHC/SHC',
-          liveUrl: 'http://devaz.kro.kr',
-          resultImages: [
-            { src: "img/shcmain.png", caption: 'メイン画面' },
-            { src: "img/shcboard.png", caption: '健康情報' },
-            { src: "img/shcshop.png", caption: '商品情報' },
-            { src: "img/shcshopdetail.png", caption: '商品詳細' },
-            { src: "img/shcregister.png", caption: '会員登録' },
-            { src: "img/shcalarm.png", caption: '健康アラーム' },
-            { src: "img/shcitem.png", caption: 'AI健康管理' },
-            { src: "img/shcai.png", caption: 'AI診断' }
-          ],
-          diagrams: { useCase: null, architecture: 'img/shc-architecture.svg' },
-        },
-        {
-          id: 2,
-          title: 'コンソール基盤テキストRPG (Text TRPG)',
-          period: '2026.02 ~ 2026.03 (4名)',
-          summary: 'Javaオブジェクト指向プログラミングのコア概念を活用したコンソール基盤のロールプレイングゲーム',
-          keyRole: 'OOP設計、デザインパターンの適用、ゲームシステムの実装',
-          techStack: ['Java', 'OOP', 'MySQL', 'AWSS3'],
-          overview: 'Javaのオブジェクト指向プログラミングの原則を忠実に適用して開発したテキスト基盤のRPGゲームです。',
-          problemAndGoal: `[問題]
-Javaの基礎とオブジェクト指向設計の能力を経験したいと考えましたが、単純なCRUDプロジェクトでは複雑なドメインロジックを扱うことが困難でした。
-
-[目標]
-ゲームという複雑なドメインを通じて、継承、多態性、インターフェースなどOOPのコア概念を適用しました。`,
-          roles: [
-            '継承、多態性、インターフェースを活用したモンスター、スキル、ショップ、クエストシステムの設計',
-            'MySQLデータベースの設計およびクエリ作成',
-            '戦闘、インベントリ、ショップ利用などのゲームメカニズムの実装'
-          ],
-          troubleShooting: `[問題 1] キャラクターが削除されない問題
-
-[解決]
-キャラクターのテーブルが他のテーブルと外部キーで関連付けられており、キャラクター削除時にエラーが発生する問題を解決するため、関連するテーブルを確認し、キャラクターを削除する際に外部キーで関連付けられたテーブルのデータも一緒に削除されるように修正。
-
-[問題 2] ログイン時のエラー発生問題
-ログインを行う際、ログインに失敗したにもかかわらずキャラクター作成ロジックに遷移してしまう問題が発生。
-
-[解決]
-キャラクターのテーブルが他のテーブルと外部キーで関連付けられており、キャラクター削除時にエラーが発生する問題を解決するため、関連するテーブルを確認し、キャラクターを削除する際に外部キーで関連付けられたテーブルのデータも一緒に削除されるように修正。`,
-          learnings: 'このプロジェクトは、私にオブジェクト指向プログラミングの真の価値を気づかせてくれた貴重な経験となりました。MVCパターンを実際に適用することで、コードをより効率的に作成することができました。',
-          githubUrl: 'https://github.com/kosta-dev-sjh/p1-4g-java-console',
-          resultImages: [
-            { src: "img/trpgmain.png", caption: 'ゲーム開始画面' },
-            { src: "img/trpgmainmain.png", caption: 'メイン画面' },
-            { src: "img/trpgshop.png", caption: 'ショップ画面' },
-            { src: "img/trpgbattle.png", caption: '戦闘画面' },
-            { src: "img/trpgbattleing.png", caption: '戦闘中画面' },
-          ],
-          diagrams: { useCase: null, erd: null, classDiagram: null, architecture: 'img/trpg-architecture.svg' },
-        }
-      ];
     }
 
     // Projects Section
@@ -788,7 +661,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
             {/* 6. 설계 다이어그램 */}
             {project.diagrams && Object.values(project.diagrams).some(v => v !== null) && (
               <section className="mb-12">
-                <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">6.　設計図</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">6. システム構成</h2>
                 <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
                   <div className="flex border-b border-stone-200 overflow-x-auto">
                     {availableDiagramTabs.map((tab, idx) => (
@@ -878,7 +751,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
-                  サイトへ移動
+                  公開サイトを見る
                 </a>
               )}
             </div>
@@ -951,46 +824,46 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
     }
 
     // Japanese portfolio data and project views
-    getProjectData = function () {
+    function getProjectData() {
       const commonSections = {
         bpm: [
           { title: '開発背景', content: 'ボスパターンコンテンツ、WebGLデモ、コミュニティ機能を1つのSpring Bootサービスとしてまとめ、ゲーム開発成果物を共有・実行できる構造が必要でした。' },
-          { title: '主な機能', content: '記事/コメントの作成・照会、JWT/OAuth2ログイン、Refresh Token再発行/ログアウト、ファイルアップロード/ダウンロード、Unity WebGL実行ページを提供します。' },
+          { title: '主な機能', content: '記事/コメントの作成・取得、JWT/OAuth2ログイン、Refresh Token再発行/ログアウト、ファイルアップロード/ダウンロード、Unity WebGL実行ページを提供します。' },
           { title: '直接実装した機能', content: '記事/コメントREST API、JWTトークン検証フィルター、Google OAuth2成功後のトークン発行フロー、ファイルアップロード保存処理、投稿者権限検証ロジックを実装しました。' },
           { title: 'ERD / DB設計', content: 'User(email, password, nickname)、Article(title, content, author, mediaPath)、Comment(author, content, article_id)、RefreshToken(userId, refreshToken)、FileRecord(fileName, fileSize, uploadTime)としてドメインを分離しました。' },
           { title: 'API設計', content: 'GET /api/articles、GET /api/articles/{id}、POST /api/articles、PUT /api/articles/{id}、DELETE /api/articles/{id}、POST /api/comments、POST /api/token、DELETE /api/refresh-token、POST /user、GET/POST /files/* の形で機能別エンドポイントを分離しました。' },
-          { title: '認証/認可設計', content: 'Spring Securityをstatelessに設定し、/api/** リクエストは認証が必要になるよう構成しました。TokenAuthenticationFilterでBearer Tokenを検証し、記事の修正/削除では投稿者とSecurityContextの認証ユーザーを比較します。' },
-          { title: '例外処理構造', content: '現在は照会失敗や権限なしの状況をIllegalArgumentExceptionで処理しています。グローバル例外処理の非効率さを再認識し、今後改善していく予定です。' },
+          { title: '認証・認可設計', content: 'Spring Securityをstatelessに設定し、/api/** リクエストでは認証が必要になるよう構成しました。TokenAuthenticationFilterでBearer Tokenを検証し、記事の修正/削除では投稿者とSecurityContextの認証ユーザーを比較します。' },
+          { title: '例外処理構造', content: '現在は取得失敗や権限なしの状況をIllegalArgumentExceptionで処理しています。グローバル例外処理の非効率さを再認識し、今後改善していく予定です。' },
           { title: 'トランザクション処理', content: '記事更新は@Transactionalの範囲内でエンティティ変更検知を利用します。Refresh TokenはDB保存/削除フローで再発行とログアウト状態を管理します。' },
-          { title: '性能改善または最適化', content: 'Unity WebGL静的リソースの実行問題を圧縮フォーマットとSpring Bootの静的提供方式の調整で解決しました。定量的な測定はないため、性能改善ではなく実行環境問題の解決として表現します。' },
+          { title: 'パフォーマンス改善・最適化', content: 'Unity WebGL静的リソースの実行問題を、圧縮フォーマットとSpring Bootでの静的リソース提供方式を調整して解決しました。定量的な測定はないため、性能改善ではなく実行環境問題の解決として表現します。' },
           { title: 'テスト', content: 'TokenProviderTest、TokenApiControllerTest、CapstoneApiControllerTestを通じてJWT生成/検証、トークン再発行、主要コントローラーのリクエストフローを検証しました。' },
-          { title: 'デプロイおよび実行方法', content: 'Gradle基盤のSpring Bootアプリケーションです。ローカルでは ./gradlew bootRun で実行し、デプロイ環境ではEC2の8080ポートでサービスするよう構成しました。' },
+          { title: 'デプロイ・実行方法', content: 'Gradleで構成したSpring Bootアプリケーションです。ローカルでは ./gradlew bootRun で実行し、デプロイ環境ではEC2の8080ポートでサービスするよう構成しました。' },
           { title: 'APIレスポンス例', content: 'GET /api/articles レスポンス例\n[\n  { "id": 1, "title": "Boss Pattern", "content": "...", "author": "user@email.com", "mediaPath": "file.png" }\n]\nPOST /api/token レスポンス例\n{ "accessToken": "jwt-access-token" }' }
         ],
         shc: [
           { title: '開発背景', content: 'シニアユーザーが健康情報検索、商品確認、通知管理を複数サービスで処理する不便を減らすため、アクセシビリティを重視した統合プラットフォームを作りました。' },
-          { title: '主な機能', content: '健康記事照会、健康商品一覧/詳細、カート/注文フロー、服薬/血糖/血圧通知、Claude API基盤の健康パーソナライズ推薦、天気/微細粉じん情報提供を含みます。' },
+          { title: '主な機能', content: '健康記事の取得、健康商品の一覧/詳細、カート/注文フロー、服薬/血糖/血圧通知、Claude APIを活用した健康パーソナライズ推薦、天気/大気汚染情報の提供を含みます。' },
           { title: '直接実装した機能', content: 'Claude APIプロンプト生成、Guardrailブロック応答処理、AI応答JSON解析/補正、ユーザー別localStorage key設計、CartContext/AlarmContext状態フロー、GitHub Actionsデプロイ自動化を実装しました。' },
           { title: 'ERD / DB設計', content: '別途サーバーDBは使用していません。代わりにshc_users、shc_current_user、shc_cart_{username}、shc_medicines_{username}、shc_blood_sugar_{username}、shc_blood_pressure_{username}のようにlocalStorage keyをユーザー単位で分離しました。' },
           { title: 'API設計', content: 'バックエンドREST APIサーバーはなく、VITE_API_URLで指定された外部AI APIへPOSTリクエストを送信します。リクエストbodyは{ message: buildPrompt(...) }形式で、商品/記事/ユーザー健康状態をプロンプトに含めます。' },
-          { title: '認証/認可設計', content: '現在の認証はlocalStorage基盤のユーザー状態管理です。セキュアな認証として誇張せず、今後サーバー基盤セッション/JWT認証へ分離すべき改善項目する予定です。' },
+          { title: '認証・認可設計', content: '現在の認証はlocalStorageによるユーザー状態管理です。セキュアな認証として誇張せず、今後はサーバー側のセッション管理やJWT認証へ移行する改善項目として整理しています。' },
           { title: '例外処理構造', content: 'AI API応答失敗、Guardrailブロック、JSON構造欠落、JSON.parse失敗を分岐しました。中括弧欠落や前後テキストを補正して解析し、失敗時はユーザーに一般エラーメッセージを表示します。' },
-          { title: '性能改善または最適化', content: '記事推薦候補を最大20件に制限してAIプロンプト長を制御しました。推薦結果はhealthSavedStateに保存し、詳細ページ移動後も結果を復元できるようにしました。' },
-          { title: 'デプロイおよび実行方法', content: 'ローカルでは shc-vite で npm install 後 npm run dev を実行します。デプロイはGitHub Actionsで npm build、.env secret注入、EC2ファイル転送、docker compose down/up --build -d の順に自動化しました。' },
+          { title: 'パフォーマンス改善・最適化', content: '記事推薦候補を最大20件に制限し、AIプロンプトの長さを制御しました。推薦結果はhealthSavedStateに保存し、詳細ページへ移動した後も結果を復元できるようにしました。' },
+          { title: 'デプロイ・実行方法', content: 'ローカルでは shc-vite で npm install 後 npm run dev を実行します。デプロイはGitHub Actionsで npm build、.env secret注入、EC2へのファイル転送、docker compose down/up --build -d の順に自動化しました。' },
           { title: 'APIレスポンス例', content: 'AI APIレスポンス例\n{\n  "response": "{ \\"productIds\\": [1, 2], \\"posts\\": [{ \\"category\\": \\"recipe\\", \\"id\\": 1 }], \\"comment\\": \\"健康状態に合う推薦です。\\" }"\n}\nGuardrailブロック例\n{ "blocked": true, "guardrailAction": "BLOCKED", "message": "健康関連の質問を入力してください。" }' }
         ],
         trpg: [
           { title: '開発背景', content: '単純CRUDより複雑な状態変化とドメイン規則を扱うため、戦闘、成長、クエスト、インベントリが連動するコンソールRPGを実装しました。' },
           { title: '主な機能', content: '会員/ログインセッション、ヒーロー生成、ステージ別モンスター戦闘、スキル/アイテム使用、戦闘報酬、レベルアップ、クエスト進行度更新、ショップ/インベントリ管理を含みます。' },
-          { title: '直接実装した機能', content: 'BattleController/BattleService基盤の戦闘フロー、ダメージ計算、スキルMP消費、アイテムバフ、戦闘報酬トランザクション、HeroDAO JDBC更新ロジックを実装しました。' },
+          { title: '直接実装した機能', content: 'BattleController/BattleServiceによる戦闘フロー、ダメージ計算、スキルMP消費、アイテムバフ、戦闘報酬トランザクション、HeroDAO JDBC更新ロジックを実装しました。' },
           { title: 'ERD / DB設計', content: 'user、hero、monster、skill、hero_skill、inventory、item、questなどゲーム状態をテーブルに分離しました。heroはuserと接続し、inventory/quest/skillは現在ヒーローの進行状態を保存します。' },
           { title: 'API設計', content: 'Web APIはありません。代わりにコンソール入力 -> View -> Controller -> Service -> DAO -> MySQL の流れでユーザー命令を処理します。' },
-          { title: '認証/認可設計', content: 'ログイン成功後LoginSessionが現在ユーザーとヒーロー情報を保存し、戦闘/ショップ/クエスト機能進入時にセッションの現在ヒーロー状態を検証します。' },
+          { title: '認証・認可設計', content: 'ログイン成功後、LoginSessionに現在のユーザーとヒーロー情報を保存し、戦闘/ショップ/クエスト機能へ進む際にセッション上の現在ヒーロー状態を検証します。' },
           { title: '例外処理構造', content: 'GameExceptionでゲーム進行中のエラーを表現し、Controllerで例外を受けてFailViewを通じてユーザーメッセージとして出力します。LoginFailException、DuplicationExceptionで認証/重複状況を区別しました。' },
           { title: 'トランザクション処理', content: '戦闘勝利報酬では経験値/財貨支給、レベルアップ、クエスト進行度更新、ヒーローステータス更新を1つのConnectionでまとめました。con.setAutoCommit(false)後、成功時commit、失敗時rollbackします。' },
-          { title: '性能改善または最適化', content: 'PreparedStatementでSQL実行を分離し、DAO階層でConnection/PreparedStatement/ResultSetリソースを明確に閉じるよう構成しました。' },
+          { title: 'パフォーマンス改善・最適化', content: 'PreparedStatementでSQL実行を分離し、DAO階層でConnection/PreparedStatement/ResultSetリソースを明確に閉じるよう構成しました。' },
           { title: 'テスト', content: '戦闘ダメージ計算、スキルMP検証、報酬トランザクションrollback、ログイン失敗フローを優先テスト対象として追加する予定です。' },
-          { title: 'デプロイおよび実行方法', content: 'ShellHero.jarをrun.batで実行できるコンソールアプリケーションです。実行前にMySQL接続情報と初期データが準備されている必要があります。' },
+          { title: 'デプロイ・実行方法', content: 'ShellHero.jarをrun.batで実行できるコンソールアプリケーションです。実行前にMySQL接続情報と初期データを準備する必要があります。' },
           { title: 'APIレスポンス例', content: 'コンソール出力例\n戦闘勝利 -> 経験値/財貨支給 -> レベルアップ可否確認 -> クエスト進行度更新\nトランザクション失敗例\n報酬処理中SQLException発生 -> rollback -> ユーザーにエラーメッセージ出力' }
         ]
       };
@@ -1000,72 +873,86 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
           id: 3,
           title: 'Bubli - Document-based AI Work Assistant Backend',
           period: '2026.06 ~ 進行中 (チームプロジェクト)',
-          summary: '契約書・要件文書を分析し、要約、WBS/TODO候補、文書検索、リアルタイム協業機能を提供するSpring AI基盤のバックエンドサーバー',
-          keyRole: 'Spring AI/RAGパイプライン、pgvector検索、Agent Job/Outbox/Worker、権限基盤プロジェクトルームAPI設計',
-          techStack: ['Java 21', 'Spring Boot 3.4', 'Spring AI', 'AWS Bedrock', 'PostgreSQL', 'pgvector', 'Redis', 'JWT', 'WebSocket/STOMP', 'Docker', 'GitHub Actions'],
-          cardFeatures: ['文書アップロードとAI分析Job生成', 'PDF/DOCX/TXTテキスト抽出とchunk分割', 'pgvector基盤semantic search', 'Agent suggestion承認/保留/拒否/編集', 'プロジェクトルーム権限基盤API'],
-          backendPoints: ['resource_embeddingsに1024次元embeddingとpage metadataを保存し、PERSONAL/ROOM_SHARED範囲で検索権限を分離', 'agent_jobs、dispatch outbox、Redis queue、worker、event logでAI作業実行フローを非同期化'],
+          summary: '文書ベースのAI分析、リアルタイム協業、デスクトップウィジェットをつなげたSpring AIとNext.js/Tauriによる業務支援サービス',
+          keyRole: 'Spring AI/RAGパイプライン、Agent Job/Outbox/Worker、Next.js/Tauri連携、品質検証自動化の設計',
+          techStack: ['Java 21', 'Spring Boot 3.4', 'Spring AI', 'AWS Bedrock', 'PostgreSQL', 'pgvector', 'Redis', 'JWT', 'WebSocket/STOMP', 'Next.js 16', 'React 19', 'Tauri 2', 'SQLite FTS5', 'Storybook', 'Docker', 'GitHub Actions'],
+          cardFeatures: ['文書アップロードとAI分析ジョブ生成', 'pgvectorを用いたSemantic Search', 'Agent Suggestionの承認/保留/拒否/編集', 'Next.js会員WebとTauriデスクトップアプリの連携', 'Storybook/Visual QAによるUI回帰検証'],
+          backendPoints: ['resource_embeddingsに1024次元Embeddingとページメタデータを保存し、PERSONAL/ROOM_SHAREDの範囲で検索権限を分離', 'agent_jobs、dispatch outbox、Redis Queue、worker、event logでAI作業の実行フローを非同期化', 'Next.js/Tauri/SQLiteローカルキャッシュと共通のAPI契約を合わせ、Storybook/Smoke/Design Token検査でフロントエンド品質を自動検証'],
           backendDetails: [
             { label: 'DB設計', value: 'User、ProjectRoom、RoomMember、Resource、ResourceFile、ResourceVersion、ResourceEmbedding、AgentJob、AgentSuggestion、Task、WbsItemなど協業/文書/RAGドメインを分離し、Flywayでスキーマを管理' },
-            { label: 'API設計', value: '/api/ai/analyze-resource、/api/ai/search-resource、/api/agent-jobs/{jobId}、/api/agent/suggestions、/api/project-rooms/{roomId}/agent/suggestionsなどAI作業生成/照会/レビューAPIを分離' },
-            { label: '認証/認可', value: 'Spring SecurityとJWT基盤認証を使い、プロジェクトルームmembershipとResource visibility(PERSONAL/ROOM_SHARED)を基準に照会/検索権限を検証' },
+            { label: 'API設計', value: '/api/ai/analyze-resource、/api/ai/search-resource、/api/agent-jobs/{jobId}、/api/agent/suggestions、/api/project-rooms/{roomId}/agent/suggestionsなど、AI作業の生成/取得/レビューAPIを分離' },
+            { label: '認証・認可', value: 'Spring SecurityとJWT認証を利用し、プロジェクトルームmembershipとResource visibility(PERSONAL/ROOM_SHARED)を基準に取得/検索権限を検証' },
             { label: 'RAG実装', value: 'PDFBox/POI/Tikaで文書テキストを抽出し、TextChunkerでpageNumber、offset、characterCountを持つchunkを生成した後、Bedrock Embeddingとpgvectorで検索インデックスを構成' },
-            { label: '非同期処理', value: 'Agent JobをPENDING/RUNNING/SUCCEEDED/FAILED状態で管理し、Dispatch OutboxとRedis Queue/Workerで分析作業実行とイベント照会フローを構成' },
-            { label: 'テスト', value: 'ArchitectureTest、DomainDependencyArchitectureTest、ResourceEmbeddingIndexPublicServiceTest、ResourceSemanticSearchPublicServiceTest、AgentJobDispatchWorkerTestなどでドメイン/アーキテクチャ/RAGフローを検証' }
+            { label: '非同期処理', value: 'Agent JobをPENDING/RUNNING/SUCCEEDED/FAILED状態で管理し、Dispatch OutboxとRedis Queue/Workerで分析作業の実行とイベント取得フローを構成' },
+            { label: 'フロント/デスクトップ', value: 'Next.js会員アプリとTauriデスクトップアプリを共通のAPI契約で接続し、SQLiteローカルキャッシュ、デスクトップウィジェット、チャット/音声協業画面を構成' },
+            { label: '品質検証', value: 'ArchitectureTest、Entity/Flyway alignment、Testcontainers、Storybook、Visual QA、route smoke、design token検査でバックエンドとフロントエンドの回帰をまとめて検証' }
           ],
           portfolioSections: [
-            { title: '開発背景', content: '契約書、見積書、要件文書がプロジェクトルーム内に散らばると、PMと開発者が作業範囲、成果物、質問、WBSをすばやく整理しにくい問題があります。その解決のため、文書基盤AI業務補助バックエンドを設計しました。' },
-            { title: '主な機能', content: '文書アップロード、リソースバージョン管理、AI分析Job生成、文書要約保存、pgvector基盤文書検索、Agent suggestionレビュー、プロジェクトルームメンバー権限検証、WebSocket/STOMPチャット、LiveKit音声ルームトークン発行を提供します。' },
-            { title: '直接実装した機能', content: 'RAG Step 5~6を中心に、resource_embeddings保存、PDF page number追跡、semantic search権限フィルター、Agent Job dispatch/outbox/worker、suggestion照会/レビューAPI、ドメイン反映サービスとテストを実装しました。' },
+            { title: '開発背景', content: '契約書、見積書、要件文書がプロジェクトルーム内に散らばると、PMと開発者が作業範囲、成果物、質問、WBSをすばやく整理しにくくなります。その課題を解決するため、文書ベースのAI業務支援バックエンドを設計しました。' },
+            { title: '主な機能', content: '文書アップロード、リソースバージョン管理、AI分析ジョブ生成、文書要約保存、pgvectorを用いた文書検索、Agent Suggestionレビュー、プロジェクトルームメンバー権限検証、WebSocket/STOMPチャット、LiveKit音声ルームトークン発行を提供します。' },
+            { title: '直接実装した機能', content: 'RAG Step 5~6を中心に、resource_embeddings保存、PDF page number追跡、Semantic Search権限フィルター、Agent Job dispatch/outbox/worker、suggestion取得/レビューAPI、ドメイン反映サービスとテストを実装しました。' },
             { title: 'ERD / DB設計', content: 'resources、resource_files、resource_versions、resource_summaries、ai_documents、resource_embeddings、agent_jobs、agent_job_events、agent_suggestions、agent_dispatch_outbox、tasks、wbs_itemsを分離しました。resource_embeddingsにはowner_id、room_id、visibility、chunk_index、chunk_text、embedding、chunk_metadataを保存します。' },
             { title: 'API設計', content: 'POST /api/ai/analyze-resource、POST /api/ai/generate-tasks、POST /api/ai/generate-wbs、POST /api/ai/search-resource、GET /api/agent-jobs/{jobId}、GET /api/agent-jobs/{jobId}/events、GET /api/agent/suggestions、PATCH /api/agent/suggestions/{suggestionId}、GET /api/resources/{resourceId}/relatedの形でAI作業とレビューAPIを分離しました。' },
-            { title: '認証/認可設計', content: 'JWT認証後、現在ユーザー情報を基準にプロジェクトルームmembershipを検証します。検索はPERSONALリソースのowner_idとROOM_SHAREDリソースのroom_id/room membershipを基準にフィルタリングし、権限のない文書chunkが結果に混ざらないよう設計しました。' },
+            { title: '認証・認可設計', content: 'JWT認証後、現在のユーザー情報を基準にプロジェクトルームmembershipを検証します。検索はPERSONALリソースのowner_idとROOM_SHAREDリソースのroom_id/room membershipを基準にフィルタリングし、権限のない文書chunkが結果に混ざらないよう設計しました。' },
             { title: '例外処理構造', content: 'Embedding dimension不一致、NaN/Infinity vector、権限のないresourceアクセス、存在しないjob/suggestion、不正なreview actionを明確に失敗処理します。Agent Job実行失敗はjob状態とevent logに残して追跡できるようにしました。' },
             { title: 'トランザクション処理', content: '文書アップロード後のResource/ResourceFile/ResourceVersion保存と分析Job生成はトランザクション境界を分離しました。Dispatch失敗記録とoutbox状態変更はREQUIRES_NEWを利用し、元作業の失敗と独立して記録できるように構成しました。' },
-            { title: '性能改善または最適化', content: '文書をchunk単位に分離して必要な範囲だけembeddingし、同一resourceの既存embeddingを削除して再インデックスします。検索時はpgvector similarityとvisibilityフィルターを一緒に使い、関連文書だけ返すようにしました。' },
-            { title: 'テスト', content: 'Agent dispatch、Redis queue adapter/consumer、Resource embedding indexing、Semantic search、TextChunker、EmbeddingVectorFormatter、ArchitectureTest、Entity/Flyway alignmentテストでRAGとドメイン境界を検証しました。' },
-            { title: 'デプロイおよび実行方法', content: 'ローカルでは ./gradlew bootRun で実行します。運用構成はDocker Compose基盤のSpring Boot、Redis、Nginx、Prometheus/Grafana、PostgreSQL RDS、S3/Bedrock連携を想定し、GitHub Actionsによるビルド/デプロイ自動化構成を含みます。' },
+            { title: 'パフォーマンス改善・最適化', content: '文書をchunk単位に分割して必要な範囲だけEmbeddingし、同一resourceの既存Embeddingを削除して再インデックスします。検索時はpgvector similarityとvisibilityフィルターを組み合わせ、関連文書だけ返すようにしました。' },
+            { title: 'フロントエンド / デスクトップアプリ設計', content: 'Next.js 16で公開ページと会員Webアプリを分離し、Tauri 2 WebViewでは同じ会員アプリを利用するよう構成しました。デスクトップではSQLite FTS5ローカルキャッシュ、バブルウィジェット、フォルダー監視、チャット既読状態、LiveKit音声協業画面を連携しました。' },
+            { title: '品質管理・検証自動化', content: 'StorybookでAgent、チャット、ウィジェット、設定画面の状態別UIを文書化し、Visual QAで主要画面のビジュアルリグレッションを検証しました。route smoke、design token検査、product rule検査、Tauri boundary検査でルート/API契約とデスクトップ専用機能の境界を自動確認しました。' },
+            { title: '成果・改善', content: 'AI分析リクエストをQueue/Workerによる非同期処理に分離し、API応答とLLM実行の処理を分けました。pgvectorを用いた文書検索、Testcontainers/ArchUnit/Entity-Flyway検証、Storybook/Visual QA/Smoke検査により、バックエンド設計の安定性とフロントエンド回帰検証体制を強化しました。' },
+            { title: 'テスト', content: 'Agent dispatch、Redis queue adapter/consumer、Resource embedding indexing、Semantic Search、TextChunker、EmbeddingVectorFormatter、ArchitectureTest、Entity/Flyway alignment、Storybook、route smoke、visual QAテストでRAG、ドメイン境界、UI回帰を検証しました。' },
+            { title: 'デプロイ・実行方法', content: 'ローカルでは ./gradlew bootRun で実行します。運用構成はDocker ComposeによるSpring Boot、Redis、Nginx、Prometheus/Grafana、PostgreSQL RDS、AWS Bedrock連携を想定し、GitHub Actionsによるビルド/デプロイ自動化構成を含みます。' },
             { title: 'APIレスポンス例', content: 'POST /api/ai/analyze-resource レスポンス例\n{ "jobId": "uuid", "status": "PENDING", "type": "ANALYZE_RESOURCE" }\nGET /api/agent-jobs/{jobId}/events レスポンス例\n[{ "status": "RUNNING", "message": "resource analysis started" }, { "status": "SUCCEEDED", "message": "embedding indexed" }]' }
           ],
-          overview: 'Bubliは契約書と要件文書をプロジェクトルームに集約し、AIが文書要約、質問、WBS/TODO候補、関連文書検索を支援するSpring Bootバックエンドサーバーです。単純なAPIサーバーではなく、RAG検索、agent job実行、権限基盤協業ドメインを一緒に扱います。',
-          problemAndGoal: `[問題]\nプロジェクト初期には契約書、見積書、要件文書が複数ファイルと会話に散らばり、作業範囲と成果物をすばやく整理しにくい状態になります。また、AI分析結果をすぐ原本業務データに反映すると、誤った提案が実際の予定/作業を汚染する危険があります。\n\n[目標]\n文書を安全に分析し、AI結果をsuggestionとして先に保存した後、ユーザーが承認/編集/保留/拒否できるバックエンド構造を作ることが目標でした。同時に、文書検索は権限範囲内でのみ動作するよう設計しました。`,
+          overview: 'Bubliは契約書と要件文書をプロジェクトルームに集約し、AIが文書要約、質問、WBS/TODO候補、関連文書検索を支援する業務支援サービスです。Spring BootバックエンドのRAG検索とAgent Job実行だけでなく、Next.js会員WebとTauriデスクトップウィジェットまで共通のAPI契約で接続しました。',
+          problemAndGoal: `[問題]\nプロジェクト初期には契約書、見積書、要件文書が複数のファイルや会話に散らばり、作業範囲と成果物をすばやく整理しにくくなります。また、AI分析結果をすぐに業務データへ反映すると、誤った提案が実際の予定/作業に混入するリスクがあります。\n\n[目標]\n文書を安全に分析し、AI結果をSuggestionとして先に保存した後、ユーザーが承認/編集/保留/拒否できるバックエンド構造を作ることが目標でした。同時に、文書検索は権限範囲内でのみ動作するよう設計しました。`,
           roles: [
-            'Spring AI/RAG基盤の文書分析Job生成、embedding indexing、semantic searchフロー実装',
-            'Agent Job dispatch outbox、Redis queue、worker、event照会API設計およびテスト',
-            'Agent suggestion照会/レビュー/ドメイン反映サービスとトランザクションrollbackポリシー実装',
-            'プロジェクトルームmembershipとResource visibility基盤の権限検証ロジック整理',
-            'Flyway migration、ArchitectureTest、ドメインサービステストでスキーマと階層依存性を検証'
+            'Spring AI/RAGを用いた文書分析Job生成、Embedding indexing、Semantic Searchフロー実装',
+            'Agent Job dispatch outbox、Redis Queue、worker、event取得APIの設計およびテスト',
+            'Agent Suggestion取得/レビュー/ドメイン反映サービスとトランザクションrollbackポリシー実装',
+            'プロジェクトルームmembershipとResource visibilityに基づく権限検証ロジック整理',
+            'Next.js/Tauriクライアントと連携するチャット、ウィジェット、Agent状態画面のAPI契約整理'
           ],
-          troubleShooting: `[問題 1] AI分析Job endpointがmerge後に重複し、ambiguous mappingエラーが発生しました。\n\n[解決]\nAI作業生成責任をAiJobCommandControllerへ整理し、重複endpointを削除しました。その後AgentJobControllerはjob照会とevent照会に集中するようAPI責務を分離しました。\n\n[問題 2] pgvector保存/検索過程でembedding vector形式と次元検証が散らばる可能性がありました。\n\n[解決]\nEmbeddingVectorFormatterを共通コンポーネントにし、1024次元検証、null、NaN、Infinity検証、vector literal変換を1か所で処理するよう整理しました。\n\n[問題 3] AI suggestion承認時、原本Task/WBS/Schedule反映中に一部だけ保存される危険がありました。\n\n[解決]\nAgentSuggestionDomainApplyServiceでドメイン反映作業をトランザクションでまとめ、失敗時rollbackされるよう構成しました。`,
-          learnings: 'AI機能ではモデル呼び出しそのものより、データ境界、権限検証、非同期実行状態、再試行/失敗記録が重要だと学びました。特にRAG検索はembedding品質だけでなく、chunk metadata、visibilityフィルター、ドメイン承認フローまで一緒に設計されてこそ実サービスに入れられると感じました。',
+          troubleShooting: `[問題 1] AI分析Job endpointがmerge後に重複し、ambiguous mappingエラーが発生しました。\n\n[解決]\nAI作業生成責任をAiJobCommandControllerへ整理し、重複endpointを削除しました。その後AgentJobControllerはjob取得とevent取得に集中するようAPI責務を分離しました。\n\n[問題 2] pgvector保存/検索過程でEmbedding vector形式と次元検証が散らばる可能性がありました。\n\n[解決]\nEmbeddingVectorFormatterを共通コンポーネントにし、1024次元検証、null、NaN、Infinity検証、vector literal変換を1か所で処理するよう整理しました。\n\n[問題 3] AI Suggestion承認時、元のTask/WBS/Scheduleへ反映する途中で一部だけ保存される危険がありました。\n\n[解決]\nAgentSuggestionDomainApplyServiceでドメイン反映作業をトランザクションでまとめ、失敗時rollbackされるよう構成しました。`,
+          learnings: 'AI機能ではモデル呼び出しそのものより、データ境界、権限検証、非同期実行状態、再試行/失敗記録が重要だと学びました。また、バックエンドAPIが実際のプロダクト体験につながるには、Next.js/Tauriクライアントの状態管理、ローカルキャッシュ、ビジュアルリグレッションテストまで一緒に設計する必要があると感じました。',
           githubUrl: 'https://github.com/kosta-dev-sjh/bubli-backend',
+          liveUrl: 'https://bubli.n-e.kr/',
           resultImages: [
-            { src: 'img/bubli-architecture.svg', caption: 'Bubli Service Architecture' }
+            { src: 'img/main.png', caption: 'Bubliメイン画面' },
+            { src: 'img/자료업로드.png', caption: '資料アップロード画面' },
+            { src: 'img/분석완료시.png', caption: 'AI文書分析完了画面' },
+            { src: 'img/생성된 wbs.png', caption: 'AIが生成したWBS結果' },
+            { src: 'img/wbs_kanban_suggest.png', caption: 'WBSカンバン提案画面' },
+            { src: 'img/wbs_confirm.png', caption: 'WBS提案承認画面' },
+            { src: 'img/todo_confirm.png', caption: 'TODO提案承認画面' },
+            { src: 'img/chat.png', caption: 'プロジェクトルームチャット画面' },
+            { src: 'img/chat_agent.png', caption: 'チャット上のAgent連携画面' },
+            { src: 'img/googlecalender.png', caption: 'Google Calendar連携画面' }
           ],
-          mermaidArchitecture: `flowchart LR\n  Client["Next.js / Tauri Client"] -->|HTTPS REST / WebSocket| Nginx["Nginx Reverse Proxy"]\n  Nginx --> App["Spring Boot API Server"]\n  App --> Auth["Spring Security / JWT"]\n  App --> Project["ProjectRoom / Member / Invitation"]\n  App --> Resource["Resource / File / Version"]\n  Resource --> Extract["PDFBox / POI / Tika Text Extraction"]\n  Extract --> Chunk["TextChunker<br/>page + offset metadata"]\n  Chunk --> Embed["Bedrock Titan Embedding"]\n  Embed --> PgVector["PostgreSQL RDS + pgvector"]\n  App --> Agent["Agent Job Service"]\n  Agent --> Outbox["Dispatch Outbox"]\n  Outbox --> Redis["Redis Queue"]\n  Redis --> Worker["Agent Worker"]\n  Worker --> Bedrock["AWS Bedrock Claude"]\n  Worker --> Suggestion["Agent Suggestions<br/>APPROVE / EDIT / HOLD / REJECT"]\n  App --> Chat["WebSocket / STOMP Chat"]\n  App --> Voice["LiveKit Voice Token"]\n  App --> Storage["Local / S3 Storage Adapter"]`,
-          diagrams: { architecture: 'img/bubli-architecture.svg' },
+          mermaidArchitecture: `flowchart LR\n  Public["Next.js Public Site"] --> Member["Next.js Member App"]\n  Desktop["Tauri Desktop App"] --> Member\n  Widget["Desktop Bubble Widget"] --> Desktop\n  Desktop --> LocalDB["SQLite FTS5<br/>Local Cache / Memory"]\n  Member -->|HTTPS REST / WebSocket| Nginx["Nginx Reverse Proxy"]\n  Nginx --> App["Spring Boot API Server"]\n  App --> Auth["Spring Security / JWT"]\n  App --> Project["ProjectRoom / Member / Invitation"]\n  App --> Resource["Resource / File / Version"]\n  Resource --> Extract["PDFBox / POI / Tika Text Extraction"]\n  Extract --> Chunk["TextChunker<br/>page + offset metadata"]\n  Chunk --> Embed["Bedrock Titan Embedding"]\n  Embed --> PgVector["PostgreSQL RDS + pgvector"]\n  App --> Agent["Agent Job Service"]\n  Agent --> Outbox["Dispatch Outbox"]\n  Outbox --> Redis["Redis Queue"]\n  Redis --> Worker["Agent Worker"]\n  Worker --> Bedrock["AWS Bedrock Claude"]\n  Worker --> Suggestion["Agent Suggestions<br/>APPROVE / EDIT / HOLD / REJECT"]\n  App --> Chat["WebSocket / STOMP Chat"]\n  App --> Voice["LiveKit Voice Token"]\n  App --> Metrics["Actuator / Prometheus / Grafana"]\n  QA["Storybook / Visual QA / Smoke"] -. verifies .-> Member\n  QA -. verifies .-> Widget`,
+          diagrams: {},
         },
         {
           id: 0,
           title: 'BPM - Boss Pattern Mining',
           period: '2024.03 ~ 2024.11 (4名)',
-          summary: 'AIボスパターンコンテンツ、コミュニティ、ファイルダウンロード、Unity WebGL実行を提供するSpring Bootウェブサービス',
+          summary: 'AIボスパターンコンテンツ、コミュニティ、ファイルダウンロード、Unity WebGL実行を提供するSpring Boot Webサービス',
           keyRole: 'Spring Boot API、JWT/OAuth2認証、記事・コメント・ファイル機能の実装',
           techStack: ['Java 17', 'Spring Boot 3.3', 'Spring Security', 'JWT', 'OAuth2', 'JPA', 'H2', 'Thymeleaf'],
           cardFeatures: ['記事・コメントREST API', 'JWT Access/Refresh Token', 'Google OAuth2ログイン', 'ファイルアップロード/ダウンロード', 'Unity WebGL実行'],
-          backendPoints: ['Stateless JWT認証フィルターとOAuth2ログインフローの構成', '投稿者権限検証とトランザクション基盤の記事更新'],
+          backendPoints: ['Stateless JWT認証フィルターとOAuth2ログインフローの構成', '投稿者権限検証とトランザクションを用いた記事更新'],
           backendDetails: [
             { label: 'DB設計', value: 'User、Article、Comment、RefreshToken、FileRecordを分離し、Refresh TokenをDBに保存して再発行・ログアウトフローを構成' },
             { label: 'API設計', value: '/api/articles、/api/comments、/api/token、/files/*で記事、コメント、認証、ファイル機能を分離し、multipart/form-dataアップロードをサポート' },
-            { label: '認証/認可', value: 'Spring Securityをstatelessに設定し、TokenAuthenticationFilterでJWTを検証。記事の修正/削除では投稿者と認証ユーザーを比較' },
+            { label: '認証・認可', value: 'Spring Securityをstatelessに設定し、TokenAuthenticationFilterでJWTを検証。記事の修正/削除では投稿者と認証ユーザーを比較' },
             { label: 'トランザクション', value: '記事更新ロジックに@Transactionalを適用し、エンティティの変更検知でタイトル/本文の変更を処理' },
             { label: 'テスト', value: 'TokenProviderTest、TokenApiControllerTest、CapstoneApiControllerTestでトークン生成/検証と主要APIフローを検証' },
             { label: '改善ポイント', value: '運用DBへの移行、グローバル例外レスポンス標準化、ファイル保存パスの外部化、ログ戦略の補強が必要' }
           ],
           portfolioSections: commonSections.bpm,
-          overview: 'Spring Bootを基盤に、コミュニティ記事/コメント、JWT/OAuth2認証、ファイルアップロード/ダウンロード、Unity WebGLゲーム実行ページを提供するウェブサービスです。',
+          overview: 'Spring Bootを用いて、コミュニティ記事/コメント、JWT/OAuth2認証、ファイルアップロード/ダウンロード、Unity WebGLゲーム実行ページを提供するWebサービスです。',
           problemAndGoal: `[問題]\nゲーム開発でボスパターン設計は時間と創造性を要求します。特にインディーゲーム開発者は限られたリソースで多様なボスパターンを実装する必要があります。\n\n[目標]\nボスパターンコンテンツを共有できるコミュニティとWebGLデモ実行環境を提供し、認証が必要な機能と公開機能を分離したバックエンドサービス構造を作ることです。`,
-          roles: ['Spring Boot Controller-Service-Repository階層基盤の記事/コメントAPI実装', 'JWT Access Token、Refresh Token、Google OAuth2ログインフロー構成', 'ファイルアップロード/ダウンロードとUnity WebGL静的リソース提供機能実装', '投稿者権限検証、トークン検証、主要コントローラーテスト作成'],
+          roles: ['Spring BootのController-Service-Repository階層による記事/コメントAPI実装', 'JWT Access Token、Refresh Token、Google OAuth2ログインフロー構成', 'ファイルアップロード/ダウンロードとUnity WebGL静的リソース提供機能実装', '投稿者権限検証、トークン検証、主要コントローラーテスト作成'],
           troubleShooting: `[問題 1] AIで生成したボスパターンコードをWebGLでビルドして実行した際、正常に動作しない問題が発生しました。\n\n[解決]\nCompressionFormatをDisableに変更し、圧縮形式をGzipへ変更して解決しました。またNode.js環境では実行できませんでしたが、Spring Boot環境で提供すると正常動作することを確認しました。\n\n[問題 2] 初期プロジェクトで詳細設計が不足し、開発途中の変更コストが増加しました。\n\n[解決]\nチーム内で問題発生時にすぐ共有し、機能追加や変更範囲を合意してから実装する形に改善しました。`,
           learnings: '認証、権限検証、ファイル処理、画面ルーティングを1つのSpring Bootアプリケーションで接続し、バックエンド機能をドメイン別に分離する経験を得ました。今後はグローバル例外処理と運用DB分離を補強する予定です。',
           githubUrl: 'https://github.com/DevAZI/BPM',
@@ -1078,23 +965,23 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
           id: 1,
           title: 'SHC - Senior Health Care',
           period: '2026.04 ~ 2026.04 (2名)',
-          summary: 'シニアユーザー向けに健康情報、商品推薦、AI健康推薦、通知機能を提供するReact基盤のヘルスケアプラットフォーム',
+          summary: 'シニアユーザー向けに健康情報、商品推薦、AI健康推薦、通知機能を提供するReactベースのヘルスケアプラットフォーム',
           keyRole: 'AI推薦API連携、ユーザー別状態保存構造、Docker/Nginx/EC2デプロイ自動化',
           techStack: ['React', 'Vite', 'Context API', 'localStorage', 'Claude API', 'AWS Guardrail', 'Docker', 'Nginx', 'GitHub Actions'],
           cardFeatures: ['AI健康パーソナライズ推薦', '健康記事/商品推薦', 'ユーザー別カート', '服薬/血糖/血圧通知', 'EC2自動デプロイ'],
-          backendPoints: ['Claude APIレスポンスJSON解析とGuardrailブロック処理', 'GitHub Actions基盤のEC2 Dockerデプロイ自動化'],
+          backendPoints: ['Claude APIレスポンスJSON解析とGuardrailブロック処理', 'GitHub ActionsによるEC2 Dockerデプロイ自動化'],
           backendDetails: [
             { label: 'データ設計', value: 'shc_cart_{username}、shc_medicines_{username}などlocalStorage keyをユーザー別に分離し、カートと健康通知データを管理' },
             { label: '外部API/AI', value: '商品/記事/ユーザー健康状態をClaude APIプロンプトへ渡し、JSON応答を解析して推薦結果として使用' },
             { label: '例外処理', value: 'AI応答がJSONでない場合やGuardrailにブロックされた場合を分岐し、欠落した括弧や前後テキストを補正' },
             { label: '状態構造', value: 'UserContext、ProductContext、CartContext、AlarmContext、FontSizeContextで全体状態の責務を分離' },
-            { label: 'デプロイ', value: 'GitHub Actionsでビルド、secret基盤.env生成、EC2転送、Docker Compose再起動、Nginx提供まで自動化' },
+            { label: 'デプロイ', value: 'GitHub Actionsでビルド、secretを用いた.env生成、EC2転送、Docker Compose再起動、Nginx提供まで自動化' },
             { label: '改善ポイント', value: '現在はフロント状態中心構造のため、認証、注文、在庫検証を別途バックエンドサーバーへ分離する必要あり' }
           ],
           portfolioSections: commonSections.shc,
-          overview: 'シニアユーザーを対象に健康情報検索、商品推薦、AI健康パーソナライズ推薦、服薬/血糖/血圧通知を提供するReact基盤のWebプラットフォームです。',
-          problemAndGoal: `[問題]\nシニアユーザーは複雑なインターフェースや小さい文字により、必要なサービス利用と情報検索に困難を感じる場合があります。\n\n[目標]\nシニアユーザーが使いやすいように文字サイズ調整が可能なUIを提供し、健康管理とショッピング機能を1つのプラットフォームで提供することです。`,
-          roles: ['Claude API基盤の健康パーソナライズ推薦プロンプト構成と応答JSON解析ロジック実装', 'AWS Guardrailブロック応答とAI応答解析失敗状況の分岐処理', 'ユーザー別カート/服薬/血糖/血圧通知データをlocalStorage keyで分離保存', 'GitHub Actions、EC2、Docker、Nginx基盤のデプロイ自動化構成'],
+          overview: 'シニアユーザーを対象に健康情報検索、商品推薦、AI健康パーソナライズ推薦、服薬/血糖/血圧通知を提供するReactベースのWebプラットフォームです。',
+          problemAndGoal: `[問題]\nシニアユーザーは複雑なインターフェースや小さな文字により、必要なサービスの利用や情報検索に困難を感じることがあります。\n\n[目標]\nシニアユーザーが使いやすいように文字サイズを調整できるUIを提供し、健康管理とショッピング機能を1つのプラットフォームで提供することです。`,
+          roles: ['Claude APIを活用した健康パーソナライズ推薦プロンプト構成と応答JSON解析ロジック実装', 'AWS Guardrailブロック応答とAI応答解析失敗状況の分岐処理', 'ユーザー別カート/服薬/血糖/血圧通知データをlocalStorage keyで分離保存', 'GitHub Actions、EC2、Docker、Nginxによるデプロイ自動化構成'],
           troubleShooting: `[問題 1] AWS BedrockおよびLambda権限管理\nAWS AIモデルを利用するためBedrockへアクセスしようとしましたが、Lambdaで権限エラーが発生しました。\n\n[解決]\nIAMアカウントにBedrock権限を付与し、Lambda実行ロールにもBedrock関連権限を追加して解決しました。\n\n[問題 2] GitHub Actionsを利用したCI/CDデプロイ問題\nデプロイ過程でPermission deniedエラーが発生しました。\n\n[解決]\nリモートサーバーのデプロイ対象ディレクトリと下位ファイルの所有者が接続アカウントと異なっていたため、所有権を変更して解決しました。`,
           learnings: '外部AI APIは正常応答だけでなく失敗応答や非定型応答も安定的に扱うことが重要だと学びました。現在構造はフロント状態中心のため、今後は認証/注文/在庫/通知をサーバーAPIとDBへ分離してバックエンド完成度を高める予定です。',
           githubUrl: 'https://github.com/P2-SHC/SHC',
@@ -1107,7 +994,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
           id: 2,
           title: 'Shell Hero - Java Console RPG',
           period: '2026.02 ~ 2026.03 (4名)',
-          summary: 'JavaとJDBCで戦闘、ショップ、クエスト、インベントリデータを管理するコンソール基盤RPG',
+          summary: 'JavaとJDBCで戦闘、ショップ、クエスト、インベントリデータを管理するコンソールRPG',
           keyRole: '戦闘ドメインロジック、Controller-Service-DAO階層分離、JDBCトランザクション処理の実装',
           techStack: ['Java', 'JDBC', 'MySQL', 'DAO', 'DTO', 'Transaction'],
           cardFeatures: ['会員/ログインセッション', 'ヒーロー生成と成長', '戦闘/スキル/アイテム使用', 'クエスト進行度更新', 'ショップ/インベントリ管理'],
@@ -1122,8 +1009,8 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
           ],
           portfolioSections: commonSections.trpg,
           overview: 'Javaコンソール環境で会員、ヒーロー、戦闘、ショップ、クエスト、インベントリデータをMySQLに保存しながら進行するRPGプロジェクトです。',
-          problemAndGoal: `[問題]\nJava基礎とオブジェクト指向設計力を実戦で検証したかったものの、単純なCRUDプロジェクトでは複雑なドメインロジックを扱いにくいと判断しました。\n\n[目標]\nゲームという複雑なドメインを通じて継承、多態性、インターフェース、OOPの核心概念を実務的に適用することです。`,
-          roles: ['BattleController/BattleService基盤の戦闘フローとスキル/アイテム/報酬処理実装', 'DAOインターフェースと実装体を分離し、JDBC PreparedStatement基盤のDBアクセスロジック作成', '戦闘勝利報酬、レベルアップ、クエスト進行度更新を手動トランザクションでまとめて整合性維持', 'GameException基盤の例外フローとログインセッション状態検証処理'],
+          problemAndGoal: `[問題]\nJava基礎とオブジェクト指向設計力を実戦で検証したかったものの、単純なCRUDプロジェクトでは複雑なドメインロジックを扱いにくいと判断しました。\n\n[目標]\nゲームという複雑なドメインを通じて、継承・多態性・インターフェースなどOOPの主要概念を実践的に適用することです。`,
+          roles: ['BattleController/BattleServiceによる戦闘フローとスキル/アイテム/報酬処理実装', 'DAOインターフェースと実装体を分離し、JDBC PreparedStatementを用いたDBアクセスロジック作成', '戦闘勝利報酬、レベルアップ、クエスト進行度更新を手動トランザクションでまとめて整合性維持', 'GameExceptionを用いた例外フローとログインセッション状態検証処理'],
           troubleShooting: `[問題 1] 戦闘報酬処理中に一部データだけ更新される可能性\n\n[解決]\n戦闘勝利後の経験値/財貨支給、レベルアップ、クエスト進行度更新、ヒーローステータス更新を1つのConnectionで処理するようにし、autoCommitをfalseに設定して失敗時rollbackするよう修正しました。\n\n[問題 2] ログイン失敗後にもキャラクター生成へ進める問題\n\n[解決]\nログインセッションと現在ヒーロー状態を検証してから次画面へ移動するよう条件分岐を整理し、失敗状況は例外メッセージとしてユーザーへ渡すよう修正しました。`,
           learnings: 'フレームワークなしでJDBCと階層構造を直接扱いながら、トランザクション境界とデータ整合性の重要性を学びました。今後は反復DAOリソース解放コードを減らし、テストしやすい構造へ改善する予定です。',
           githubUrl: 'https://github.com/kosta-dev-sjh/p1-4g-java-console',
@@ -1164,10 +1051,18 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
                     <h4 className="text-sm font-bold text-stone-600 mb-2">担当役割</h4>
                     <p className="text-sm sm:text-base text-stone-700">{project.keyRole}</p>
                   </div>
-                  <button onClick={() => onViewDetail(project.id)} className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
-                    詳細を見る
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                  </button>
+                  <div className="flex flex-wrap gap-3">
+                    <button onClick={() => onViewDetail(project.id)} className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      詳細を見る
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                    {project.liveUrl && (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-stone-800 rounded-lg text-white font-semibold hover:bg-stone-900 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        公開サイトを見る
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3h7m0 0v7m0-7L10 14" /></svg>
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -1181,11 +1076,11 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
       const [activeCaptureIdx, setActiveCaptureIdx] = useState(0);
       const groups = [
         { title: 'プロジェクト文脈', items: ['開発背景', '主な機能', '直接実装した機能'] },
-        { title: 'バックエンド設計', items: ['ERD / DB設計', 'API設計', '認証/認可設計', '例外処理構造', 'トランザクション処理'] },
-        { title: '品質と運用', items: ['性能改善または最適化', 'テスト', 'デプロイおよび実行方法'] },
+        { title: 'バックエンド設計', items: ['ERD / DB設計', 'API設計', '認証・認可設計', '例外処理構造', 'トランザクション処理'] },
+        { title: '品質と運用', items: ['パフォーマンス改善・最適化', 'テスト', 'デプロイ・実行方法'] },
         { title: '例', items: ['APIレスポンス例'] }
       ].map(group => ({ ...group, sections: project.portfolioSections.filter(section => group.items.includes(section.title)) })).filter(group => group.sections.length);
-      const backendDesignTitles = ['ERD / DB設計', 'API設計', '認証/認可設計', '例外処理構造', 'トランザクション処理'];
+      const backendDesignTitles = ['ERD / DB設計', 'API設計', '認証・認可設計', '例外処理構造', 'トランザクション処理'];
       const toReadablePoints = (item) => {
         if (!backendDesignTitles.includes(item.title)) return null;
         let normalized = item.content.replace(/、\s*/g, '__BREAK__');
@@ -1258,7 +1153,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
               <button onClick={onBack} className="flex items-center gap-2 text-amber-700 hover:text-amber-800 font-semibold transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                プロジェクトへ戻る
+                プロジェクト一覧に戻る
               </button>
             </div>
           </div>
@@ -1276,7 +1171,7 @@ Javaの基礎とオブジェクト指向設計の能力を経験したいと考�
             <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">8. 詳細設計・実装項目</h2><div className="bg-white rounded-2xl p-5 sm:p-7 border border-stone-200"><div className="space-y-8">{groups.map(group => <div key={group.title}><div className="flex items-center gap-3 mb-4"><span className="h-2.5 w-2.5 rounded-full bg-amber-600 flex-none"></span><h3 className="text-lg sm:text-xl font-bold text-stone-900">{group.title}</h3></div><div className={`grid grid-cols-1 ${group.title === '例' ? '' : 'lg:grid-cols-2'} gap-3`}>{group.sections.map(item => <div key={item.title} className={`rounded-lg border border-stone-200 bg-stone-50 p-4 ${item.title === 'APIレスポンス例' ? 'border-amber-200 bg-amber-50/50' : ''}`}><h4 className="text-sm sm:text-base font-bold text-stone-900 mb-2">{item.title}</h4>{toReadablePoints(item) ? <ul className="space-y-1.5">{toReadablePoints(item).map(point => <li key={point} className="text-sm text-stone-700 leading-relaxed flex items-start gap-2"><span className="mt-2 h-1 w-1 rounded-full bg-amber-600 flex-none"></span><span>{point}</span></li>)}</ul> : <p className="text-sm text-stone-700 leading-relaxed whitespace-pre-line">{item.content}</p>}</div>)}</div></div>)}</div></div></section>
             <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">9. Trouble Shooting</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><p className="text-base sm:text-lg text-stone-700 leading-relaxed whitespace-pre-line">{project.troubleShooting}</p></div></section>
             <section className="mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-amber-700 mb-4">10. 学びと改善予定</h2><div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200"><p className="text-base sm:text-lg text-stone-700 leading-relaxed whitespace-pre-line">{project.learnings}</p></div></section>
-            <div className="flex flex-wrap justify-center gap-4"><a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-stone-800 rounded-lg text-white font-semibold hover:bg-stone-900 transition-all duration-300 hover:scale-105 text-lg shadow-lg">GitHub</a>{project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 text-lg shadow-amber-600/20">デプロイを見る</a>}</div>
+            <div className="flex flex-wrap justify-center gap-4"><a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-stone-800 rounded-lg text-white font-semibold hover:bg-stone-900 transition-all duration-300 hover:scale-105 text-lg shadow-lg">GitHub</a>{project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 text-lg shadow-amber-600/20">公開サイトを見る</a>}</div>
           </div>
           {selectedImage && <div className="modal-overlay" onClick={() => setSelectedImage(null)}><div className="modal-content flex flex-col items-center" onClick={e => e.stopPropagation()}><button onClick={() => setSelectedImage(null)} className="absolute -top-4 -right-4 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center text-stone-600 hover:text-stone-900 transition-all hover:scale-110 z-50">×</button><img src={selectedImage.images[selectedImage.index].src} alt={selectedImage.images[selectedImage.index].caption} className="max-w-full max-h-[80vh] rounded-xl shadow-2xl" /><p className="mt-4 px-6 py-2 bg-black/50 backdrop-blur-sm rounded-full text-white">{selectedImage.images[selectedImage.index].caption}</p>{selectedImage.images.length > 1 && <div className="mt-4 flex gap-3"><button onClick={(e) => { e.stopPropagation(); handleModalNav(-1); }} className="px-4 py-2 bg-white rounded-lg text-stone-700">Prev</button><button onClick={(e) => { e.stopPropagation(); handleModalNav(1); }} className="px-4 py-2 bg-white rounded-lg text-stone-700">Next</button></div>}</div></div>}
         </div>
