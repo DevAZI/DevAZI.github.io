@@ -916,7 +916,7 @@
           troubleShooting: `[問題 1] AI分析Job endpointがmerge後に重複し、ambiguous mappingエラーが発生しました。\n\n[解決]\nAI作業生成責任をAiJobCommandControllerへ整理し、重複endpointを削除しました。その後AgentJobControllerはjob取得とevent取得に集中するようAPI責務を分離しました。\n\n[問題 2] pgvector保存/検索過程でEmbedding vector形式と次元検証が散らばる可能性がありました。\n\n[解決]\nEmbeddingVectorFormatterを共通コンポーネントにし、1024次元検証、null、NaN、Infinity検証、vector literal変換を1か所で処理するよう整理しました。\n\n[問題 3] AI Suggestion承認時、元のTask/WBS/Scheduleへ反映する途中で一部だけ保存される危険がありました。\n\n[解決]\nAgentSuggestionDomainApplyServiceでドメイン反映作業をトランザクションでまとめ、失敗時rollbackされるよう構成しました。`,
           learnings: 'AI機能ではモデル呼び出しそのものより、データ境界、権限検証、非同期実行状態、再試行/失敗記録が重要だと学びました。また、バックエンドAPIが実際のプロダクト体験につながるには、Next.js/Tauriクライアントの状態管理、ローカルキャッシュ、ビジュアルリグレッションテストまで一緒に設計する必要があると感じました。',
           githubUrl: 'https://github.com/kosta-dev-sjh/bubli-backend',
-          liveUrl: 'https://bubli.n-e.kr/',
+          liveUrl: 'https://devazibubli.kro.kr/',
           resultImages: [
             { src: 'img/bubli-main.png', caption: 'Bubliメイン画面' },
             { src: 'img/bubli-personal-dash.png', caption: 'パーソナルダッシュボード' },
